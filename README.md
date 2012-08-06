@@ -1,7 +1,7 @@
-drug
-====
+#Drug
+## Mehr Freund als Droge - eine Alternative zu Wiki
 
-# Mehr Freund als Droge - eine Alternative zu Wiki
+(Drug ist russisch und bedeutet Freund, wird eher wie Druug ausgesprochen.)
 
 Wikis sind gut, um Begriffsdefinitionen abzulegen und zu vernetzten. Leider werden sie oft benutzt, um Prozesse, Hierarchien und Beschreibungen
 abzubilden. Dafür sind sie eigentlich eher schlecht geeignet.
