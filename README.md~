@@ -1,4 +1,26 @@
 drug
 ====
 
-Mehr Freund als Droge - eine Alternative zu Wiki
+# Mehr Freund als Droge - eine Alternative zu Wiki
+
+
+
+# Version
+
+Das ist hier eine erste Alpha-Version. Man benötigt zum ausführen eine installierte MongoDB Datenbank, die auf den Standardport hört.
+
+.. viel Spass.
+
+# Syntax
+
+Die Markup-Syntax ist bereits im Wandel. Vorschläge gern als Kommentar.
+
+## Aktuell
+
+	[s:Ich] [p:bauen|baue] ein [o:Haus].
+	
+## Überarbeitung
+
+	(Ich-) (-baue->bauen-) ein (-Haus).
+	
+
