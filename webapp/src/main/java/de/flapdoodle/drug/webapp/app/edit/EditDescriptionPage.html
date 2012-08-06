@@ -1,0 +1,19 @@
+<html>
+	<head>
+		<title>Edit Description</title>
+	</head>
+	<body>
+		<h1>Edit Description</h1>
+		
+		<div wicket:id="feedback"></div>
+		<form wicket:id="form">
+		
+			Name: <input wicket:id="name"><br>
+			Alt: <wicket:container wicket:id="other"></wicket:container><br>
+			Objekt: <input wicket:id="object" type="checkbox"> (nicht Prädikat)<br>
+			<textarea rows="10" cols="60" wicket:id="text"></textarea><br>
+			
+			<input type="submit" value="Speichern">
+		</form>
+	</body>
+</html>

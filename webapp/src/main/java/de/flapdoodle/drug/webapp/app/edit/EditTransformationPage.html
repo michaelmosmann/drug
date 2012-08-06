@@ -1,0 +1,20 @@
+<html>
+	<head>
+		<title>Edit Transformation</title>
+	</head>
+	<body>
+		<h1>Edit Transformationsseite</h1>
+		
+		<div wicket:id="feedback"></div>
+		<form wicket:id="form">
+		
+			Subjekt: <wicket:container wicket:id="subject"></wicket:container><br>
+			Prädiat: <wicket:container wicket:id="predicate"></wicket:container><br>
+			Objekt: <wicket:container wicket:id="object"></wicket:container><br>
+			Titel <input wicket:id="title"><br>
+			<textarea rows="10" cols="60" wicket:id="text"></textarea><br>
+			
+			<input type="submit" value="Speichern">
+		</form>
+	</body>
+</html>

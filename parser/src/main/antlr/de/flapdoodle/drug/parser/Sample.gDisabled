@@ -1,0 +1,339 @@
+grammar Sample;
+
+options
+{
+output=AST;
+}
+
+@header
+{
+package de.flapdoodle.drug.parser;
+
+import de.flapdoodle.drug.markup.*;
+}
+
+@lexer::header
+{
+package de.flapdoodle.drug.parser;
+
+import de.flapdoodle.drug.markup.*;
+}
+
+/*
+@members
+{
+}
+*/
+
+// Recovery disable
+// Page 242
+/*
+@members
+{
+protected void mismatch(IntStream input, int ttype, BitSet pfollow) throws RecognitionException
+{
+	throw new MismatchedTokenException(ttype,input);
+}
+public void recoverFromMismatchedSet(IntStream input, RecognitionException pe, BitSet pfollow) throws RecognitionException
+{
+	throw pe;
+}
+}
+*/
+@rulecatch
+{
+catch (RecognitionException pex)
+{
+	throw pex;
+}
+}
+
+start	returns [BooleanExpr bool_expr]
+	:	res=boolean_operation {$bool_expr = $res.bool_expr;}
+	;
+
+/*expr	returns [BooleanExpr bool_expr]
+	:	expr_sub { $bool_expr = $expr_sub.bool_expr; }
+	|	'(' WS* expr_sub  { $bool_expr = $expr_sub.bool_expr; } WS* ')'
+	;
+*/
+
+/*
+expr returns [BooleanExpr bool_expr]:
+	'(' WS* s1=expr {$bool_expr = $s1.bool_expr; } WS* ')'
+	| expr_sub
+	;
+*/
+
+/*
+expr returns [BooleanExpr bool_expr]
+	:	left=boolean_operation
+	{
+		$bool_expr=new BooleanExpr($left.expr);
+	}
+	(WS* op=BOOLEAN_OPERATOR WS* right=expr
+	{
+		$bool_expr=new BooleanExpr($bool_expr, $op.text, $right.bool_expr);
+	}
+	)?
+	;
+*/
+
+boolean_operation returns [BooleanExpr bool_expr]
+	: '(' ws_skip left=boolean_operation {  $bool_expr=$left.bool_expr; } ws_skip ')'
+	(ws_skip op=BOOLEAN_OPERATOR ws_skip right=boolean_operation 
+	{  $bool_expr= new BooleanExpr($left.bool_expr, $op.text, $right.bool_expr);} 
+	)?
+	| oleft=operation 
+	{ $bool_expr= new BooleanExpr($oleft.expr);} 
+	(ws_skip op=BOOLEAN_OPERATOR ws_skip right=boolean_operation
+	{ $bool_expr= new BooleanExpr($oleft.expr, $op.text, $right.bool_expr);} 
+	)?
+/*	
+	| left=operation
+	{
+		$bool_expr=new BooleanExpr($left.expr);
+	}
+	(WS* op=BOOLEAN_OPERATOR WS* right=boolean_operation
+	{
+		$bool_expr=new BooleanExpr($left.expr, $op.text, $right.bool_expr);
+	}
+	)? 
+	*/
+	;
+	
+operation returns [ExprInterface expr]
+	:	operation_std {$expr = $operation_std.expr;}
+	|	operation_like {$expr = $operation_like.expr;}
+	|	operation_in {$expr = $operation_in.expr;}
+	|	operation_between {$expr = $operation_between.expr;}
+	;
+
+operation_std returns [Expr expr]
+	:	id ws_skip op=OPERATOR ws_skip value  { $expr = new Expr($id.name,$op.text,$value.value); }
+	;
+
+	
+operation_like returns [ExprLike expr]
+	:	id ws_skip operator_like ws_skip value_string  { $expr = new ExprLike($id.name,$value_string.value); }
+	;
+
+ws_skip	:	WS* 
+	;
+
+operation_in returns [ExprIn expr]
+	:	id ws_skip operator_in ws_skip '(' ws_skip e=value { List hhl=new ArrayList(); hhl.add($e.value); }	(ws_skip EPSILON ws_skip e=value { hhl.add($e.value); })* 	ws_skip ')'
+	{
+		$expr = new ExprIn($id.name,hhl); 
+	}
+/*	{ 
+		List hhl=new ArrayList();
+		for (Object v : $e)
+		{
+			//hhl.add(((value_return) v).value);
+			CommonTree tv=(CommonTree) v;
+			System.out.println(""+tv.token);
+		}
+		$expr = new ExprIn($id.name,null); 
+	}
+	*/
+	;
+	
+operation_between returns [ExprBetween expr]
+	:	id ws_skip '<>' ws_skip '(' ws_skip sstart=value ws_skip ';' ws_skip end=value ws_skip ')'   { $expr = new ExprBetween($id.name,$sstart.value,$end.value); }
+	;
+
+id	returns [Name name]
+	:	sub=id_sub { $name = new Name($sub.text); }
+	;
+
+id_sub	:	(CHARS|HEX_CHARS)+
+	;
+
+
+value	returns [ValueInterface value]
+	:	value_hex {$value = $value_hex.value;}
+	|	value_number {$value = $value_number.value;}
+	|	value_string {$value = $value_string.value;}
+	;
+
+value_string returns [ValueString value]
+	:	VALUE_STRING_SUB { $value = ValueString.getInstanceWithoutQuote($VALUE_STRING_SUB.text); }
+	;
+
+VALUE_STRING_SUB
+	:	DOUBLE_QUOTE .* DOUBLE_QUOTE
+	;
+	
+value_number returns [ValueNumber value]
+	:	value_number_sub { $value = new ValueNumber($value_number_sub.text); }
+	;
+
+value_number_sub
+	:	'-'? NUMBERS+ (',' NUMBERS*)?
+	;
+
+value_hex returns [ValueColor value]
+	:	value_hex_sub { $value = new ValueColor($value_hex_sub.text); }
+	;
+
+value_hex_sub
+	:	'#' (HEX_CHARS|NUMBERS) (HEX_CHARS|NUMBERS) (HEX_CHARS|NUMBERS) ((HEX_CHARS|NUMBERS) (HEX_CHARS|NUMBERS) (HEX_CHARS|NUMBERS))?
+	;
+
+
+operator_like
+	:	'like'
+	;
+
+operator_in
+	:	'in'
+	;
+	
+
+NUMBERS	:	'0'..'9';
+
+HEX_CHARS
+	:	'A'..'F'|'a'..'f'|'0'..'9';
+	
+CHARS	:	'A'..'Z'|'a'..'z'|'0'..'9';
+
+
+OPERATOR
+	:	'<='|'>='|'!='|'='|'<'|'>'
+	;
+
+BOOLEAN_OPERATOR
+	:	'&' | '|'
+	;
+
+WS	:	' '|'\n'|'\r'|'\t';
+
+
+EPSILON	:	';'
+	;
+
+
+
+/*
+start	:	group_operation;
+
+group_operation
+	:	boolean_operation+
+	;
+
+boolean_operation
+	:  multi_operation
+	| '(' multi_operation ')'
+	;
+
+multi_operation
+	:	WS* operation (WS* boolean_operator WS* operation)* WS*
+	;
+
+operation
+	:	id WS* operator WS* value //-> ^(operator id value)
+		;
+
+boolean_operator
+	:	AND|OR
+	;
+	
+operator
+	:	EQUAL|NOT_EQUAL|SMALLER_EQUAL|BIGGER_EQUAL|SMALLER|BIGGER|LIKE
+	;
+
+id	:	(CHAR|HEX_CHAR) (HEX_CHAR|CHAR|NUMBER)*
+	;
+
+value	: value_color
+	| value_string
+	| value_number
+	;
+
+value_color
+	:	HASH HEX_VALUE (HEX_VALUE)?;
+
+HEX_VALUE
+	:	((NUMBER|HEX_CHAR) (NUMBER|HEX_CHAR) (NUMBER|HEX_CHAR))
+	;
+
+value_number
+	:	NUMBER+ (',' NUMBER+)?;
+
+
+	
+value_string
+	:	QUOTE .* QUOTE
+	;
+
+
+CHAR	:	'g'..'z' | 'G'..'Z';
+
+NUMBER	:	'0'..'9';
+
+
+QUOTE
+	:	'"'
+	;
+
+HASH
+	:	'#'
+	;
+
+	
+
+AND
+	:	'&'
+	;
+
+OR
+	:	'|'
+	;
+
+
+EQUAL
+	:	'='
+	;
+
+NOT_EQUAL
+	:	'!='
+	;
+
+SMALLER_EQUAL
+	:	'<='
+	;
+
+BIGGER_EQUAL
+	:	'>='
+	;
+
+SMALLER
+	:	'<'
+	;
+
+BIGGER
+	:	'>'
+	;
+
+LIKE
+	:	'like'
+	;
+
+HEX_CHAR
+	:	'A'..'F'|'a'..'f'
+	;
+
+WS	:	' '|'\n'|'\r'|'\t' {skip();};
+*/
+
+
+
+
+
+
+
+
+DOUBLE_QUOTE
+	:	'"'
+	;
