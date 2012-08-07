@@ -17,6 +17,8 @@ oder alternative Bezeichnungen enthalten.
 
 Ebenfalls denkbar wäre eine Ausweitung auf Informationen wie Neuer Mitarbeiter -> Mitarbeiter -> Mensch.
 
+(das soll aber nicht in sowas wie RDF enden: http://www.w3.org/TR/rdf-concepts/)
+
 # Version
 
 Das ist hier eine erste Alpha-Version. Man benötigt zum ausführen eine installierte MongoDB Datenbank, die auf den Standardport hört.
