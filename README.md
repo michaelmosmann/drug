@@ -41,4 +41,7 @@ Die Markup-Syntax ist bereits im Wandel. Vorschläge gern als Kommentar.
 	(Man-) (-schickt->schicken-) mir einen (-Laptop) aus (<-China).
 	(Ich-) (-besuche->besuchen-) meine (-Tante) bei (@@Peking).
 	
+## Changelog
+
+- wicket bootstrap added
 
