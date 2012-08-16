@@ -6,7 +6,7 @@ import com.google.inject.name.Names;
 import com.mongodb.MongoOptions;
 import com.mongodb.ServerAddress;
 
-import de.flapdoodle.embedmongo.runtime.Network;
+import de.flapdoodle.embed.process.runtime.Network;
 
 public class PreviewDatabase extends AbstractDatabaseModule
 {

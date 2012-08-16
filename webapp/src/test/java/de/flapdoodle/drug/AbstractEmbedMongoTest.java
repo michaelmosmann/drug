@@ -9,12 +9,12 @@ import com.google.inject.Module;
 
 import de.flapdoodle.drug.persistence.config.EmbeddedDatabase;
 import de.flapdoodle.drug.persistence.config.Persistence;
-import de.flapdoodle.embedmongo.MongoDBRuntime;
-import de.flapdoodle.embedmongo.MongodExecutable;
-import de.flapdoodle.embedmongo.MongodProcess;
-import de.flapdoodle.embedmongo.config.MongodConfig;
-import de.flapdoodle.embedmongo.distribution.Version;
-import de.flapdoodle.embedmongo.runtime.Network;
+import de.flapdoodle.embed.mongo.MongodStarter;
+import de.flapdoodle.embed.mongo.MongodExecutable;
+import de.flapdoodle.embed.mongo.MongodProcess;
+import de.flapdoodle.embed.mongo.config.MongodConfig;
+import de.flapdoodle.embed.mongo.distribution.Version;
+import de.flapdoodle.embed.process.runtime.Network;
 
 
 public abstract class AbstractEmbedMongoTest extends AbstractGuiceTest {
@@ -25,7 +25,7 @@ public abstract class AbstractEmbedMongoTest extends AbstractGuiceTest {
 	@Override
 	protected void setUp() throws Exception {
 		
-		MongoDBRuntime runtime = MongoDBRuntime.getDefaultInstance();
+		MongodStarter runtime = MongodStarter.getDefaultInstance();
 		_mongodExe = runtime.prepare(new MongodConfig(Version.V2_1_0, EmbeddedDatabase.EMBEDDED_PORT,Network.localhostIsIPv6()));
 		_mongod=_mongodExe.start();
     

@@ -8,6 +8,8 @@ import org.apache.wicket.protocol.http.WebApplication;
 
 import com.google.inject.Inject;
 
+import de.agilecoders.wicket.Bootstrap;
+import de.agilecoders.wicket.settings.BootstrapSettings;
 import de.flapdoodle.drug.config.Profile;
 import de.flapdoodle.drug.webapp.app.StartPage;
 import de.flapdoodle.drug.webapp.bootstrap.BootstrapPage;
@@ -31,7 +33,11 @@ public class DrugWebApplication extends WebApplication
 		
 //		getComponentInstantiationListeners().add(new GuiceComponentInjector(this));
 
-		
+    BootstrapSettings settings = new BootstrapSettings();
+    settings.minify(true); // use minimized version of all bootstrap references
+
+    Bootstrap.install(this, settings);
+
 		
 		switch (_profile)
 		{
@@ -43,6 +49,8 @@ public class DrugWebApplication extends WebApplication
 		if (getConfigurationType()==RuntimeConfigurationType.DEVELOPMENT) {
 			getDebugSettings().setDevelopmentUtilitiesEnabled(true);
 			getDebugSettings().setAjaxDebugModeEnabled(true);
+			
+			getMarkupSettings().setStripWicketTags(true);
 		}
 //		mountAnnotated(DescriptionPage.class);
 //		mountAnnotated(TransformationPage.class);

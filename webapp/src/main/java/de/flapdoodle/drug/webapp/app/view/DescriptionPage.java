@@ -11,9 +11,10 @@ import de.flapdoodle.drug.webapp.app.models.Descriptions;
 import de.flapdoodle.drug.webapp.app.models.ListModels;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation.Jump;
+import de.flapdoodle.drug.webapp.app.pages.AbstractBasePage;
 
 
-public class DescriptionPage extends WebPage {
+public class DescriptionPage extends AbstractBasePage {
 
 	static final String P_BEGRIFF="Begriff";
 	static final String P_SUCHE="Suche";

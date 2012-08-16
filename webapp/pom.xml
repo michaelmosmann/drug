@@ -110,9 +110,9 @@
 		</dependency>
 
 		<dependency>
-	    <groupId>de.flapdoodle.embedmongo</groupId>
-	    <artifactId>de.flapdoodle.embedmongo</artifactId>
-	    <version>1.18</version>
+			<groupId>de.flapdoodle.embed</groupId>
+			<artifactId>de.flapdoodle.embed.mongo</artifactId>
+			<version>1.22</version>
 		</dependency>
 		
 		<dependency>
