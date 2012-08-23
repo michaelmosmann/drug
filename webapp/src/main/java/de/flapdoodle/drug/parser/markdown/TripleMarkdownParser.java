@@ -1,4 +1,4 @@
-package de.flapdoodle.drug.wiki.parser;
+package de.flapdoodle.drug.parser.markdown;
 
 import static org.parboiled.common.StringUtils.repeat;
 import static org.parboiled.errors.ErrorUtils.printParseErrors;
@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.parboiled.BaseParser;
 import org.parboiled.Context;
+import org.parboiled.Parboiled;
 import org.parboiled.Rule;
 import org.parboiled.annotations.Cached;
 import org.parboiled.annotations.DontSkipActionsInPredicates;
@@ -62,7 +63,8 @@ import org.pegdown.ast.VerbatimNode;
 import org.pegdown.ast.WikiLinkNode;
 import org.pegdown.ast.SimpleNode.Type;
 
-public class TParser extends BaseParser<Object> implements Extensions {
+
+public class TripleMarkdownParser extends BaseParser<Object> implements Extensions {
 
 	protected static final char CROSSED_OUT = '\uffff';
 
@@ -76,8 +78,8 @@ public class TParser extends BaseParser<Object> implements Extensions {
 	final List<AbbreviationNode> abbreviations = new ArrayList<AbbreviationNode>();
 	final List<ReferenceNode> references = new ArrayList<ReferenceNode>();
 
-	public TParser(Integer options) {
-		this(options, new TParser.ParseRunnerProvider() {
+	public TripleMarkdownParser(Integer options) {
+		this(options, new TripleMarkdownParser.ParseRunnerProvider() {
 
 			public ParseRunner<Node> get(Rule rule) {
 				return new ReportingParseRunner<Node>(rule);
@@ -85,7 +87,7 @@ public class TParser extends BaseParser<Object> implements Extensions {
 		});
 	}
 
-	public TParser(Integer options, ParseRunnerProvider parseRunnerProvider) {
+	public TripleMarkdownParser(Integer options, ParseRunnerProvider parseRunnerProvider) {
 		this.options = options;
 		this.parseRunnerProvider = parseRunnerProvider;
 	}
@@ -1028,7 +1030,7 @@ public class TParser extends BaseParser<Object> implements Extensions {
 		Var<Integer> index = new Var<Integer>(0);
 		Var<Character> type = new Var<Character>();
 		return Sequence("[", AnyOf("pso"), type.set(matchedChar()), Optional(Digit(),index.set(Integer.valueOf(match()))), ":", OneOrMore(TestNot(']'), ANY), // might have to restrict from ANY
-				push(new TNode(type.get(),index.get(), match())), "]");
+				push(new TripleNode(type.get(),index.get(), match())), "]");
 	}
 	//	
 	//  @MemoMismatches
@@ -1047,4 +1049,8 @@ public class TParser extends BaseParser<Object> implements Extensions {
 	//      );
 	//  }
 
+	public static RootNode parseMarkup(String markup) {
+		TripleMarkdownParser parser=Parboiled.createParser(TripleMarkdownParser.class, Extensions.ALL);
+		return parser.parse((markup+"\n\n").toCharArray());
+	}
 }

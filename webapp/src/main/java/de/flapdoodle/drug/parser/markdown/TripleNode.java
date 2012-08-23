@@ -1,12 +1,12 @@
-package de.flapdoodle.drug.wiki.parser;
+package de.flapdoodle.drug.parser.markdown;
 
 import org.pegdown.ast.TextNode;
 import org.pegdown.ast.Visitor;
 
 
-public class TNode extends TextNode {
+public class TripleNode extends TextNode {
 
-  public TNode(char type, Integer index, String text) {
+  public TripleNode(char type, Integer index, String text) {
       super(text+"("+type+":"+index+")");
   }
 
