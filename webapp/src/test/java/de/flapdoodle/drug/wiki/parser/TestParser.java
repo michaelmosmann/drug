@@ -14,7 +14,7 @@ import junit.framework.TestCase;
 public class TestParser extends TestCase {
 
 	public void testParser() {
-		String markup = "--what-- [s:Subject] [p:pred] [o:Object] <a href=http://google.de>Link</a> <a href=COL0101010201203120310></a>";
+		String markup = "--what-- [s0:Subject] [p2:pred] [o9:Object] <a href=http://google.de>Link</a> <a href=COL0101010201203120310></a>";
 		TParser parser=Parboiled.createParser(TParser.class, Extensions.ALL);
 //	   PegDownProcessor p = new PegDownProcessor(Parboiled.createParser(TParser.class, Extensions.ALL));
 		RootNode root = parser.parse((markup+"\n\n").toCharArray());

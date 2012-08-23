@@ -6,8 +6,8 @@ import org.pegdown.ast.Visitor;
 
 public class TNode extends TextNode {
 
-  public TNode(char type, String text) {
-      super(text);
+  public TNode(char type, Integer index, String text) {
+      super(text+"("+type+":"+index+")");
   }
 
   @Override
