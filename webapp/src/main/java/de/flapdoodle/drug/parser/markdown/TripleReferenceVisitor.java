@@ -8,13 +8,18 @@ import org.pegdown.ast.RootNode;
 
 import com.google.common.collect.Maps;
 
+import de.flapdoodle.drug.markup.IRelation;
+import de.flapdoodle.drug.markup.Label;
+
 public class TripleReferenceVisitor extends AbstractVisitor {
 
 	Context _context;
-	public void buildReferenceMap(RootNode root) {
-		_context=new Context();
+	public TripleNodeRelationMap buildReferenceMap(RootNode root) {
+		TripleNodeRelationMap relationMap=new TripleNodeRelationMap();
+		_context=new Context(relationMap);
 		super.process(root);
 		_context=_context.closeContext();
+		return relationMap;
 	}
 
 	@Override
@@ -46,7 +51,12 @@ public class TripleReferenceVisitor extends AbstractVisitor {
 
 		private Map<Integer, Triple> _tripleMap = Maps.newHashMap();
 		private Context _previous;
+		private final TripleNodeRelationMap _relationMap;
 		
+		public Context(TripleNodeRelationMap relationMap) {
+			_relationMap = relationMap;
+		}
+
 		public Triple get(int index) {
 			Triple ret = _tripleMap.get(index);
 			if (ret==null) {
@@ -57,17 +67,54 @@ public class TripleReferenceVisitor extends AbstractVisitor {
 		}
 		
 		public Context openContext() {
-			Context ret = new Context();
+			Context ret = new Context(_relationMap);
 			ret._previous=this;
 			return ret;
 		}
 		
 		public Context closeContext() {
 			System.out.println("Mappings: "+_tripleMap);
+			for (Triple t : _tripleMap.values()) {
+				TripleNode subject = t.getSubject();
+				TripleNode predicate = t.getPredicate();
+				TripleNode object = t.getObject();
+				TripleAsRelation rel=new TripleAsRelation(t);
+				_relationMap.setFor(rel,subject,predicate,object);
+			}
 			return _previous;
 		}
 	}
+	
+	static class TripleAsRelation implements IRelation {
 
+		
+		private final Triple _triple;
+
+		public TripleAsRelation(Triple triple) {
+			_triple = triple;
+		}
+		
+		@Override
+		public Label getSubject() {
+			return asLabel(_triple.getSubject());
+		}
+
+		private Label asLabel(TripleNode tn) {
+			return tn!=null ? new Label(tn.getText()) : null;
+		}
+
+		@Override
+		public Label getPredicate() {
+			return asLabel(_triple.getPredicate());
+		}
+
+		@Override
+		public Label getObject() {
+			return asLabel(_triple.getObject());
+		}
+		
+	}
+	
 	static class Triple {
 
 		private TripleNode _subject;

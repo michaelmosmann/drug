@@ -8,28 +8,24 @@ import org.pegdown.ast.Node;
 import org.pegdown.ast.TextNode;
 import org.pegdown.ast.Visitor;
 
+import de.flapdoodle.drug.markup.Type;
+
 public class TripleNode extends AbstractNode {
 
-	public enum TripleType {
-		Subject,
-		Predicate,
-		Object;
-	}
-
-	private final TripleType _type;
+	private final Type _type;
 	private final int _index;
 	private final String _text;
 
 	public TripleNode(char type, Integer index, String text) {
 		switch (type) {
 			case 's':
-				_type = TripleType.Subject;
+				_type = Type.Subject;
 				break;
 			case 'p':
-				_type = TripleType.Predicate;
+				_type = Type.Predicate;
 				break;
 			case 'o':
-				_type = TripleType.Object;
+				_type = Type.Object;
 				break;
 			default:
 				throw new IllegalArgumentException("Unknown Type " + type);
@@ -59,7 +55,7 @@ public class TripleNode extends AbstractNode {
 		return _text;
 	}
 
-	public TripleType getType() {
+	public Type getType() {
 		return _type;
 	}
 
