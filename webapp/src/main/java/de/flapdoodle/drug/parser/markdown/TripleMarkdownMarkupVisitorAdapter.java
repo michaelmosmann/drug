@@ -69,7 +69,7 @@ public class TripleMarkdownMarkupVisitorAdapter extends AbstractVisitor {
 	public TripleMarkdownMarkupVisitorAdapter() {
 	}
 
-	public String toHtml(RootNode astRoot,TripleNodeRelationMap relations, IMarkupVisitor markupVisitor) {
+	public void toHtml(RootNode astRoot,TripleNodeRelationMap relations, IMarkupVisitor markupVisitor) {
 		checkArgNotNull(astRoot, "astRoot");
 		checkArgNotNull(markupVisitor, "markupVisitor");
 		checkArgNotNull(relations, "relations");
@@ -77,8 +77,9 @@ public class TripleMarkdownMarkupVisitorAdapter extends AbstractVisitor {
 		_relations = relations;
 		_markupVisitor.begin();
 		astRoot.accept(this);
+		_markupVisitor.text(printer.getString());
 		_markupVisitor.end();
-		return printer.getString();
+//		return printer.getString();
 	}
 
 	public void visit(RootNode node) {
@@ -104,7 +105,6 @@ public class TripleMarkdownMarkupVisitorAdapter extends AbstractVisitor {
 
 	public void visit(AutoLinkNode node) {
 		printLink(defaultLinkRenderer.render(node));
-		_markupVisitor.text("[autolink: " + node + "]");
 	}
 
 	public void visit(BlockQuoteNode node) {
@@ -142,7 +142,6 @@ public class TripleMarkdownMarkupVisitorAdapter extends AbstractVisitor {
 	public void visit(ExpLinkNode node) {
 		String text = printChildrenToString(node);
 		printLink(defaultLinkRenderer.render(node, text));
-		_markupVisitor.text("[explink: " + node + "]");
 	}
 
 	public void visit(HeaderNode node) {
@@ -167,7 +166,6 @@ public class TripleMarkdownMarkupVisitorAdapter extends AbstractVisitor {
 
 	public void visit(MailLinkNode node) {
 		printLink(defaultLinkRenderer.render(node));
-		_markupVisitor.text("[maillink: " + node + "]");
 	}
 
 	public void visit(OrderedListNode node) {
@@ -236,7 +234,6 @@ public class TripleMarkdownMarkupVisitorAdapter extends AbstractVisitor {
 			}
 		} else {
 			printLink(defaultLinkRenderer.render(node, refNode.getUrl(), refNode.getTitle(), text));
-			_markupVisitor.text("[reflink: "+node+"->"+key+"]");
 		}
 	}
 
@@ -341,8 +338,10 @@ public class TripleMarkdownMarkupVisitorAdapter extends AbstractVisitor {
 	}
 
 	public void visit(WikiLinkNode node) {
-		printLink(defaultLinkRenderer.render(node));
+//		printLink(defaultLinkRenderer.render(node));
+		_markupVisitor.text(printer.getString());
     _markupVisitor.reference(new Label(node.getText()));
+    printer.clear();
 	}
 
 	public void visit(TextNode node) {
@@ -362,6 +361,8 @@ public class TripleMarkdownMarkupVisitorAdapter extends AbstractVisitor {
 	}
 
 	public void visit(TripleNode node) {
+		_markupVisitor.text(printer.getString());
+		
 		IRelation relation = _relations.get(node);
 		if (relation!=null) {
 			Label label=new Label(node.getText());
@@ -377,9 +378,10 @@ public class TripleMarkdownMarkupVisitorAdapter extends AbstractVisitor {
 					break;
 			}
 		} else {
-			_markupVisitor.text(node.toString());
+			_markupVisitor.text("["+node.toString()+"]");
 		}
-		printer.print(node.getText());
+//		printer.print(node.getText());
+		printer.clear();
 	}
 
 //	public void visit(Node node) {
