@@ -1027,7 +1027,7 @@ public class TripleMarkdownParser extends BaseParser<Object> implements Extensio
 	}
 
 	public Rule TLink() {
-		Var<Integer> index = new Var<Integer>(0);
+		Var<Integer> index = new Var<Integer>();
 		Var<Character> type = new Var<Character>();
 		return Sequence("[", AnyOf("pso"), type.set(matchedChar()), Optional(Digit(),index.set(Integer.valueOf(match()))), ":", OneOrMore(TestNot(']'), ANY), // might have to restrict from ANY
 				push(new TripleNode(type.get(),index.get(), match())), "]");
