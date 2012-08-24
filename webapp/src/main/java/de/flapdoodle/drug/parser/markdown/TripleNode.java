@@ -18,19 +18,8 @@ public class TripleNode extends AbstractNode {
 	private final String _base;
 
 	public TripleNode(char type, Integer index, String text, String base) {
-		switch (type) {
-			case 's':
-				_type = Type.Subject;
-				break;
-			case 'p':
-				_type = Type.Predicate;
-				break;
-			case 'o':
-				_type = Type.Object;
-				break;
-			default:
-				throw new IllegalArgumentException("Unknown Type " + type);
-		}
+		_type=Type.fromChar(type);
+		if (_type==null) throw new IllegalArgumentException("Unknown Type " + type);
 		_index = index != null
 				? index
 				: -1;
@@ -47,7 +36,7 @@ public class TripleNode extends AbstractNode {
 
 	@Override
 	public String toString() {
-		return "" + _type + _index + ":" + _text+(_base!=null? "->"+_base : "");
+		return "[" + _type.asChar() + (_index!=-1 ? _index : "") + ":"  + _text+(_base!=null? "->"+_base : "")+"]";
 	}
 
 	@Override

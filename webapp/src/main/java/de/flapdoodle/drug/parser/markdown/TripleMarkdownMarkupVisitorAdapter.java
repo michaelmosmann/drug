@@ -378,7 +378,7 @@ public class TripleMarkdownMarkupVisitorAdapter extends AbstractVisitor {
 					break;
 			}
 		} else {
-			_markupVisitor.text("["+node.toString()+"]");
+			_markupVisitor.text(node.toString());
 		}
 //		printer.print(node.getText());
 		printer.clear();

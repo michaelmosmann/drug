@@ -1,7 +1,24 @@
 package de.flapdoodle.drug.markup;
 
 public enum Type {
-	Subject,
-	Predicate,
-	Object
+	Subject('s'),
+	Predicate('p'),
+	Object('o');
+	
+	private final char _asChar;
+
+	Type(char asChar) {
+		_asChar = asChar;
+	}
+	
+	public char asChar() {
+		return _asChar;
+	}
+	
+	public static Type fromChar(char c) {
+		for (Type t : Type.values()) {
+			if (t._asChar==c) return t;
+		}
+		return null;
+	}
 }
