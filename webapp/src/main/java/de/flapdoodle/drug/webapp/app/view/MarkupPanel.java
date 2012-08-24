@@ -19,7 +19,7 @@ public class MarkupPanel extends Panel {
 	public MarkupPanel(String id, IModel<String> textModel) {
 		super(id);
 		
-		IModel<List<Tag>> tagListModel = Markups.asTags(Markups.asMarkup(textModel));
+		IModel<List<Tag>> tagListModel = Markups.asTagsFormMarkdown(textModel);
 		
 		add(new ListView<Tag>("list",tagListModel) {
 			@Override
