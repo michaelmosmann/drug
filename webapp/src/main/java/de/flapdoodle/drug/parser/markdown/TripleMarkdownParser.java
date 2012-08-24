@@ -63,7 +63,6 @@ import org.pegdown.ast.VerbatimNode;
 import org.pegdown.ast.WikiLinkNode;
 import org.pegdown.ast.SimpleNode.Type;
 
-
 public class TripleMarkdownParser extends BaseParser<Object> implements Extensions {
 
 	protected static final char CROSSED_OUT = '\uffff';
@@ -554,10 +553,9 @@ public class TripleMarkdownParser extends BaseParser<Object> implements Extensio
 
 	@MemoMismatches
 	public Rule Link() {
-		return NodeSequence(FirstOf(new ArrayBuilder<Rule>().add(TLink()).addNonNulls(
-				ext(WIKILINKS)
-						? new Rule[] {WikiLink()}
-						: null).add(Sequence(Label(), FirstOf(ExplicitLink(false), ReferenceLink(false)))).add(AutoLink()).get()));
+		return NodeSequence(FirstOf(new ArrayBuilder<Rule>().add(TLink()).addNonNulls(ext(WIKILINKS)
+				? new Rule[] {WikiLink()}
+				: null).add(Sequence(Label(), FirstOf(ExplicitLink(false), ReferenceLink(false)))).add(AutoLink()).get()));
 	}
 
 	public Rule NonAutoLink() {
@@ -1029,9 +1027,20 @@ public class TripleMarkdownParser extends BaseParser<Object> implements Extensio
 	public Rule TLink() {
 		Var<Integer> index = new Var<Integer>();
 		Var<Character> type = new Var<Character>();
-		return Sequence("[", AnyOf("pso"), type.set(matchedChar()), Optional(Digit(),index.set(Integer.valueOf(match()))), ":", OneOrMore(TestNot(']'), ANY), // might have to restrict from ANY
-				push(new TripleNode(type.get(),index.get(), match())), "]");
+		Var<String> base = new Var<String>();
+		Var<String> text = new Var<String>();
+		return Sequence(
+				"[",
+				AnyOf("pso"),
+				type.set(matchedChar()),
+				Optional(Digit(), index.set(Integer.valueOf(match()))),
+				":",
+				FirstOf(
+						Sequence(OneOrMore(TestNot("->"), ANY),text.set(match()), OneOrMore(TestNot(']'), ANY), base.set(match().substring(2))),
+						Sequence(OneOrMore(TestNot(']'), ANY), text.set(match()))), // might have to restrict from ANY
+				push(new TripleNode(type.get(), index.get(), text.get(), base.get())), "]");
 	}
+
 	//	
 	//  @MemoMismatches
 	////  @Override
@@ -1050,9 +1059,9 @@ public class TripleMarkdownParser extends BaseParser<Object> implements Extensio
 	//  }
 
 	public static RootNode parseMarkup(String markup) {
-		TripleMarkdownParser parser=Parboiled.createParser(TripleMarkdownParser.class, Extensions.ALL);
+		TripleMarkdownParser parser = Parboiled.createParser(TripleMarkdownParser.class, Extensions.ALL);
 		// TripleMarkdownParser newParser=parser.newInstance(); not threadsafe and faster instance
-		
-		return parser.parse((markup+"\n\n").toCharArray());
+
+		return parser.parse((markup + "\n\n").toCharArray());
 	}
 }

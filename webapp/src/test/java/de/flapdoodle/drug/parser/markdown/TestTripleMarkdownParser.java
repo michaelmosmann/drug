@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 public class TestTripleMarkdownParser extends TestCase {
 
 	public void testBuildTripleTable() {
-		String markup ="[s:A] [p:a] [o:A]\n[s0:B] [p:b] [o0:B]\n\n[s:C] [p:c] [o:C]\n\n" +
+		String markup ="[s:Aaaah->ah!] [p:a] [o:Auiuiui]\n[s0:B] [p:b] [o0:B]\n\n[s:C] [p:c] [o:C]\n\n" +
 				"WikiLinks [[Klaus]] und [[Bert]] \n\n" +
 				"Das ist ein http://autolink.de oder?\n\n" +
 				"Dies ist [ein Beispiel](http://example.com/ \"Der Linktitel\") für" +

@@ -15,8 +15,9 @@ public class TripleNode extends AbstractNode {
 	private final Type _type;
 	private final int _index;
 	private final String _text;
+	private final String _base;
 
-	public TripleNode(char type, Integer index, String text) {
+	public TripleNode(char type, Integer index, String text, String base) {
 		switch (type) {
 			case 's':
 				_type = Type.Subject;
@@ -34,6 +35,9 @@ public class TripleNode extends AbstractNode {
 				? index
 				: -1;
 		_text = text;
+		_base = base;
+		
+		System.out.println(this);
 	}
 
 	@Override
@@ -43,7 +47,7 @@ public class TripleNode extends AbstractNode {
 
 	@Override
 	public String toString() {
-		return "" + _type + _index + ":" + _text;
+		return "" + _type + _index + ":" + _text+(_base!=null? "->"+_base : "");
 	}
 
 	@Override
@@ -53,6 +57,10 @@ public class TripleNode extends AbstractNode {
 
 	public String getText() {
 		return _text;
+	}
+
+	public String getBase() {
+		return _base;
 	}
 
 	public Type getType() {
