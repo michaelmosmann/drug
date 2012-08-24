@@ -1051,6 +1051,8 @@ public class TripleMarkdownParser extends BaseParser<Object> implements Extensio
 
 	public static RootNode parseMarkup(String markup) {
 		TripleMarkdownParser parser=Parboiled.createParser(TripleMarkdownParser.class, Extensions.ALL);
+		// TripleMarkdownParser newParser=parser.newInstance(); not threadsafe and faster instance
+		
 		return parser.parse((markup+"\n\n").toCharArray());
 	}
 }
