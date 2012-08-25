@@ -32,6 +32,7 @@ public class MarkupPanel extends Panel {
 				String object = tag.getObject();
 				
 				Label text = new Label("text",tag.getText());
+				text.setEscapeModelStrings(false);
 				item.add(text);
 				
 				BookmarkablePageLink<TransformationPage> transformationLink = Navigation.toTransformation(subject, predicate, object).asLink("transformation");
@@ -41,7 +42,7 @@ public class MarkupPanel extends Panel {
 				BookmarkablePageLink<DescriptionPage> descriptionLink = Navigation.toDescriptions(name).asLink("descriptions");
 				descriptionLink.add(new Label("text",tag.getText()));
 				item.add(descriptionLink);
-				
+
 				BookmarkablePageLink<DescriptionPage> descriptionsShortLink = Navigation.toDescriptions(tag.getRelName()).asLink("descriptionsShort");
 				item.add(descriptionsShortLink);
 				
@@ -51,6 +52,13 @@ public class MarkupPanel extends Panel {
 				descriptionsShortLink.setVisible(tag.isRelation());
 				
 				descriptionLink.setVisible(!tag.isRelation() && !tag.isText());
+				
+				if ("".equals(tag.getText())) {
+					text.setVisible(false);
+					transformationLink.setVisible(false);
+					descriptionsShortLink.setVisible(false);
+					descriptionLink.setVisible(false);
+				}
 			}
 		});
 	}

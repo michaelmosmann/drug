@@ -1035,10 +1035,8 @@ public class TripleMarkdownParser extends BaseParser<Object> implements Extensio
 				type.set(matchedChar()),
 				Optional(Digit(), index.set(Integer.valueOf(match()))),
 				":",
-				FirstOf(
-						Sequence(OneOrMore(TestNot("->"), ANY),text.set(match()), OneOrMore(TestNot(']'), ANY), base.set(match().substring(2))),
-						Sequence(OneOrMore(TestNot(']'), ANY), text.set(match()))), // might have to restrict from ANY
-				push(new TripleNode(type.get(), index.get(), text.get(), base.get())), "]");
+				OneOrMore(TestNot(']'), ANY),  // might have to restrict from ANY
+				push(new TripleNode(type.get(), index.get(), match())), "]");
 	}
 
 	//	

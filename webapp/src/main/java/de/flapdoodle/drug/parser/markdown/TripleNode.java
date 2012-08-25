@@ -17,16 +17,22 @@ public class TripleNode extends AbstractNode {
 	private final String _text;
 	private final String _base;
 
-	public TripleNode(char type, Integer index, String text, String base) {
+	public TripleNode(char type, Integer index, String text) {
 		_type=Type.fromChar(type);
 		if (_type==null) throw new IllegalArgumentException("Unknown Type " + type);
 		_index = index != null
 				? index
 				: -1;
+		String base=null;
+		int idx=text.indexOf("->");
+		if (idx!=-1) {
+			base=text.substring(idx+2);
+			text=text.substring(0,idx);
+		}
 		_text = text;
 		_base = base;
 		
-		System.out.println(this);
+//		System.out.println("created '"+this+"'\n");
 	}
 
 	@Override

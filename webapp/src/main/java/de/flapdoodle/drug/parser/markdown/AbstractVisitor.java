@@ -81,6 +81,7 @@ public abstract class AbstractVisitor implements Visitor {
 	}
 
 	public void visit(BulletListNode node) {
+		visitChildren(node);
 	}
 
 	public void visit(CodeNode node) {
@@ -114,6 +115,7 @@ public abstract class AbstractVisitor implements Visitor {
 	}
 
 	public void visit(ListItemNode node) {
+		visitChildren(node);
 	}
 
 	public void visit(MailLinkNode node) {

@@ -3,6 +3,8 @@ package de.flapdoodle.drug.parser.markdown;
 import java.util.Map;
 
 import org.pegdown.ast.BlockQuoteNode;
+import org.pegdown.ast.BulletListNode;
+import org.pegdown.ast.ListItemNode;
 import org.pegdown.ast.ParaNode;
 import org.pegdown.ast.RootNode;
 
@@ -41,8 +43,18 @@ public class TripleReferenceVisitor extends AbstractVisitor {
 	}
 
 	@Override
+	public void visit(ListItemNode node) {
+		System.out.println("before " + node);
+		_context=_context.openContext();
+		super.visit(node);
+		_context=_context.closeContext();
+		System.out.println("after " + node);
+	}
+	
+	@Override
 	public void visit(TripleNode node) {
 		super.visit(node);
+		System.out.println("visit " + node);
 		_context.get(node.getIndex()).set(node);
 //		System.out.println(node);
 	}
@@ -100,7 +112,12 @@ public class TripleReferenceVisitor extends AbstractVisitor {
 		}
 
 		private Label asLabel(TripleNode tn) {
-			return tn!=null ? new Label(tn.getText()) : null;
+			if (tn!=null) {
+				String base=tn.getBase();
+				if (base==null) base=tn.getText();
+				return new Label(base,tn.getText()); 
+			}
+			return null;
 		}
 
 		@Override
@@ -154,7 +171,7 @@ public class TripleReferenceVisitor extends AbstractVisitor {
 		}
 		
 		private String getText(TripleNode val) {
-			return val!=null ? val.getText() : "";
+			return val!=null ? val.getBase()!=null ? val.getBase() : val.getText() : "";
 		}
 
 		private TripleNode isNotSet(TripleNode org, TripleNode newValue) {

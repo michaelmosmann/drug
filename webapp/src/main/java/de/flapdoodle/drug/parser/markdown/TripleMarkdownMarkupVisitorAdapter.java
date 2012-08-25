@@ -365,7 +365,9 @@ public class TripleMarkdownMarkupVisitorAdapter extends AbstractVisitor {
 		
 		IRelation relation = _relations.get(node);
 		if (relation!=null) {
-			Label label=new Label(node.getText());
+			String base=node.getBase();
+			if (base==null) base=node.getText();
+			Label label=new Label(base,node.getText());
 			switch(node.getType()) {
 				case Subject:
 					_markupVisitor.subject(label, relation);
@@ -378,7 +380,8 @@ public class TripleMarkdownMarkupVisitorAdapter extends AbstractVisitor {
 					break;
 			}
 		} else {
-			_markupVisitor.text(node.toString());
+//			new Exception("Node: "+node.toString()).printStackTrace();
+			_markupVisitor.text("!!!"+node.toString()+"!!!");
 		}
 //		printer.print(node.getText());
 		printer.clear();
