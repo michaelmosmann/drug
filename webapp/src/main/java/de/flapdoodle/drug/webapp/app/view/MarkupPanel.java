@@ -35,15 +35,15 @@ public class MarkupPanel extends Panel {
 				text.setEscapeModelStrings(false);
 				item.add(text);
 				
-				BookmarkablePageLink<TransformationPage> transformationLink = Navigation.toTransformation(subject, predicate, object).asLink("transformation");
+				BookmarkablePageLink<TransformationsPage> transformationLink = Navigation.toTransformations(subject, predicate, object).asLink("transformation");
 				transformationLink.add(new Label("text",tag.getText()));
 				item.add(transformationLink);
 				
-				BookmarkablePageLink<DescriptionPage> descriptionLink = Navigation.toDescriptions(name).asLink("descriptions");
+				BookmarkablePageLink<DescriptionsPage> descriptionLink = Navigation.toDescriptions(name,tag.isObject()).asLink("descriptions");
 				descriptionLink.add(new Label("text",tag.getText()));
 				item.add(descriptionLink);
 
-				BookmarkablePageLink<DescriptionPage> descriptionsShortLink = Navigation.toDescriptions(tag.getRelName()).asLink("descriptionsShort");
+				BookmarkablePageLink<DescriptionsPage> descriptionsShortLink = Navigation.toDescriptions(tag.getRelName(),tag.isObject()).asLink("descriptionsShort");
 				item.add(descriptionsShortLink);
 				
 				text.setVisible(tag.isText());

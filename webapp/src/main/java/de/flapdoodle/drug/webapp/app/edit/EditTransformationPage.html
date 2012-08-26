@@ -1,10 +1,15 @@
-<html>
-	<head>
+<wicket:head>
 		<title>Edit Transformation</title>
-	</head>
-	<body>
-		<h1>Edit Transformationsseite</h1>
-		
+</wicket:head>
+<wicket:extend>
+	<section>
+		<div class="page-header">
+			<h1>
+				Edit Transformationsseite
+				<small>hier wird ein Transformation editiert...</small>
+			</h1>
+		</div>
+
 		<div wicket:id="feedback"></div>
 		<form wicket:id="form">
 		
@@ -16,5 +21,5 @@
 			
 			<input type="submit" value="Speichern">
 		</form>
-	</body>
-</html>
+	</section>
+</wicket:extend>

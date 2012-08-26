@@ -11,7 +11,9 @@ import de.flapdoodle.drug.persistence.beans.Transformation;
 import de.flapdoodle.drug.webapp.app.edit.EditDescriptionPage;
 import de.flapdoodle.drug.webapp.app.edit.EditTransformationPage;
 import de.flapdoodle.drug.webapp.app.view.DescriptionPage;
+import de.flapdoodle.drug.webapp.app.view.DescriptionsPage;
 import de.flapdoodle.drug.webapp.app.view.TransformationPage;
+import de.flapdoodle.drug.webapp.app.view.TransformationsPage;
 
 public class Navigation {
 
@@ -19,8 +21,8 @@ public class Navigation {
 		return DescriptionPage.toDescription(description);
 	}
 
-	public static Jump<DescriptionPage> toDescriptions(String name) {
-		return DescriptionPage.toDescriptions(name);
+	public static Jump<DescriptionsPage> toDescriptions(String name,boolean isObject) {
+		return DescriptionsPage.toDescriptions(name,isObject);
 	}
 	
 	public static Jump<EditDescriptionPage> editDescription(Description transformation) {
@@ -31,8 +33,8 @@ public class Navigation {
 		return EditDescriptionPage.editDescription(name,isObject);
 	}
 	
-	public static Jump<TransformationPage> toTransformation(String subject,String predicate, String object) {
-		return TransformationPage.toTransformation(subject, predicate, object);
+	public static Jump<TransformationsPage> toTransformations(String subject,String predicate, String object) {
+		return TransformationsPage.toTransformations(subject, predicate, object);
 	}
 	
 	public static Jump<TransformationPage> toTransformation(Transformation transformation) {

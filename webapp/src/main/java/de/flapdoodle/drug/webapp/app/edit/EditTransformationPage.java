@@ -23,9 +23,10 @@ import de.flapdoodle.drug.persistence.dao.SearchDao;
 import de.flapdoodle.drug.persistence.dao.TransformationDao;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation.Jump;
+import de.flapdoodle.drug.webapp.app.pages.AbstractBasePage;
 import de.flapdoodle.mongoom.types.Reference;
 
-public class EditTransformationPage extends WebPage {
+public class EditTransformationPage extends AbstractBasePage {
 
 	static final String P_SUB = "Subjekt";
 	static final String P_PRED = "Predikat";
@@ -100,9 +101,9 @@ public class EditTransformationPage extends WebPage {
 
 	public static Jump<EditTransformationPage> editTransformation(String subject, String predicate, String object) {
 		PageParameters params = new PageParameters();
-		params.add(P_SUB, subject);
-		params.add(P_PRED, predicate);
-		params.add(P_OBJ, object);
+		if (subject!=null) params.add(P_SUB, subject);
+		if (predicate!=null) params.add(P_PRED, predicate);
+		if (object!=null) params.add(P_OBJ, object);
 		return new Jump<EditTransformationPage>(EditTransformationPage.class, params);
 	}
 

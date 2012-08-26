@@ -7,6 +7,6 @@ import de.flapdoodle.drug.webapp.app.navigation.Navigation;
 public class StartPage extends WebPage {
 	
 	public StartPage() {
-		Navigation.toDescriptions("Start").asResponse();
+		Navigation.toDescriptions("Start",true).asResponse();
 	}
 }
