@@ -67,7 +67,7 @@ public class Description extends AbstractDescription implements IEntity<Descript
 	}
 
 	public void setOtherNames(Set<String> otherNames) {
-		_otherNames = Lists.newArrayList(otherNames);
+		_otherNames = otherNames!=null ? Lists.newArrayList(otherNames) : Lists.<String>newArrayList();
 	}
 
 	public boolean isObject() {
