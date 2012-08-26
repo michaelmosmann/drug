@@ -1,19 +1,33 @@
-<html>
-	<head>
+<wicket:head>
 		<title>Edit Description</title>
-	</head>
-	<body>
-		<h1>Edit Description</h1>
+</wicket:head>
+<wicket:extend>
+	<section>
+		<div class="page-header">
+			<h1>
+				Edit Description
+				<small>hier wird eine Description editiert...</small>
+			</h1>
+		</div>
+
+		<div class="row">
+	    <div class="span6">
+				<div wicket:id="feedback"></div>
+			</div>
+		</div>
+		<div class="row">
+    	<div class="span6">
 		
-		<div wicket:id="feedback"></div>
 		<form wicket:id="form">
 		
 			Name: <input wicket:id="name"><br>
 			Alt: <wicket:container wicket:id="other"></wicket:container><br>
 			Objekt: <input wicket:id="object" type="checkbox"> (nicht Prädikat)<br>
-			<textarea rows="10" cols="60" wicket:id="text"></textarea><br>
+			<textarea rows="10" cols="120" wicket:id="text"></textarea><br>
 			
 			<input type="submit" value="Speichern">
 		</form>
-	</body>
-</html>
+			</div>
+		</div>
+	</section>
+</wicket:extend>

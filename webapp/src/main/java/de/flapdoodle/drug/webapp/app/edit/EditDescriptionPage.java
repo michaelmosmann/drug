@@ -17,14 +17,20 @@ import org.bson.types.ObjectId;
 
 import com.google.inject.Inject;
 
+import de.agilecoders.wicket.markup.html.bootstrap.form.FormBehavior;
+import de.agilecoders.wicket.markup.html.bootstrap.form.FormBehavior.Type;
+import de.agilecoders.wicket.markup.html.bootstrap.form.InputBehavior;
+import de.agilecoders.wicket.markup.html.bootstrap.form.InputBorder;
+import de.agilecoders.wicket.markup.html.bootstrap.layout.SpanType;
 import de.flapdoodle.drug.persistence.beans.Description;
 import de.flapdoodle.drug.persistence.dao.DescriptionDao;
 import de.flapdoodle.drug.persistence.dao.SearchDao;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation.Jump;
+import de.flapdoodle.drug.webapp.app.pages.AbstractBasePage;
 import de.flapdoodle.mongoom.types.Reference;
 
-public class EditDescriptionPage extends WebPage {
+public class EditDescriptionPage extends AbstractBasePage {
 
 	static final String P_NAME = "Name";
 	static final String P_OBJECT = "Object";
@@ -79,7 +85,8 @@ public class EditDescriptionPage extends WebPage {
 				Navigation.toDescription(transformation).asResponse();
 			}
 		};
-
+		form.add(new FormBehavior(Type.Default));
+				
 		form.add(new TextField<String>("name"));
 		form.add(new TextArea<String>("text"));
 		IModel<Set<String>> othersModel = new PropertyModel<Set<String>>(model, "otherNames");

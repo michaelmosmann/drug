@@ -1,5 +1,5 @@
 <wicket:panel>
-	<h2 wicket:id="name"></h2>
+	<h2><wicket:container wicket:id="name"></wicket:container> <a wicket:id="edit">Edit</a></h2>
 	<div class="row">
     <div class="span6">
 			<p><wicket:container wicket:id="text"></wicket:container></p>
@@ -7,9 +7,6 @@
     <div class="span4">
 			<p><wicket:container wicket:id="other"></wicket:container></p>
     </div>
-    <div class="span11">
-			<a class="btn btn-primary" wicket:id="edit">Edit</a>
-		</div>
 	</div>
 	
 </wicket:panel>
