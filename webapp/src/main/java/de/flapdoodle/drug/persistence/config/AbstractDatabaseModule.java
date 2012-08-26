@@ -10,6 +10,10 @@ public abstract class AbstractDatabaseModule extends AbstractModule
 	{
 		return as("preview",DATABASE);
 	}
+	protected static String getNoInstallDatabase()
+	{
+		return as("noinstall",DATABASE);
+	}
 	protected static String getProductionDatabase()
 	{
 		return as("prod",DATABASE);

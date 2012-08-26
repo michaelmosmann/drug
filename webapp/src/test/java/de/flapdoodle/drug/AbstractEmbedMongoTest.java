@@ -26,7 +26,7 @@ public abstract class AbstractEmbedMongoTest extends AbstractGuiceTest {
 	protected void setUp() throws Exception {
 		
 		MongodStarter runtime = MongodStarter.getDefaultInstance();
-		_mongodExe = runtime.prepare(new MongodConfig(Version.V2_1_0, EmbeddedDatabase.EMBEDDED_PORT,Network.localhostIsIPv6()));
+		_mongodExe = runtime.prepare(new MongodConfig(Version.Main.V2_1, EmbeddedDatabase.EMBEDDED_PORT,Network.localhostIsIPv6()));
 		_mongod=_mongodExe.start();
     
 		super.setUp();

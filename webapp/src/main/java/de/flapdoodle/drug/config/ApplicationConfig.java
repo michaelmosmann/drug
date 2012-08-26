@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import com.google.inject.AbstractModule;
 
+import de.flapdoodle.drug.persistence.config.NoInstallDatabase;
 import de.flapdoodle.drug.persistence.config.Persistence;
 import de.flapdoodle.drug.persistence.config.PreviewDatabase;
 import de.flapdoodle.drug.persistence.config.ProductionDatabase;
@@ -23,6 +24,9 @@ public class ApplicationConfig extends AbstractModule {
 			case Local:
 				install(new PreviewDatabase());
 				break;
+			case NoInstall:
+				install(new NoInstallDatabase());
+				break;
 			case Production:
 				install(new ProductionDatabase());
 				break;
@@ -36,7 +40,10 @@ public class ApplicationConfig extends AbstractModule {
 		if ("ubuntu606m".equals(hostname)) {
 			return Profile.Production;
 		}
-		return Profile.Local;
+		if ("bumblebee".equals(hostname)) {
+			return Profile.Local;
+		}
+		return Profile.NoInstall;
 	}
 
 	static String getHostname() {

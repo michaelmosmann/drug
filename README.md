@@ -41,7 +41,11 @@ Die Markup-Syntax ist bereits im Wandel. Vorschläge gern als Kommentar.
 	(Man-) (-schickt->schicken-) mir einen (-Laptop) aus (<-China).
 	(Ich-) (-besuche->besuchen-) meine (-Tante) bei (@@Peking).
 	
-## Changelog
+## Changelog (aktuell ist oben)
+
+- mongodb wird jetzt ohne installation auch beim starten der webanwendung gestartet
+
+- von wiki-markup und antlr auf peg-parser basiertes markDown umgestellt
 
 - wicket bootstrap added
 

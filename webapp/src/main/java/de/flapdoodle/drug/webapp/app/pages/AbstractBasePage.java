@@ -35,8 +35,8 @@ public abstract class AbstractBasePage extends WebPage {
 		navbar.brandName(Model.of("Drug"));
 		    
 		navbar.addButton(ButtonPosition.LEFT,
-		        new NavbarButton<StartPage>(StartPage.class, Model.of("Home"))
-//		        new NavbarButton<LinkPage>(LinkPage.class, Model.of("Link")),
+		        new NavbarButton<StartPage>(StartPage.class, Model.of("Home")),
+		        new NavbarButton<ShutdownWebappPage>(ShutdownWebappPage.class, Model.of("Shutdown"))
 		        );
 		
 		add(navbar);
