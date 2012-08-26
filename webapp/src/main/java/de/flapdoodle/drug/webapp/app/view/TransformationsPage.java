@@ -45,7 +45,11 @@ public class TransformationsPage extends AbstractBasePage {
 
 		List<Transformation> list = transformations.getObject();
 
-		if ((list == null) || (list.isEmpty())) {
+		if ((list!=null) && (!list.isEmpty())) {
+			if ((list.size()==1) && (subject!=null) && (predicate!=null) && (object!=null)) {
+				Navigation.toTransformation(list.get(0)).asResponse();
+			}
+		} else {
 			Navigation.editTransformation(subject, predicate, object).asResponse();
 		}
 

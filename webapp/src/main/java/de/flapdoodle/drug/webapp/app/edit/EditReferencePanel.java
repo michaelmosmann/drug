@@ -34,7 +34,13 @@ public class EditReferencePanel extends Panel {
 					return Lists.newArrayList(value);
 				}
 				
-				return Lists.transform(_descriptionDao.findByName(isObject, name), new Function<Description, Reference<Description>>() {
+				List<Description> descriptions;
+				if (name!=null) {
+					descriptions = _descriptionDao.findByName(isObject, name);
+				} else {
+					descriptions = _descriptionDao.findByType(isObject);
+				}
+				return Lists.transform(descriptions, new Function<Description, Reference<Description>>() {
 					@Override
 					public Reference<Description> apply(Description from) {
 						return from.getId();

@@ -15,6 +15,10 @@ public class DescriptionDao extends AbstractDao<Description> {
 		return createQuery().field(Description.isObject).eq(isObject).or().field(Description.Name).eq(name).parent().or().listfield(
 				Description.OtherNames).eq(name).parent().result().order("name", true).asList();
 	}
+	
+	public List<Description> findByType(boolean isObject) {
+		return createQuery().field(Description.isObject).eq(isObject).result().order("name", true).asList();
+	}
 
 	public List<Description> findAnyByName(String name) {
 		return createQuery().or().field(Description.Name).eq(name).parent().or().listfield(Description.OtherNames).eq(name).parent().result().order(
