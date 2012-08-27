@@ -13,6 +13,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.validation.validator.StringValidator;
 import org.bson.types.ObjectId;
 
 import com.google.common.collect.Lists;
@@ -72,8 +73,21 @@ public class EditTransformationPage extends AbstractBasePage {
 
 		add(new FeedbackPanel("feedback"));
 		
+		final DropDownChoice<ContextType> contextType = new DropDownChoice<ContextType>("contextType",Lists.newArrayList(ContextType.values()));
+		
 		Form<Transformation> form = new Form<Transformation>("form", new CompoundPropertyModel<Transformation>(model)) {
 
+			@Override
+			protected void onValidateModelObjects() {
+				super.onValidateModelObjects();
+				Transformation transformation = getModelObject();
+				if (transformation.getContext()!=null) {
+					if (transformation.getContextType()==null) {
+						contextType.error("Bitte geben Sie einen Ortsbeschreibung für den Kontext an");
+					}
+				}
+			}
+			
 			@Override
 			protected void onSubmit() {
 				super.onSubmit();
@@ -90,8 +104,16 @@ public class EditTransformationPage extends AbstractBasePage {
 			}
 		};
 		
-		form.add(new TextField<String>("title"));
-		form.add(new TextArea<String>("text"));
+		TextField<String> title = new TextField<String>("title");
+		title.add(StringValidator.minimumLength(3));
+		title.setRequired(true);
+		
+		TextArea<String> text = new TextArea<String>("text");
+		text.add(StringValidator.minimumLength(3));
+		text.setRequired(true);
+		
+		form.add(title);
+		form.add(text);
 		
 		IModel<Reference<Description>> subjectModel = new PropertyModel<Reference<Description>>(model, "subject");
 		form.add(new EditReferencePanel("subject", subjectModel, RefType.Subject, reference.getSubject()));
@@ -101,7 +123,8 @@ public class EditTransformationPage extends AbstractBasePage {
 		form.add(new EditReferencePanel("object", objectModel, RefType.Object, reference.getObject()));
 		IModel<Reference<Description>> contextModel = new PropertyModel<Reference<Description>>(model, "context");
 		form.add(new EditReferencePanel("context", contextModel, RefType.Context, reference.getContext()));
-		form.add(new DropDownChoice<ContextType>("contextType",Lists.newArrayList(ContextType.values())));
+		
+		form.add(contextType);
 
 		
 		add(form);
