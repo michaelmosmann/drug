@@ -1,19 +1,25 @@
 package de.flapdoodle.drug.webapp.bootstrap;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Logger;
 
+import org.apache.wicket.injection.Injector;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.util.io.Streams;
 
-import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
+import de.flapdoodle.drug.logging.Loggers;
 import de.flapdoodle.drug.persistence.beans.Description;
 import de.flapdoodle.drug.persistence.dao.DescriptionDao;
 import de.flapdoodle.drug.persistence.dao.TransformationDao;
 import de.flapdoodle.drug.webapp.DrugWebApplication;
 
-public class BootstrapPage extends WebPage {
+public class DrugBootstrap {
 
+	private static final Logger _logger = Loggers.getLogger(DrugBootstrap.class);
+	
 	@Inject
 	TransformationDao _transformationDao;
 
@@ -22,14 +28,16 @@ public class BootstrapPage extends WebPage {
 
 	private boolean _done;
 
-	public BootstrapPage() {
+	public DrugBootstrap() {
+		Injector.get().inject(this);
+		
 		if (!bootUp())
 			throw new RuntimeException("Could not BootUp");
-
-		setResponsePage(DrugWebApplication.get().getHomePage());
 	}
 
 	private synchronized boolean bootUp() {
+		_logger.severe("bootUp");
+		
 		if (_done)
 			return true;
 
@@ -38,11 +46,23 @@ public class BootstrapPage extends WebPage {
 			Description start = new Description();
 			start.setName("Start");
 			start.setObject(true);
-			start.setText("Das ist die Start-Testseite. Ab hier kann [s:Mensch|man] weitere [o:Seiten] [p:erstellen].");
+			
+			start.setText(getBootstrapMarkup("Start","Konnte das Template für [[Start]] nicht finden. Da muss [s:man->Mensch] mal nach dem [o:Fehler] [p:suchen]."));
 			_descriptionDao.save(start);
+		} else {
+			_logger.severe("Start exists: "+list);
 		}
 		_done = true;
 		return true;
+	}
+
+	private String getBootstrapMarkup(String name,String defaultText) {
+		try {
+			return Streams.readString(getClass().getResourceAsStream(""+name+".txt"));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return defaultText;
+		}
 	}
 
 }

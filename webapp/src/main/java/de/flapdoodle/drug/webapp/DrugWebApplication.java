@@ -14,11 +14,13 @@ import de.agilecoders.wicket.Bootstrap;
 import de.agilecoders.wicket.settings.BootstrapSettings;
 import de.flapdoodle.drug.config.Profile;
 import de.flapdoodle.drug.webapp.app.StartPage;
+import de.flapdoodle.drug.webapp.app.edit.EditDescriptionPage;
+import de.flapdoodle.drug.webapp.app.edit.EditTransformationPage;
 import de.flapdoodle.drug.webapp.app.view.DescriptionPage;
 import de.flapdoodle.drug.webapp.app.view.DescriptionsPage;
 import de.flapdoodle.drug.webapp.app.view.TransformationPage;
 import de.flapdoodle.drug.webapp.app.view.TransformationsPage;
-import de.flapdoodle.drug.webapp.bootstrap.BootstrapPage;
+import de.flapdoodle.drug.webapp.bootstrap.DrugBootstrap;
 
 public class DrugWebApplication extends WebApplication
 {
@@ -61,8 +63,10 @@ public class DrugWebApplication extends WebApplication
 		
 		mountPage("/info", DescriptionPage.class);
 		mountPage("/infos", DescriptionsPage.class);
+		mountPage("/editInfo", EditDescriptionPage.class);
 		mountPage("/tranformation", TransformationPage.class);
 		mountPage("/tranformations", TransformationsPage.class);
+		mountPage("/editTranformation", EditTransformationPage.class);
 //		mountAnnotated(DescriptionPage.class);
 //		mountAnnotated(TransformationPage.class);
 //		mountAnnotated(EditTransformationPage.class);
@@ -76,7 +80,7 @@ public class DrugWebApplication extends WebApplication
 		if (!_bootstrapDone)
 		{
 			_bootstrapDone=true;
-			return BootstrapPage.class;
+			new DrugBootstrap();
 		}
 //		return MongoTestPage.class;
 //		return DashboardPage.class;
