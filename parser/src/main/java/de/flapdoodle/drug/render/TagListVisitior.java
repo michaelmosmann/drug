@@ -6,8 +6,8 @@ import com.google.common.collect.Lists;
 
 import de.flapdoodle.drug.markup.IRelation;
 import de.flapdoodle.drug.markup.Label;
-import de.flapdoodle.drug.markup.Markup;
 
+@Deprecated
 public class TagListVisitior extends AbstractMarkupVisitor {
 
 	List<Tag> _tags = Lists.newArrayList();
@@ -56,12 +56,6 @@ public class TagListVisitior extends AbstractMarkupVisitor {
 
 	public List<Tag> getTags() {
 		return Lists.newArrayList(_tags);
-	}
-
-	public static List<Tag> asTags(Markup markup) {
-		TagListVisitior visitor = new TagListVisitior();
-		markup.inspect(visitor);
-		return visitor.getTags();
 	}
 
 	public static class Tag {
