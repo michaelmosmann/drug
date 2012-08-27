@@ -26,15 +26,15 @@ public class TestTransformationDao extends AbstractEmbedMongoTest {
 
 		SearchDao searchDao = _searchDao;//new SearchDao(_descriptionDao, _transformationDao);
 		
-		List<Transformation> list=searchDao.find("Du", "futtern", "Brot");
+		List<Transformation> list=searchDao.find("Du", "futtern", "Brot",null,null);
 		assertEquals("Size",1, list.size());
-		list=searchDao.find("Ich", "futtern", "Brot");
+		list=searchDao.find("Ich", "futtern", "Brot",null,null);
 		assertEquals("Size",1, list.size());
-		list=searchDao.find(null, "futtern", "Brot");
+		list=searchDao.find(null, "futtern", "Brot",null,null);
 		assertEquals("Size",1, list.size());
-		list=searchDao.find("Ich", null, "Brot");
+		list=searchDao.find("Ich", null, "Brot",null,null);
 		assertEquals("Size",1, list.size());
-		list=searchDao.find("Frosch", "löffeln", null);
+		list=searchDao.find("Frosch", "löffeln", null,null,null);
 		assertEquals("Size",2, list.size());
 
 	}

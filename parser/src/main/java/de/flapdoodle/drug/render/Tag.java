@@ -6,13 +6,14 @@ public class Tag {
 
 	private final String _text;
 	private String _name;
-	private String _subject;
-	private String _predicate;
-	private String _object;
-	private String _context;
+//	private String _subject;
+//	private String _predicate;
+//	private String _object;
+//	private String _context;
 	private String _relName;
 	private boolean _isObject;
-	private Type _contextType;
+//	private Type _contextType;
+	TagReference _reference;
 
 	public Tag(String text) {
 		_text = text;
@@ -23,48 +24,27 @@ public class Tag {
 		_name = name;
 	}
 
-	public Tag(String text, String name, boolean isObject, String subject, String predicate, String object,
-			Type contextType, String context) {
+	public Tag(String text, String name, boolean isObject, TagReference reference) {
 		_text = text;
-		_subject = subject;
-		_predicate = predicate;
-		_object = object;
+		_reference=reference;
 		_relName = name;
 		_isObject = isObject;
-		_contextType = contextType;
-		_context = context;
 	}
 
 	public boolean isText() {
-		return _name == null && _subject == null && _predicate == null && _object == null;
+		return _name == null && _reference==null || _reference.notSet();
 	}
 
 	public boolean isRelation() {
-		return _subject != null || _predicate != null || _object != null;
+		return _reference!=null && _reference.anythingIsSet();
 	}
 
 	public String getText() {
 		return _text;
 	}
-
-	public String getSubject() {
-		return _subject;
-	}
-
-	public String getPredicate() {
-		return _predicate;
-	}
-
-	public String getObject() {
-		return _object;
-	}
-
-	public String getContext() {
-		return _context;
-	}
-
-	public Type getContextType() {
-		return _contextType;
+	
+	public TagReference getReference() {
+		return _reference;
 	}
 
 	public String getName() {

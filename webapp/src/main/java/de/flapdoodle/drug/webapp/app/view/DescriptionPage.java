@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 
 import de.flapdoodle.drug.persistence.beans.Description;
 import de.flapdoodle.drug.persistence.beans.Transformation;
+import de.flapdoodle.drug.render.TagReference;
 import de.flapdoodle.drug.webapp.app.models.Descriptions;
 import de.flapdoodle.drug.webapp.app.models.ListModels;
 import de.flapdoodle.drug.webapp.app.models.Transformations;
@@ -44,13 +45,13 @@ public class DescriptionPage extends AbstractBasePage {
 				Transformations t=new Transformations();
 				if (descr.isObject()) {
 					ArrayList<Transformation> ret = Lists.newArrayList();
-					List<Transformation> subjects = t.apply(descr.getName(), null, null);
-					List<Transformation> objects = t.apply(null, null, descr.getName());
+					List<Transformation> subjects = t.apply(new TagReference(descr.getName(), null, null,null,null));
+					List<Transformation> objects = t.apply(new TagReference(null, null, descr.getName(),null,null));
 					if (subjects!=null) ret.addAll(subjects);
 					if (objects!=null) ret.addAll(objects);
 					return ret;
 				} else {
-					return t.apply(null, descr.getName(), null);
+					return t.apply(new TagReference(null, descr.getName(), null,null,null));
 				}
 			}
 		});

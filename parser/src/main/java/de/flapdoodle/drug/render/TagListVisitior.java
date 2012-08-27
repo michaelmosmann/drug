@@ -49,8 +49,8 @@ public class TagListVisitior extends AbstractMarkupVisitor {
 			String object = notNull(relation.getObject()).getName();
 			String context = notNull(relation.getContext()).getName();
 			Type contextType = relation.getContextType();
-			_tags.add(new Tag(label.getDisplayOrName(), label.getName(), isObject, subject, predicate, object, contextType,
-					context));
+			_tags.add(new Tag(label.getDisplayOrName(), label.getName(), isObject, new TagReference(subject, predicate,
+					object, contextType, context)));
 		} else {
 			_tags.add(new Tag(label.getDisplayOrName(), label.getName()));
 		}

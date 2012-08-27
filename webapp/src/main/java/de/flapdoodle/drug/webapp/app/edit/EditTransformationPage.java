@@ -21,6 +21,7 @@ import de.flapdoodle.drug.persistence.beans.Transformation;
 import de.flapdoodle.drug.persistence.dao.DescriptionDao;
 import de.flapdoodle.drug.persistence.dao.SearchDao;
 import de.flapdoodle.drug.persistence.dao.TransformationDao;
+import de.flapdoodle.drug.render.TagReference;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation.Jump;
 import de.flapdoodle.drug.webapp.app.pages.AbstractBasePage;
@@ -45,9 +46,7 @@ public class EditTransformationPage extends AbstractBasePage {
 
 	public EditTransformationPage(PageParameters pageParameters) {
 		
-		String subject=pageParameters.get(P_SUB).toOptionalString();
-		String predicate=pageParameters.get(P_PRED).toOptionalString();
-		String object=pageParameters.get(P_OBJ).toOptionalString();
+		TagReference reference=Navigation.fromPageParameters(pageParameters);
 		
 		String id=pageParameters.get(P_REF).toOptionalString();
 
@@ -58,7 +57,7 @@ public class EditTransformationPage extends AbstractBasePage {
 				t=byId;
 			}
 		} else {
-			List<Transformation> list = _searchDao.find(subject, predicate, object);
+			List<Transformation> list = _searchDao.find(reference.getSubject(),reference.getPredicate(),reference.getObject(),reference.getContextType(),reference.getContext());
 			if ((list!=null) && (list.size()==1)) {
 				t=list.get(0);
 			}
@@ -90,20 +89,19 @@ public class EditTransformationPage extends AbstractBasePage {
 		form.add(new TextArea<String>("text"));
 		
 		IModel<Reference<Description>> subjectModel = new PropertyModel<Reference<Description>>(model, "subject");
-		form.add(new EditReferencePanel("subject", subjectModel, true, subject));
+		form.add(new EditReferencePanel("subject", subjectModel, true, reference.getSubject()));
 		IModel<Reference<Description>> predicateModel = new PropertyModel<Reference<Description>>(model, "predicate");
-		form.add(new EditReferencePanel("predicate", predicateModel, false, predicate));
+		form.add(new EditReferencePanel("predicate", predicateModel, false, reference.getPredicate()));
 		IModel<Reference<Description>> objectModel = new PropertyModel<Reference<Description>>(model, "object");
-		form.add(new EditReferencePanel("object", objectModel, true, object));
+		form.add(new EditReferencePanel("object", objectModel, true, reference.getObject()));
+		IModel<Reference<Description>> contextModel = new PropertyModel<Reference<Description>>(model, "context");
+		form.add(new EditReferencePanel("context", contextModel, true, reference.getContext()));
 		
 		add(form);
 	}
 
-	public static Jump<EditTransformationPage> editTransformation(String subject, String predicate, String object) {
-		PageParameters params = new PageParameters();
-		if (subject!=null) params.add(P_SUB, subject);
-		if (predicate!=null) params.add(P_PRED, predicate);
-		if (object!=null) params.add(P_OBJ, object);
+	public static Jump<EditTransformationPage> editTransformation(TagReference reference) {
+		PageParameters params = Navigation.asPageParameters(reference);
 		return new Jump<EditTransformationPage>(EditTransformationPage.class, params);
 	}
 

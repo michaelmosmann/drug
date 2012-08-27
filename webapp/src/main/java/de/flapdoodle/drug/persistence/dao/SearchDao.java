@@ -6,6 +6,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
+import de.flapdoodle.drug.markup.Type;
 import de.flapdoodle.drug.persistence.beans.Description;
 import de.flapdoodle.drug.persistence.beans.Transformation;
 import de.flapdoodle.mongoom.types.Reference;
@@ -17,17 +18,17 @@ public class SearchDao {
 
 	// cglib
 	protected SearchDao() {
-		_descriptionDao=null;
-		_transformationDao=null;
+		_descriptionDao = null;
+		_transformationDao = null;
 	}
-	
+
 	@Inject
 	public SearchDao(DescriptionDao descriptionDao, TransformationDao transformationDao) {
 		_descriptionDao = descriptionDao;
 		_transformationDao = transformationDao;
 	}
 
-	public List<Transformation> find(String subject, String predicate, String object) {
+	public List<Transformation> find(String subject, String predicate, String object, Type type, String context) {
 		List<Transformation> ret = Lists.newArrayList();
 
 		List<Description> subjects = subject != null
@@ -40,6 +41,8 @@ public class SearchDao {
 				? _descriptionDao.findByName(true, object)
 				: null;
 
+		new Exception("NOT FULL IMPLEMENTED").printStackTrace();
+		
 		Function<Description, Reference<Description>> toId = new Function<Description, Reference<Description>>() {
 
 			@Override

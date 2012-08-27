@@ -27,15 +27,15 @@ public class MarkupPanel extends Panel {
 				Tag tag = item.getModelObject();
 				String name = tag.getName();
 				
-				String subject = tag.getSubject();
-				String predicate = tag.getPredicate();
-				String object = tag.getObject();
+//				String subject = tag.getSubject();
+//				String predicate = tag.getPredicate();
+//				String object = tag.getObject();
 				
 				Label text = new Label("text",tag.getText());
 				text.setEscapeModelStrings(false);
 				item.add(text);
 				
-				BookmarkablePageLink<TransformationsPage> transformationLink = Navigation.toTransformations(subject, predicate, object).asLink("transformation");
+				BookmarkablePageLink<TransformationsPage> transformationLink = Navigation.toTransformations(tag.getReference()).asLink("transformation");
 				transformationLink.add(new Label("text",tag.getText()));
 				item.add(transformationLink);
 				

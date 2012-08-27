@@ -13,6 +13,7 @@ import de.flapdoodle.drug.persistence.beans.Transformation;
 import de.flapdoodle.drug.persistence.dao.DescriptionDao;
 import de.flapdoodle.drug.persistence.dao.SearchDao;
 import de.flapdoodle.drug.persistence.dao.TransformationDao;
+import de.flapdoodle.drug.render.TagReference;
 import de.flapdoodle.drug.webapp.app.models.ListModels;
 import de.flapdoodle.drug.webapp.app.models.Transformations;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
@@ -37,20 +38,22 @@ public class TransformationsPage extends AbstractBasePage {
 
 	public TransformationsPage(PageParameters pageParameters) {
 
-		String subject = pageParameters.get(P_SUB).toOptionalString();
-		String predicate = pageParameters.get(P_PRED).toOptionalString();
-		String object = pageParameters.get(P_OBJ).toOptionalString();
+//		String subject = pageParameters.get(P_SUB).toOptionalString();
+//		String predicate = pageParameters.get(P_PRED).toOptionalString();
+//		String object = pageParameters.get(P_OBJ).toOptionalString();
+		
+		TagReference reference=Navigation.fromPageParameters(pageParameters);
 
-		IModel<List<Transformation>> transformations = Transformations.search(subject, predicate, object);
+		IModel<List<Transformation>> transformations = Transformations.search(reference);
 
 		List<Transformation> list = transformations.getObject();
 
 		if ((list!=null) && (!list.isEmpty())) {
-			if ((list.size()==1) && (subject!=null) && (predicate!=null) && (object!=null)) {
+			if ((list.size()==1) && (!reference.isOpen())) {
 				Navigation.toTransformation(list.get(0)).asResponse();
 			}
 		} else {
-			Navigation.editTransformation(subject, predicate, object).asResponse();
+			Navigation.editTransformation(reference).asResponse();
 		}
 
 		add(new TransformationsPanel("descriptions", transformations));
@@ -60,14 +63,19 @@ public class TransformationsPage extends AbstractBasePage {
 
 	}
 
-	public static Jump<TransformationsPage> toTransformations(String subject, String predicate, String object) {
-		PageParameters params = new PageParameters();
-		if (subject != null)
-			params.set(P_SUB, subject);
-		if (predicate != null)
-			params.set(P_PRED, predicate);
-		if (object != null)
-			params.set(P_OBJ, object);
+//	public static Jump<TransformationsPage> toTransformations(String subject, String predicate, String object) {
+//		PageParameters params = new PageParameters();
+//		if (subject != null)
+//			params.set(P_SUB, subject);
+//		if (predicate != null)
+//			params.set(P_PRED, predicate);
+//		if (object != null)
+//			params.set(P_OBJ, object);
+//		return new Jump<TransformationsPage>(TransformationsPage.class, params);
+//	}
+
+	public static Jump<TransformationsPage> toTransformations(TagReference reference) {
+		PageParameters params = Navigation.asPageParameters(reference);
 		return new Jump<TransformationsPage>(TransformationsPage.class, params);
 	}
 
