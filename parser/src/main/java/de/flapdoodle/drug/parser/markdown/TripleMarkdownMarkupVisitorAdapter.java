@@ -363,25 +363,33 @@ public class TripleMarkdownMarkupVisitorAdapter extends AbstractVisitor {
 	public void visit(TripleNode node) {
 		_markupVisitor.text(printer.getString());
 		
-		IRelation relation = _relations.get(node);
-		if (relation!=null) {
-			String base=node.getBase();
-			if (base==null) base=node.getText();
-			Label label=new Label(base,node.getText());
-			switch(node.getType()) {
-				case Subject:
-					_markupVisitor.subject(label, relation);
-					break;
-				case Predicate:
-					_markupVisitor.predicate(label, relation);
-					break;
-				case Object:
-					_markupVisitor.object(label, relation);
-					break;
+		if (!node.isHidden()) {
+			IRelation relation = _relations.get(node);
+			if (relation!=null) {
+				String base=node.getBase();
+				if (base==null) base=node.getText();
+				Label label=new Label(base,node.getText());
+				switch(node.getType()) {
+					case Subject:
+						_markupVisitor.subject(label, relation);
+						break;
+					case Predicate:
+						_markupVisitor.predicate(label, relation);
+						break;
+					case Object:
+						_markupVisitor.object(label, relation);
+						break;
+					case At:
+					case From:
+					case To:
+					case NearBy:
+						_markupVisitor.context(label, node.getType(), relation);
+						break;
+				}
+			} else {
+	//			new Exception("Node: "+node.toString()).printStackTrace();
+				_markupVisitor.text("!!!"+node.toString()+"!!!");
 			}
-		} else {
-//			new Exception("Node: "+node.toString()).printStackTrace();
-			_markupVisitor.text("!!!"+node.toString()+"!!!");
 		}
 //		printer.print(node.getText());
 		printer.clear();

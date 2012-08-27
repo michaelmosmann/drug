@@ -76,4 +76,37 @@ public class TestTripleMarkdownParser extends TestCase {
 //		System.out.println("Html: " + html);
 //		System.out.println("---------------------------\n");
 	}
+
+	public void testHidden() {
+		String markup = "[s:Wer->Mensch] kann [o:Seiten] [p:erstellen]?\n\n"+
+										"[!s:Wer->Mensch][o:Seiten] [p:erstellen]?";
+
+		String match="<p>Wer kann Seiten erstellen?</p>" +
+				"<p>Seiten erstellen?</p>";
+		String html = toHtml(markup);
+		assertEquals(match, html);
+//		System.out.println("---------------------------\n");
+//		System.out.println("Html: " + html);
+//		System.out.println("---------------------------\n");
+	}
+
+	public void testFull() {
+		String markup = "[s:Subjekt] [p:predikat] [o:Object]\n\n"+
+				"[s:Subjekt] [p:predikat] [o:Object] [at:in China->China]\n\n" +
+				"[s:Subjekt] [p:predikat] [o:Object] nach [to:China]\n\n" +
+				"[s:Subjekt] [p:predikat] [o:Object] [from:von China->China]\n\n" +
+				"[s:Subjekt] [p:predikat] [o:Object] bei [near:China]\n\n" +
+										"";
+
+		String match="<p>Subjekt predikat Object</p>" +
+				"<p>Subjekt predikat Object in China</p>" +
+				"<p>Subjekt predikat Object nach China</p>" +
+				"<p>Subjekt predikat Object von China</p>" +
+				"<p>Subjekt predikat Object bei China</p>";
+		String html = toHtml(markup);
+		assertEquals(match, html);
+//		System.out.println("---------------------------\n");
+//		System.out.println("Html: " + html);
+//		System.out.println("---------------------------\n");
+	}
 }

@@ -6,8 +6,8 @@ import com.google.common.collect.Lists;
 
 import de.flapdoodle.drug.markup.IRelation;
 import de.flapdoodle.drug.markup.Label;
+import de.flapdoodle.drug.markup.Type;
 
-@Deprecated
 public class TagListVisitior extends AbstractMarkupVisitor {
 
 	List<Tag> _tags = Lists.newArrayList();
@@ -37,12 +37,20 @@ public class TagListVisitior extends AbstractMarkupVisitor {
 		relation(label, true, relation);
 	}
 
+	@Override
+	public void context(Label label, Type type, IRelation relation) {
+		relation(label, true, relation);
+	}
+
 	private void relation(Label label, boolean isObject, IRelation relation) {
 		if (relation != null) {
 			String subject = notNull(relation.getSubject()).getName();
 			String predicate = notNull(relation.getPredicate()).getName();
 			String object = notNull(relation.getObject()).getName();
-			_tags.add(new Tag(label.getDisplayOrName(), label.getName(), isObject, subject, predicate, object));
+			String context = notNull(relation.getContext()).getName();
+			Type contextType = relation.getContextType();
+			_tags.add(new Tag(label.getDisplayOrName(), label.getName(), isObject, subject, predicate, object, contextType,
+					context));
 		} else {
 			_tags.add(new Tag(label.getDisplayOrName(), label.getName()));
 		}
@@ -65,8 +73,10 @@ public class TagListVisitior extends AbstractMarkupVisitor {
 		private String _subject;
 		private String _predicate;
 		private String _object;
+		private String _context;
 		private String _relName;
 		private boolean _isObject;
+		private Type _contextType;
 
 		public Tag(String text) {
 			_text = text;
@@ -77,13 +87,16 @@ public class TagListVisitior extends AbstractMarkupVisitor {
 			_name = name;
 		}
 
-		public Tag(String text, String name, boolean isObject, String subject, String predicate, String object) {
+		public Tag(String text, String name, boolean isObject, String subject, String predicate, String object,
+				Type contextType, String context) {
 			_text = text;
 			_subject = subject;
 			_predicate = predicate;
 			_object = object;
 			_relName = name;
-			_isObject=isObject;
+			_isObject = isObject;
+			_contextType = contextType;
+			_context = context;
 		}
 
 		public boolean isText() {
@@ -110,6 +123,14 @@ public class TagListVisitior extends AbstractMarkupVisitor {
 			return _object;
 		}
 
+		public String getContext() {
+			return _context;
+		}
+
+		public Type getContextType() {
+			return _contextType;
+		}
+
 		public String getName() {
 			return _name;
 		}
@@ -117,7 +138,7 @@ public class TagListVisitior extends AbstractMarkupVisitor {
 		public String getRelName() {
 			return _relName;
 		}
-		
+
 		public boolean isObject() {
 			return _isObject;
 		}

@@ -16,23 +16,27 @@ public class TripleNode extends AbstractNode {
 	private final int _index;
 	private final String _text;
 	private final String _base;
+	private final boolean _hidden;
 
-	public TripleNode(char type, Integer index, String text) {
-		_type=Type.fromChar(type);
-		if (_type==null) throw new IllegalArgumentException("Unknown Type " + type);
+	public TripleNode(String stype, boolean hidden, Integer index, String text) {
+		_hidden = hidden;
+
+		_type = Type.fromString(stype);
+		if (_type == null)
+			throw new IllegalArgumentException("Unknown Type " + stype);
 		_index = index != null
 				? index
 				: -1;
-		String base=null;
-		int idx=text.indexOf("->");
-		if (idx!=-1) {
-			base=text.substring(idx+2);
-			text=text.substring(0,idx);
+		String base = null;
+		int idx = text.indexOf("->");
+		if (idx != -1) {
+			base = text.substring(idx + 2);
+			text = text.substring(0, idx);
 		}
 		_text = text;
 		_base = base;
-		
-//		System.out.println("created '"+this+"'\n");
+
+		//		System.out.println("created '"+this+"'\n");
 	}
 
 	@Override
@@ -42,7 +46,13 @@ public class TripleNode extends AbstractNode {
 
 	@Override
 	public String toString() {
-		return "[" + _type.asChar() + (_index!=-1 ? _index : "") + ":"  + _text+(_base!=null? "->"+_base : "")+"]";
+		return "[" + (_hidden
+				? "!"
+				: "") + _type.asString() + (_index != -1
+				? _index
+				: "") + ":" + _text + (_base != null
+				? "->" + _base
+				: "") + "]";
 	}
 
 	@Override
@@ -64,5 +74,9 @@ public class TripleNode extends AbstractNode {
 
 	public int getIndex() {
 		return _index;
+	}
+
+	public boolean isHidden() {
+		return _hidden;
 	}
 }

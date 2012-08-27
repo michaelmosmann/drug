@@ -3,6 +3,7 @@ package de.flapdoodle.drug.render;
 import de.flapdoodle.drug.markup.IMarkupVisitor;
 import de.flapdoodle.drug.markup.IRelation;
 import de.flapdoodle.drug.markup.Label;
+import de.flapdoodle.drug.markup.Type;
 
 
 public class StraightTextRenderer extends AbstractMarkupVisitor {
@@ -37,7 +38,12 @@ public class StraightTextRenderer extends AbstractMarkupVisitor {
 	public void object(Label label, IRelation relation) {
 		sb.append(displayOrName(label));
 	}
-
+	
+	@Override
+	public void context(Label label, Type type, IRelation relation) {
+		sb.append(displayOrName(label));
+	}
+	
 	@Override
 	public String toString() {
 		return sb.toString();

@@ -16,56 +16,60 @@ import com.google.common.collect.Maps;
 import de.flapdoodle.drug.logging.Loggers;
 import de.flapdoodle.drug.markup.IRelation;
 import de.flapdoodle.drug.markup.Label;
+import de.flapdoodle.drug.markup.Type;
 
 public class TripleReferenceVisitor extends AbstractVisitor {
 
 	private static final Logger _logger = Loggers.getLogger(TripleReferenceVisitor.class);
-	private static Level _level=Level.FINE;
-	
+	private static Level _level = Level.FINE;
+
 	Context _context;
+
 	public TripleNodeRelationMap buildReferenceMap(RootNode root) {
-		TripleNodeRelationMap relationMap=new TripleNodeRelationMap();
-		_context=new Context(relationMap);
+		TripleNodeRelationMap relationMap = new TripleNodeRelationMap();
+		_context = new Context(relationMap);
 		super.process(root);
-		_context=_context.closeContext();
+		_context = _context.closeContext();
 		return relationMap;
 	}
 
 	@Override
 	public void visit(BlockQuoteNode node) {
 		before(node);
-		_context=_context.openContext();
+		_context = _context.openContext();
 		super.visit(node);
-		_context=_context.closeContext();
+		_context = _context.closeContext();
 		after(node);
 	}
 
 	private void after(Node node) {
-		if (_logger.isLoggable(_level)) _logger.log(_level,"after "+node);
+		if (_logger.isLoggable(_level))
+			_logger.log(_level, "after " + node);
 	}
 
 	private void before(Node node) {
-		if (_logger.isLoggable(_level)) _logger.log(_level,"before "+node);
+		if (_logger.isLoggable(_level))
+			_logger.log(_level, "before " + node);
 	}
 
 	@Override
 	public void visit(ParaNode node) {
 		before(node);
-		_context=_context.openContext();
+		_context = _context.openContext();
 		super.visit(node);
-		_context=_context.closeContext();
+		_context = _context.closeContext();
 		after(node);
 	}
 
 	@Override
 	public void visit(ListItemNode node) {
 		before(node);
-		_context=_context.openContext();
+		_context = _context.openContext();
 		super.visit(node);
-		_context=_context.closeContext();
+		_context = _context.closeContext();
 		after(node);
 	}
-	
+
 	@Override
 	public void visit(TripleNode node) {
 		super.visit(node);
@@ -77,57 +81,58 @@ public class TripleReferenceVisitor extends AbstractVisitor {
 		private Map<Integer, Triple> _tripleMap = Maps.newHashMap();
 		private Context _previous;
 		private final TripleNodeRelationMap _relationMap;
-		
+
 		public Context(TripleNodeRelationMap relationMap) {
 			_relationMap = relationMap;
 		}
 
 		public Triple get(int index) {
 			Triple ret = _tripleMap.get(index);
-			if (ret==null) {
-				ret=new Triple();
+			if (ret == null) {
+				ret = new Triple();
 				_tripleMap.put(index, ret);
 			}
 			return ret;
 		}
-		
+
 		public Context openContext() {
 			Context ret = new Context(_relationMap);
-			ret._previous=this;
+			ret._previous = this;
 			return ret;
 		}
-		
+
 		public Context closeContext() {
 			for (Triple t : _tripleMap.values()) {
 				TripleNode subject = t.getSubject();
 				TripleNode predicate = t.getPredicate();
 				TripleNode object = t.getObject();
-				TripleAsRelation rel=new TripleAsRelation(t);
-				_relationMap.setFor(rel,subject,predicate,object);
+				TripleNode context = t.getContext();
+				TripleAsRelation rel = new TripleAsRelation(t);
+				_relationMap.setFor(rel, subject, predicate, object, context);
 			}
 			return _previous;
 		}
 	}
-	
+
 	static class TripleAsRelation implements IRelation {
 
-		
 		private final Triple _triple;
 
 		public TripleAsRelation(Triple triple) {
 			_triple = triple;
 		}
-		
+
 		@Override
 		public Label getSubject() {
 			return asLabel(_triple.getSubject());
 		}
 
 		private Label asLabel(TripleNode tn) {
-			if (tn!=null) {
-				String base=tn.getBase();
-				if (base==null) base=tn.getText();
-				return new Label(base,tn.getText()); 
+			if (tn != null) {
+				String base = tn.getBase();
+				if (base == null)
+					base = tn.getText();
+				return new Label(base, tn.getText());
 			}
 			return null;
 		}
@@ -142,13 +147,25 @@ public class TripleReferenceVisitor extends AbstractVisitor {
 			return asLabel(_triple.getObject());
 		}
 		
+		@Override
+		public Label getContext() {
+			return asLabel(_triple.getContext());
+		}
+		
+		@Override
+		public Type getContextType() {
+			return _triple.getContextType();
+		}
+
 	}
-	
+
 	static class Triple {
 
 		private TripleNode _subject;
 		private TripleNode _prec;
 		private TripleNode _object;
+		private TripleNode _context;
+		private Type _contextType;
 
 		public TripleNode set(TripleNode node) {
 			switch (node.getType()) {
@@ -161,6 +178,15 @@ public class TripleReferenceVisitor extends AbstractVisitor {
 				case Object:
 					_object = isNotSet(_object, node);
 					return _object;
+				case At:
+				case From:
+				case NearBy:
+				case To:
+					_context = isNotSet(_context, node);
+					if (_context == node) {
+						_contextType = node.getType();
+					}
+					return _context;
 			}
 			throw new IllegalArgumentException("UnknownNodeType " + node);
 		}
@@ -177,13 +203,25 @@ public class TripleReferenceVisitor extends AbstractVisitor {
 			return _object;
 		}
 
+		public TripleNode getContext() {
+			return _context;
+		}
+
+		public Type getContextType() {
+			return _contextType;
+		}
+
 		@Override
 		public String toString() {
-			return ""+getText(_subject)+":"+getText(_prec)+":"+getText(_object);
+			return "" + getText(_subject) + ":" + getText(_prec) + ":" + getText(_object)+(_context!=null ? " " + _contextType.asString() + getText(_context) : "");
 		}
-		
+
 		private String getText(TripleNode val) {
-			return val!=null ? val.getBase()!=null ? val.getBase() : val.getText() : "";
+			return val != null
+					? val.getBase() != null
+							? val.getBase()
+							: val.getText()
+					: "";
 		}
 
 		private TripleNode isNotSet(TripleNode org, TripleNode newValue) {
