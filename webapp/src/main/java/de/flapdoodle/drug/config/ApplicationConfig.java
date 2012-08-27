@@ -41,7 +41,7 @@ public class ApplicationConfig extends AbstractModule {
 			return Profile.Production;
 		}
 		if ("bumblebee".equals(hostname)) {
-			return Profile.NoInstall;
+			return Profile.Local;
 		}
 		return Profile.NoInstall;
 	}
