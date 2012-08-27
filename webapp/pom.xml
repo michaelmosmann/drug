@@ -126,47 +126,5 @@
 			<artifactId>bootstrap</artifactId>
 			<version>0.5.3</version>
 		</dependency>
-<!--
-		<dependency>
-			<groupId>info.bliki.wiki</groupId>
-			<artifactId>bliki-core</artifactId>
-			<version>3.0.19</version>
-		</dependency>
--->		
-
-		<dependency>
-			<groupId>org.pegdown</groupId>
-			<artifactId>pegdown</artifactId>
-			<version>1.1.0</version>
-		</dependency>
-
-<!--
-   <dependency>
-      <groupId>org.xwiki.commons</groupId>
-      <artifactId>xwiki-commons-component-default</artifactId>
-			<version>4.1.2</version>
-    </dependency>
-		<dependency>
-			<groupId>org.xwiki.rendering</groupId>
-			<artifactId>xwiki-rendering-syntax-wikimodel</artifactId>
-			<version>4.1.2</version>
-		</dependency>
--->
-
   </dependencies>
-
-<!--
-	<repositories>
-		<repository>
-			<id>info-bliki-repository</id>
-			<url>http://gwtwiki.googlecode.com/svn/maven-repository/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-	-->
 </project>
