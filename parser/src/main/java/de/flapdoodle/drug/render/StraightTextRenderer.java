@@ -1,5 +1,6 @@
 package de.flapdoodle.drug.render;
 
+import de.flapdoodle.drug.markup.ContextType;
 import de.flapdoodle.drug.markup.IMarkupVisitor;
 import de.flapdoodle.drug.markup.IRelation;
 import de.flapdoodle.drug.markup.Label;
@@ -40,7 +41,7 @@ public class StraightTextRenderer extends AbstractMarkupVisitor {
 	}
 	
 	@Override
-	public void context(Label label, Type type, IRelation relation) {
+	public void context(Label label, ContextType type, IRelation relation) {
 		sb.append(displayOrName(label));
 	}
 	

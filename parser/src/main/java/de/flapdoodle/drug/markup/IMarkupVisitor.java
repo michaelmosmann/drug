@@ -17,5 +17,5 @@ public interface IMarkupVisitor {
 
 	void object(Label label, IRelation relation);
 
-	void context(Label label, Type type, IRelation relation);
+	void context(Label label, ContextType type, IRelation relation);
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import de.flapdoodle.drug.markup.ContextType;
 import de.flapdoodle.drug.markup.IRelation;
 import de.flapdoodle.drug.markup.Label;
 import de.flapdoodle.drug.markup.Type;
@@ -38,7 +39,7 @@ public class TagListVisitior extends AbstractMarkupVisitor {
 	}
 
 	@Override
-	public void context(Label label, Type type, IRelation relation) {
+	public void context(Label label, ContextType type, IRelation relation) {
 		relation(label, true, relation);
 	}
 
@@ -48,7 +49,7 @@ public class TagListVisitior extends AbstractMarkupVisitor {
 			String predicate = notNull(relation.getPredicate()).getName();
 			String object = notNull(relation.getObject()).getName();
 			String context = notNull(relation.getContext()).getName();
-			Type contextType = relation.getContextType();
+			ContextType contextType = relation.getContextType();
 			_tags.add(new Tag(label.getDisplayOrName(), label.getName(), isObject, new TagReference(subject, predicate,
 					object, contextType, context)));
 		} else {

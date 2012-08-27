@@ -379,12 +379,6 @@ public class TripleMarkdownMarkupVisitorAdapter extends AbstractVisitor {
 					case Object:
 						_markupVisitor.object(label, relation);
 						break;
-					case At:
-					case From:
-					case To:
-					case NearBy:
-						_markupVisitor.context(label, node.getType(), relation);
-						break;
 				}
 			} else {
 	//			new Exception("Node: "+node.toString()).printStackTrace();
@@ -395,11 +389,24 @@ public class TripleMarkdownMarkupVisitorAdapter extends AbstractVisitor {
 		printer.clear();
 	}
 
-//	public void visit(Node node) {
-//		// override this method for processing custom Node implementations
-//		throw new RuntimeException("Not implemented");
-//	}
-
+	public void visit(TripleContextNode node) {
+		_markupVisitor.text(printer.getString());
+		
+		if (!node.isHidden()) {
+			IRelation relation = _relations.get(node);
+			if (relation!=null) {
+				String base=node.getBase();
+				if (base==null) base=node.getText();
+				Label label=new Label(base,node.getText());
+				_markupVisitor.context(label, node.getType(), relation);
+			} else {
+				_markupVisitor.text("!!!"+node.toString()+"!!!");
+			}
+		}
+		printer.clear();
+	}
+	
+	
 	// helpers
 
 	protected void visitChildren(SuperNode node) {

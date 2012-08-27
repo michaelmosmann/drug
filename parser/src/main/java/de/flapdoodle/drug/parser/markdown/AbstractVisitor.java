@@ -192,9 +192,17 @@ public abstract class AbstractVisitor implements Visitor {
 		
 	}
 	
+	public void visit(TripleContextNode node) {
+		
+	}
+	
 	public void visit(Node node) {
 		if (node instanceof TripleNode) {
 			visit((TripleNode) node);
+			return;
+		}
+		if (node instanceof TripleContextNode) {
+			visit((TripleContextNode) node);
 			return;
 		}
 		// override this method for processing custom Node implementations

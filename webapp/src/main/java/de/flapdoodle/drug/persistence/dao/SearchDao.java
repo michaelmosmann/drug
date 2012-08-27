@@ -6,6 +6,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
+import de.flapdoodle.drug.markup.ContextType;
 import de.flapdoodle.drug.markup.Type;
 import de.flapdoodle.drug.persistence.beans.Description;
 import de.flapdoodle.drug.persistence.beans.Transformation;
@@ -28,7 +29,7 @@ public class SearchDao {
 		_transformationDao = transformationDao;
 	}
 
-	public List<Transformation> find(String subject, String predicate, String object, Type type, String context) {
+	public List<Transformation> find(String subject, String predicate, String object, ContextType type, String context) {
 		List<Transformation> ret = Lists.newArrayList();
 
 		List<Description> subjects = subject != null
@@ -40,9 +41,10 @@ public class SearchDao {
 		List<Description> objects = object != null
 				? _descriptionDao.findByName(true, object)
 				: null;
+		List<Description> contexts = context != null
+				? _descriptionDao.findByName(true, context)
+				: null;
 
-		new Exception("NOT FULL IMPLEMENTED").printStackTrace();
-		
 		Function<Description, Reference<Description>> toId = new Function<Description, Reference<Description>>() {
 
 			@Override
@@ -52,7 +54,7 @@ public class SearchDao {
 		};
 
 		ret = _transformationDao.find(nullOrTransformation(subjects, toId), nullOrTransformation(predicates, toId),
-				nullOrTransformation(objects, toId));
+				nullOrTransformation(objects, toId),type,nullOrTransformation(contexts, toId));
 		return ret;
 	}
 

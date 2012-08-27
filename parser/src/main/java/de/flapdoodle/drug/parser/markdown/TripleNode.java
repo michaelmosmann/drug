@@ -1,82 +1,25 @@
 package de.flapdoodle.drug.parser.markdown;
 
-import java.util.List;
-
-import org.parboiled.common.ImmutableList;
-import org.pegdown.ast.AbstractNode;
-import org.pegdown.ast.Node;
-import org.pegdown.ast.TextNode;
-import org.pegdown.ast.Visitor;
 
 import de.flapdoodle.drug.markup.Type;
 
-public class TripleNode extends AbstractNode {
+public class TripleNode extends AbstractTripleNode {
 
 	private final Type _type;
-	private final int _index;
-	private final String _text;
-	private final String _base;
-	private final boolean _hidden;
+	public TripleNode(char type, boolean hidden, Integer index, String text) {
+		super(hidden,index,text);
 
-	public TripleNode(String stype, boolean hidden, Integer index, String text) {
-		_hidden = hidden;
-
-		_type = Type.fromString(stype);
+		_type = Type.fromChar(type);
 		if (_type == null)
-			throw new IllegalArgumentException("Unknown Type " + stype);
-		_index = index != null
-				? index
-				: -1;
-		String base = null;
-		int idx = text.indexOf("->");
-		if (idx != -1) {
-			base = text.substring(idx + 2);
-			text = text.substring(0, idx);
-		}
-		_text = text;
-		_base = base;
-
-		//		System.out.println("created '"+this+"'\n");
-	}
-
-	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
+			throw new IllegalArgumentException("Unknown Type " + type);
 	}
 
 	@Override
 	public String toString() {
-		return "[" + (_hidden
-				? "!"
-				: "") + _type.asString() + (_index != -1
-				? _index
-				: "") + ":" + _text + (_base != null
-				? "->" + _base
-				: "") + "]";
-	}
-
-	@Override
-	public List<Node> getChildren() {
-		return ImmutableList.of();
-	}
-
-	public String getText() {
-		return _text;
-	}
-
-	public String getBase() {
-		return _base;
+		return toString(""+_type.asChar());
 	}
 
 	public Type getType() {
 		return _type;
-	}
-
-	public int getIndex() {
-		return _index;
-	}
-
-	public boolean isHidden() {
-		return _hidden;
 	}
 }

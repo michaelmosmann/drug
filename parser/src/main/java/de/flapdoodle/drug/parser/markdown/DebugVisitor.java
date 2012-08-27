@@ -343,13 +343,13 @@ public class DebugVisitor implements Visitor {
 		visitChildren(node);
 	}
 
-	public void visit(TripleNode node) {
+	public void visit(AbstractTripleNode node) {
 		printer.print(node.getText());
 	}
 
 	public void visit(Node node) {
 		if (node instanceof TripleNode) {
-			visit((TripleNode) node);
+			visit((AbstractTripleNode) node);
 			return;
 		}
 		// override this method for processing custom Node implementations

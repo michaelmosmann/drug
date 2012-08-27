@@ -14,6 +14,7 @@ import org.pegdown.ast.RootNode;
 import com.google.common.collect.Maps;
 
 import de.flapdoodle.drug.logging.Loggers;
+import de.flapdoodle.drug.markup.ContextType;
 import de.flapdoodle.drug.markup.IRelation;
 import de.flapdoodle.drug.markup.Label;
 import de.flapdoodle.drug.markup.Type;
@@ -75,6 +76,12 @@ public class TripleReferenceVisitor extends AbstractVisitor {
 		super.visit(node);
 		_context.get(node.getIndex()).set(node);
 	}
+	
+	@Override
+	public void visit(TripleContextNode node) {
+		super.visit(node);
+		_context.get(node.getIndex()).set(node);
+	}
 
 	static class Context {
 
@@ -104,9 +111,9 @@ public class TripleReferenceVisitor extends AbstractVisitor {
 		public Context closeContext() {
 			for (Triple t : _tripleMap.values()) {
 				TripleNode subject = t.getSubject();
-				TripleNode predicate = t.getPredicate();
-				TripleNode object = t.getObject();
-				TripleNode context = t.getContext();
+				AbstractTripleNode predicate = t.getPredicate();
+				AbstractTripleNode object = t.getObject();
+				AbstractTripleNode context = t.getContext();
 				TripleAsRelation rel = new TripleAsRelation(t);
 				_relationMap.setFor(rel, subject, predicate, object, context);
 			}
@@ -127,7 +134,7 @@ public class TripleReferenceVisitor extends AbstractVisitor {
 			return asLabel(_triple.getSubject());
 		}
 
-		private Label asLabel(TripleNode tn) {
+		private Label asLabel(AbstractTripleNode tn) {
 			if (tn != null) {
 				String base = tn.getBase();
 				if (base == null)
@@ -153,8 +160,9 @@ public class TripleReferenceVisitor extends AbstractVisitor {
 		}
 		
 		@Override
-		public Type getContextType() {
-			return _triple.getContextType();
+		public ContextType getContextType() {
+			if (_triple.getContext()!=null)		return _triple.getContext().getType();
+			return null;
 		}
 
 	}
@@ -164,10 +172,13 @@ public class TripleReferenceVisitor extends AbstractVisitor {
 		private TripleNode _subject;
 		private TripleNode _prec;
 		private TripleNode _object;
-		private TripleNode _context;
-		private Type _contextType;
+		private TripleContextNode _context;
 
-		public TripleNode set(TripleNode node) {
+		public AbstractTripleNode set(TripleContextNode node) {
+			_context = isNotSet(_context, node);
+			return _context;
+		}
+		public AbstractTripleNode set(TripleNode node) {
 			switch (node.getType()) {
 				case Subject:
 					_subject = isNotSet(_subject, node);
@@ -178,15 +189,6 @@ public class TripleReferenceVisitor extends AbstractVisitor {
 				case Object:
 					_object = isNotSet(_object, node);
 					return _object;
-				case At:
-				case From:
-				case NearBy:
-				case To:
-					_context = isNotSet(_context, node);
-					if (_context == node) {
-						_contextType = node.getType();
-					}
-					return _context;
 			}
 			throw new IllegalArgumentException("UnknownNodeType " + node);
 		}
@@ -203,20 +205,16 @@ public class TripleReferenceVisitor extends AbstractVisitor {
 			return _object;
 		}
 
-		public TripleNode getContext() {
+		public TripleContextNode getContext() {
 			return _context;
-		}
-
-		public Type getContextType() {
-			return _contextType;
 		}
 
 		@Override
 		public String toString() {
-			return "" + getText(_subject) + ":" + getText(_prec) + ":" + getText(_object)+(_context!=null ? " " + _contextType.asString() + getText(_context) : "");
+			return "" + getText(_subject) + ":" + getText(_prec) + ":" + getText(_object)+(_context!=null ? " " + _context.getType().asString() + getText(_context) : "");
 		}
 
-		private String getText(TripleNode val) {
+		private String getText(AbstractTripleNode val) {
 			return val != null
 					? val.getBase() != null
 							? val.getBase()
@@ -224,7 +222,7 @@ public class TripleReferenceVisitor extends AbstractVisitor {
 					: "";
 		}
 
-		private TripleNode isNotSet(TripleNode org, TripleNode newValue) {
+		private <T> T isNotSet(T org, T newValue) {
 			if (org != null)
 				return org;
 			return newValue;

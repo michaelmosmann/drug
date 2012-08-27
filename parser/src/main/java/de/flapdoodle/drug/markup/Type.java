@@ -1,28 +1,24 @@
 package de.flapdoodle.drug.markup;
 
 public enum Type {
-	Subject("s"),
-	Predicate("p"),
-	Object("o"),
-	At("at"),
-	NearBy("near"),
-	From("from"),
-	To("to"),
+	Subject('s'),
+	Predicate('p'),
+	Object('o'),
 	;
 	
-	private final String _asString;
+	private final char _asChar;
 
-	Type(String asString) {
-		_asString = asString;
+	Type(char asString) {
+		_asChar = asString;
 	}
 	
-	public String asString() {
-		return _asString;
+	public char asChar() {
+		return _asChar;
 	}
 	
-	public static Type fromString(String c) {
+	public static Type fromChar(char c) {
 		for (Type t : Type.values()) {
-			if (t._asString.equals(c)) return t;
+			if (t._asChar==c) return t;
 		}
 		return null;
 	}

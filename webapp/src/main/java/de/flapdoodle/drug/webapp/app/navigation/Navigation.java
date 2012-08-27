@@ -6,6 +6,7 @@ import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.flow.RedirectToUrlException;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
+import de.flapdoodle.drug.markup.ContextType;
 import de.flapdoodle.drug.markup.Type;
 import de.flapdoodle.drug.persistence.beans.Description;
 import de.flapdoodle.drug.persistence.beans.Transformation;
@@ -88,7 +89,7 @@ public class Navigation {
 		String object=reference.getObject();
 		String context=reference.getContext();
 		
-		Type contextType=reference.getContextType();
+		ContextType contextType=reference.getContextType();
 		
 		if (subject != null)
 			params.set(P_SUBJECT, subject);
@@ -108,7 +109,7 @@ public class Navigation {
 		String predicate=p.get(P_PREDICATE).toOptionalString();
 		String object=p.get(P_OBJECT).toOptionalString();
 		String context=p.get(P_CONTEXT).toOptionalString();
-		Type contextType=Type.fromString(p.get(P_TYPE).toOptionalString());
+		ContextType contextType=ContextType.fromString(p.get(P_TYPE).toOptionalString());
 		return new TagReference(subject, predicate, object, contextType, context);
 	}
 

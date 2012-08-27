@@ -8,15 +8,15 @@ import de.flapdoodle.drug.markup.IRelation;
 
 
 public class TripleNodeRelationMap {
-	Map<TripleNode, IRelation> _relationMap=Maps.newHashMap();
+	Map<AbstractTripleNode, IRelation> _relationMap=Maps.newHashMap();
 	
-	public void setFor(IRelation relation, TripleNode... nodes) {
-		for (TripleNode n : nodes) {
+	public void setFor(IRelation relation, AbstractTripleNode... nodes) {
+		for (AbstractTripleNode n : nodes) {
 			if (n!=null) _relationMap.put(n,relation);
 		}
 	}
 
-	public IRelation get(TripleNode node) {
+	public IRelation get(AbstractTripleNode node) {
 		return _relationMap.get(node);
 	}
 	

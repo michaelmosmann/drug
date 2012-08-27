@@ -2,6 +2,7 @@ package de.flapdoodle.drug.render;
 
 import java.io.Serializable;
 
+import de.flapdoodle.drug.markup.ContextType;
 import de.flapdoodle.drug.markup.Type;
 
 public class TagReference implements Serializable {
@@ -10,10 +11,10 @@ public class TagReference implements Serializable {
 	private final String _predicate;
 	private final String _object;
 
-	private final Type _contextType;
+	private final ContextType _contextType;
 	private final String _context;
 
-	public TagReference(String subject, String predicate, String object, Type contextType, String context) {
+	public TagReference(String subject, String predicate, String object, ContextType contextType, String context) {
 		super();
 		_subject = subject;
 		_predicate = predicate;
@@ -34,7 +35,7 @@ public class TagReference implements Serializable {
 		return _object;
 	}
 
-	public Type getContextType() {
+	public ContextType getContextType() {
 		return _contextType;
 	}
 

@@ -6,5 +6,5 @@ public interface IRelation {
 	Label getPredicate();
 	Label getObject();
 	Label getContext();
-	Type getContextType();
+	ContextType getContextType();
 }
