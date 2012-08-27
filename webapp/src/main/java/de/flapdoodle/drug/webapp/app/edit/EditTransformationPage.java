@@ -3,6 +3,7 @@ package de.flapdoodle.drug.webapp.app.edit;
 import java.util.List;
 
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
@@ -14,14 +15,17 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.bson.types.ObjectId;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
+import de.flapdoodle.drug.markup.ContextType;
 import de.flapdoodle.drug.persistence.beans.Description;
 import de.flapdoodle.drug.persistence.beans.Transformation;
 import de.flapdoodle.drug.persistence.dao.DescriptionDao;
 import de.flapdoodle.drug.persistence.dao.SearchDao;
 import de.flapdoodle.drug.persistence.dao.TransformationDao;
 import de.flapdoodle.drug.render.TagReference;
+import de.flapdoodle.drug.webapp.app.edit.EditReferencePanel.RefType;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation.Jump;
 import de.flapdoodle.drug.webapp.app.pages.AbstractBasePage;
@@ -62,6 +66,7 @@ public class EditTransformationPage extends AbstractBasePage {
 				t=list.get(0);
 			}
 		}
+		t.setContextType(reference.getContextType());
 		
 		IModel<Transformation> model = Model.of(t);
 
@@ -89,13 +94,15 @@ public class EditTransformationPage extends AbstractBasePage {
 		form.add(new TextArea<String>("text"));
 		
 		IModel<Reference<Description>> subjectModel = new PropertyModel<Reference<Description>>(model, "subject");
-		form.add(new EditReferencePanel("subject", subjectModel, true, reference.getSubject()));
+		form.add(new EditReferencePanel("subject", subjectModel, RefType.Subject, reference.getSubject()));
 		IModel<Reference<Description>> predicateModel = new PropertyModel<Reference<Description>>(model, "predicate");
-		form.add(new EditReferencePanel("predicate", predicateModel, false, reference.getPredicate()));
+		form.add(new EditReferencePanel("predicate", predicateModel, RefType.Predicate, reference.getPredicate()));
 		IModel<Reference<Description>> objectModel = new PropertyModel<Reference<Description>>(model, "object");
-		form.add(new EditReferencePanel("object", objectModel, true, reference.getObject()));
+		form.add(new EditReferencePanel("object", objectModel, RefType.Object, reference.getObject()));
 		IModel<Reference<Description>> contextModel = new PropertyModel<Reference<Description>>(model, "context");
-		form.add(new EditReferencePanel("context", contextModel, true, reference.getContext()));
+		form.add(new EditReferencePanel("context", contextModel, RefType.Context, reference.getContext()));
+		form.add(new DropDownChoice<ContextType>("contextType",Lists.newArrayList(ContextType.values())));
+
 		
 		add(form);
 	}

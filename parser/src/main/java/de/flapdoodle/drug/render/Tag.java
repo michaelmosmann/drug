@@ -32,7 +32,7 @@ public class Tag {
 	}
 
 	public boolean isText() {
-		return _name == null && _reference==null || _reference.notSet();
+		return _name == null && (_reference==null || _reference.notSet());
 	}
 
 	public boolean isRelation() {

@@ -21,10 +21,14 @@ import de.flapdoodle.wicket.model.Models;
 
 public class EditReferencePanel extends Panel {
 
+	public enum RefType {
+		Subject, Object, Predicate, Context
+	};
+	
 	@Inject
 	DescriptionDao _descriptionDao;
 	
-	public EditReferencePanel(String id, final IModel<Reference<Description>> descrModel, final boolean isObject, final String name) {
+	public EditReferencePanel(String id, final IModel<Reference<Description>> descrModel, final RefType type, final String name) {
 		super(id);
 		
 		IModel<List<Reference<Description>>> choices=Models.on(descrModel).apply(new Function1<List<Reference<Description>>, Reference<Description>>() {
@@ -36,9 +40,9 @@ public class EditReferencePanel extends Panel {
 				
 				List<Description> descriptions;
 				if (name!=null) {
-					descriptions = _descriptionDao.findByName(isObject, name);
+					descriptions = _descriptionDao.findByName(type!=RefType.Predicate, name);
 				} else {
-					descriptions = _descriptionDao.findByType(isObject);
+					descriptions = _descriptionDao.findByType(type!=RefType.Predicate);
 				}
 				return Lists.transform(descriptions, new Function<Description, Reference<Description>>() {
 					@Override
@@ -73,14 +77,21 @@ public class EditReferencePanel extends Panel {
 			}
 		};
 		
-		add(new DropDownChoice<Reference<Description>>("choices",descrModel,choices,renderer).setRequired(true));
+		DropDownChoice<Reference<Description>> dropDownChoice = new DropDownChoice<Reference<Description>>("choices",descrModel,choices,renderer);
+		dropDownChoice.setRequired(type!=RefType.Context);
+		dropDownChoice.setNullValid(false);
+		List<Reference<Description>> choiceList = choices.getObject();
+		if (choiceList.size()==1) {
+			descrModel.setObject(choiceList.get(0));
+		}
+		add(dropDownChoice);
 		
 		add(new Link<List<Reference<Description>>>("new",choices) {
 			@Override
 			public void onClick() {
 				Description entity = new Description();
 				entity.setName(name);
-				entity.setObject(isObject);
+				entity.setObject(type!=RefType.Predicate);
 				_descriptionDao.save(entity);
 
 				descrModel.setObject(entity.getId());

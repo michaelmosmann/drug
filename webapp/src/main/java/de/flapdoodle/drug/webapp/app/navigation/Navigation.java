@@ -84,23 +84,25 @@ public class Navigation {
 
 	public static PageParameters asPageParameters(TagReference reference) {
 		PageParameters params=new PageParameters();
-		String subject=reference.getSubject();
-		String predicate=reference.getPredicate();
-		String object=reference.getObject();
-		String context=reference.getContext();
-		
-		ContextType contextType=reference.getContextType();
-		
-		if (subject != null)
-			params.set(P_SUBJECT, subject);
-		if (predicate != null)
-			params.set(P_PREDICATE, predicate);
-		if (object != null)
-			params.set(P_OBJECT, object);
-		if (object != null)
-			params.set(P_CONTEXT, context);
-		if (contextType != null)
-			params.set(P_TYPE, contextType.asString());
+		if (reference!=null) {
+			String subject=reference.getSubject();
+			String predicate=reference.getPredicate();
+			String object=reference.getObject();
+			String context=reference.getContext();
+			
+			ContextType contextType=reference.getContextType();
+			
+			if (subject != null)
+				params.set(P_SUBJECT, subject);
+			if (predicate != null)
+				params.set(P_PREDICATE, predicate);
+			if (object != null)
+				params.set(P_OBJECT, object);
+			if (object != null)
+				params.set(P_CONTEXT, context);
+			if (contextType != null)
+				params.set(P_TYPE, contextType.asString());
+		}
 		return params;
 	}
 	
