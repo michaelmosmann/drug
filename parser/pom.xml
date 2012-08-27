@@ -9,7 +9,7 @@
 	</parent>
 
   <groupId>de.flapdoodle.drug</groupId>
-  <artifactId>${pom.groupId}--parser</artifactId>
+  <artifactId>de.flapdoodle.drug--parser</artifactId>
   <name>* ${pom.artifactId} (Drug (mehr Freund als Droge) - Parser)</name>
   <build>
     <plugins>
