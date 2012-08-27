@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.wicket.model.IModel;
 
 import de.flapdoodle.drug.parser.markdown.TripleMarkdown;
-import de.flapdoodle.drug.render.TagListVisitior.Tag;
+import de.flapdoodle.drug.render.Tag;
 import de.flapdoodle.functions.Function1;
 import de.flapdoodle.wicket.model.Models;
 

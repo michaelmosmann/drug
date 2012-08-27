@@ -9,7 +9,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 
-import de.flapdoodle.drug.render.TagListVisitior.Tag;
+import de.flapdoodle.drug.render.Tag;
 import de.flapdoodle.drug.webapp.app.models.Markups;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
 

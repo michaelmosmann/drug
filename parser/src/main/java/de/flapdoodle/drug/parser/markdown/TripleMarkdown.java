@@ -5,8 +5,8 @@ import java.util.List;
 import org.pegdown.ast.RootNode;
 
 import de.flapdoodle.drug.render.StraightTextRenderer;
+import de.flapdoodle.drug.render.Tag;
 import de.flapdoodle.drug.render.TagListVisitior;
-import de.flapdoodle.drug.render.TagListVisitior.Tag;
 
 
 public class TripleMarkdown {
