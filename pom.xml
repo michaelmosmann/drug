@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <!--
-	<parent>
-		<groupId>de.flapdoodle</groupId>
-  	<artifactId>de.flapdoodle- -parentPom</artifactId>
-  	<version>1.1-SNAPSHOT</version>
-		<relativePath>../de.flapdoodle- -parentPom</relativePath>
-	</parent>
-	-->
 
+  <modelVersion>4.0.0</modelVersion>
   <groupId>de.flapdoodle.drug</groupId>
   <artifactId>de.flapdoodle.drug--pom</artifactId>
   <packaging>pom</packaging>
   <version>1.1-SNAPSHOT</version>
   <name>${pom.artifactId} (Drug (mehr Freund als Droge) Parent Pom)</name>
+
+    <description>A better wiki process starter ...</description>
+    <url>http://github.com/michaelmosmann/drug</url>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git@github.com:michaelmosmann/drug.git</connection>
+        <developerConnection>scm:git:git@github.com:michaelmosmann/drug.git</developerConnection>
+        <url>git@github.com:michaelmosmann/drug.git</url>
+    </scm>
 
 	<build>
     <plugins>
@@ -25,39 +34,109 @@
 				<inherited>true</inherited>
 			</plugin>
 		
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-<!--
-					<compilerArgument>-deprecation</compilerArgument>
--->
-					<encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <configuration>
-          <encoding>UTF-8</encoding>
-        </configuration>
-      </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.1.2</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.11</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/live/**</exclude>
+                        <exclude>**/examples/**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <version>1.9.0</version>
+                <configuration>
+                    <!--
+                                        <basedir>${basedir}</basedir>
+                    -->
+                    <header>src/etc/header.txt</header>
+                    <!--
+                             <validHeaders>
+                             <validHeader>/otherSupportedHeader.txt</validHeader>
+                             <validHeader>http://www.company.com/yetAnotherSupportedHeader.txt</validHeader>
+                             </validHeaders>
+                         -->
+                    <quiet>false</quiet>
+                    <failIfMissing>true</failIfMissing>
+                    <strictCheck>true</strictCheck>
+                    <aggregate>false</aggregate>
+                    <includes>
+                        <include>src/**</include>
+                        <include>**/test/**</include>
+                    </includes>
+                    <!--
+                             <excludes> <exclude>target/**</exclude>
+                             <exclude>.clover/**</exclude> </excludes>
+                             <useDefaultExcludes>true</useDefaultExcludes>
+                         -->
+                    <!--
+                             <mapping> <jwc>XML_STYLE</jwc>
+                             <application>XML_STYLE</application>
+                             <myFileExtension>JAVADOC_STYLE</myFileExtension> </mapping>
+                             <useDefaultMapping>true</useDefaultMapping>
+                         -->
+                    <properties>
+                        <lic.year>2011</lic.year>
+                        <lic.email>michael@mosmann.de</lic.email>
+                        <lic.username>Michael Mosmann</lic.username>
+                        <lic.email2></lic.email2>
+                        <lic.username2>Jan Bernitt</lic.username2>
+                        <lic.developers></lic.developers>
+                    </properties>
+                    <encoding>UTF-8</encoding>
+                    <!--
+                             <headerDefinitions> <headerDefinition>def1.xml</headerDefinition>
+                             <headerDefinition>def2.xml</headerDefinition> </headerDefinitions>
+                         -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
 		  <plugin>
 		    <groupId>org.mortbay.jetty</groupId>
