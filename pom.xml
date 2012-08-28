@@ -104,6 +104,9 @@
                         <include>src/**</include>
                         <include>**/test/**</include>
                     </includes>
+                    <excludes> 
+                    	<exclude>**/*.txt</exclude>
+                    </excludes> 
                     <!--
                              <excludes> <exclude>target/**</exclude>
                              <exclude>.clover/**</exclude> </excludes>
@@ -119,9 +122,9 @@
                         <lic.year>2011</lic.year>
                         <lic.email>michael@mosmann.de</lic.email>
                         <lic.username>Michael Mosmann</lic.username>
-                        <lic.email2></lic.email2>
+                        <lic.email2>unknown@email.de</lic.email2>
                         <lic.username2>Jan Bernitt</lic.username2>
-                        <lic.developers></lic.developers>
+                        <lic.developers>nobody yet</lic.developers>
                     </properties>
                     <encoding>UTF-8</encoding>
                     <!--
