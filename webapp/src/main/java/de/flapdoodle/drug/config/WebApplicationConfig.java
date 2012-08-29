@@ -53,7 +53,7 @@ public class WebApplicationConfig extends ServletModule
 			params.put(WicketFilter.FILTER_MAPPING_PARAM, filterMapping);
 //    	params.put("injectorContextAttribute", "GuiceInjector");
     	params.put("module",DrugWebModule.class.getName());
-    	params.put("configuration",RuntimeConfigurationType.DEVELOPMENT.toString());
+    	params.put("configuration",RuntimeConfigurationType.DEPLOYMENT.toString());
     	filter(filterMapping).through(DrugWebFilter.class, params);
     }
 	}

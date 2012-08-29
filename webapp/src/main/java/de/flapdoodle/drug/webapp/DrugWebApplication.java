@@ -69,9 +69,9 @@ public class DrugWebApplication extends WebApplication
 		
 //		getComponentInstantiationListeners().add(new GuiceComponentInjector(this));
 		
-		if ((true) || (!isDevelopmentMode())) {
+		if (!isDevelopmentMode()) {
 			ISecuritySettings securitySettings = getSecuritySettings();
-			securitySettings.setAuthenticationStrategy(new DefaultAuthenticationStrategy("drug"));
+//			securitySettings.setAuthenticationStrategy(new DefaultAuthenticationStrategy("drug"));
 			securitySettings.setAuthorizationStrategy(new KeyBasedAccessAuthorizationStrategy());
 			securitySettings.setUnauthorizedComponentInstantiationListener(new LoginPageUnauthorizedComponentInstantiationListener(LoginPage.class));
 		}

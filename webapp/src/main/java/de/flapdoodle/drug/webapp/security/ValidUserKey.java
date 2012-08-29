@@ -20,23 +20,9 @@
  */
 package de.flapdoodle.drug.webapp.security;
 
-import org.apache.wicket.Page;
-import org.apache.wicket.Session;
-import org.apache.wicket.authorization.strategies.page.AbstractPageAuthorizationStrategy;
+import org.apache.wicket.MetaDataKey;
 
-public class KeyBasedAccessAuthorizationStrategy extends AbstractPageAuthorizationStrategy {
 
-	@Override
-	protected <T extends Page> boolean isPageAuthorized(Class<T> pageClass) {
-		if (pageClass.getAnnotation(NotPublic.class) != null) {
-			return Session.get().getMetaData(new ValidUserKey()) != null;
-		} else {
-			Class<? super T> sclazz = pageClass.getSuperclass();
-			if (Page.class.isAssignableFrom(sclazz)) {
-				return isPageAuthorized((Class<Page>) sclazz);
-			}
-		}
-		return true;
-	}
+public class ValidUserKey extends MetaDataKey<String> {
 
 }

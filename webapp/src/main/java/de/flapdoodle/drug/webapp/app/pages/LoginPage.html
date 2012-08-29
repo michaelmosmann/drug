@@ -32,8 +32,21 @@
 			</h1>
 		</div>
 
-		<p>
-			... kommt noch ...
-		</p>
+		<div class="row">
+	    <div class="span6">
+				<div wicket:id="feedbackPanel"></div>
+			</div>
+		</div>
+		<div class="row">
+    	<div class="span6">
+		
+		<form wicket:id="form">
+		
+			Name: <input wicket:id="name"><br>
+			Password: <input wicket:id="password" type="password"><br>
+			<input type="submit" value="Anmelden" class="btn">
+		</form>
+			</div>
+		</div>
 	</section>
 </wicket:extend>

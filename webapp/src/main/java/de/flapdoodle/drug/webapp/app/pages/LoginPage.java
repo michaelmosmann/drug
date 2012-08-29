@@ -20,7 +20,66 @@
  */
 package de.flapdoodle.drug.webapp.app.pages;
 
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.PasswordTextField;
+import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.protocol.http.WebApplication;
+
+import de.flapdoodle.drug.webapp.security.PasswordHash;
+import de.flapdoodle.drug.webapp.security.ValidUserKey;
 
 public class LoginPage extends AbstractBasePage {
 
+	
+	public LoginPage() {
+		
+		add(new FeedbackPanel("feedbackPanel"));
+		
+		Form<FormData> form = new Form<FormData>("form",new CompoundPropertyModel<FormData>(new FormData())) {
+			
+			@Override
+			protected void onSubmit() {
+				super.onSubmit();
+				
+				FormData data = getModelObject();
+				String hash=PasswordHash.createHash(data.getName(), data.getPassword());
+				if (!PasswordHash.isSecure(hash)) {
+					error("Password not valid");
+				} else {
+					getSession().setMetaData(new ValidUserKey(), hash);
+					setModelObject(new FormData());
+					
+					continueToOriginalDestination();
+					setResponsePage(WebApplication.get().getHomePage());
+				}
+			}
+		};
+		form.add(new TextField<String>("name").setRequired(true));
+		form.add(new PasswordTextField("password"));
+		add(form);
+	}
+	
+	public static class FormData {
+
+		String _name;
+		String _password;
+
+		public String getName() {
+			return _name;
+		}
+
+		public void setName(String name) {
+			_name = name;
+		}
+
+		public String getPassword() {
+			return _password;
+		}
+
+		public void setPassword(String password) {
+			_password = password;
+		}
+	}
 }
