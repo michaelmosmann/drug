@@ -39,9 +39,10 @@ import de.flapdoodle.drug.webapp.app.models.Transformations;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation.Jump;
 import de.flapdoodle.drug.webapp.app.pages.AbstractBasePage;
+import de.flapdoodle.drug.webapp.app.pages.AbstractProtectedPage;
 import de.flapdoodle.mongoom.types.Reference;
 
-public class TransformationsPage extends AbstractBasePage {
+public class TransformationsPage extends AbstractProtectedPage {
 
 	static final String P_SUB = "Subjekt";
 	static final String P_PRED = "Predikat";

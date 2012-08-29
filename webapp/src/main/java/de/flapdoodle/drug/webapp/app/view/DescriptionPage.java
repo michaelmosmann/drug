@@ -38,11 +38,13 @@ import de.flapdoodle.drug.webapp.app.models.Transformations;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation.Jump;
 import de.flapdoodle.drug.webapp.app.pages.AbstractBasePage;
+import de.flapdoodle.drug.webapp.app.pages.AbstractProtectedPage;
+import de.flapdoodle.drug.webapp.security.NotPublic;
 import de.flapdoodle.functions.Function1;
 import de.flapdoodle.wicket.model.Models;
 
 
-public class DescriptionPage extends AbstractBasePage {
+public class DescriptionPage extends AbstractProtectedPage {
 
 	static final String P_BEGRIFF="Begriff";
 

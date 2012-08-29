@@ -35,8 +35,9 @@ import de.agilecoders.wicket.markup.html.bootstrap.navbar.Navbar;
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.Navbar.ButtonPosition;
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.Navbar.Position;
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarButton;
+import de.flapdoodle.drug.webapp.DrugWebApplication;
 import de.flapdoodle.drug.webapp.app.StartPage;
-
+import de.flapdoodle.drug.webapp.security.NotPublic;
 
 public abstract class AbstractBasePage extends WebPage {
 
@@ -54,10 +55,16 @@ public abstract class AbstractBasePage extends WebPage {
 		navbar.setPosition(Position.TOP);
 		navbar.brandName(Model.of("Drug"));
 		    
-		navbar.addButton(ButtonPosition.LEFT,
-		        new NavbarButton<StartPage>(StartPage.class, Model.of("Home")),
-		        new NavbarButton<ShutdownWebappPage>(ShutdownWebappPage.class, Model.of("Shutdown"))
-		        );
+		if (!DrugWebApplication.isDevelopmentMode()) {
+			navbar.addButton(ButtonPosition.LEFT,
+			        new NavbarButton<StartPage>(StartPage.class, Model.of("Home"))
+			        );
+		} else {
+			navbar.addButton(ButtonPosition.LEFT,
+	        new NavbarButton<StartPage>(StartPage.class, Model.of("Home")),
+	        new NavbarButton<ShutdownWebappPage>(ShutdownWebappPage.class, Model.of("Shutdown"))
+	        );
+		}
 		
 		add(navbar);
 	}

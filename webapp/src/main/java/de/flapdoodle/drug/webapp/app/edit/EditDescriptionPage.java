@@ -48,9 +48,10 @@ import de.flapdoodle.drug.persistence.dao.SearchDao;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation.Jump;
 import de.flapdoodle.drug.webapp.app.pages.AbstractBasePage;
+import de.flapdoodle.drug.webapp.app.pages.AbstractProtectedPage;
 import de.flapdoodle.mongoom.types.Reference;
 
-public class EditDescriptionPage extends AbstractBasePage {
+public class EditDescriptionPage extends AbstractProtectedPage {
 
 	static final String P_NAME = "Name";
 	static final String P_OBJECT = "Object";

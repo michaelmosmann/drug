@@ -20,34 +20,10 @@
  */
 package de.flapdoodle.drug.webapp.app.pages;
 
-import org.apache.wicket.Application;
-import org.apache.wicket.RuntimeConfigurationType;
-import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.Link;
-
-import com.google.inject.Inject;
-
-import de.flapdoodle.drug.config.Profile;
-import de.flapdoodle.drug.webapp.DrugWebApplication;
+import de.flapdoodle.drug.webapp.security.NotPublic;
 
 
-public class ShutdownWebappPage extends AbstractProtectedPage {
+@NotPublic
+public abstract class AbstractProtectedPage extends AbstractBasePage {
 
-	@Inject
-	Profile _profile;
-	
-	public ShutdownWebappPage() {
-		
-		add(new Link<Void>("link") {
-			@Override
-			public void onClick() {
-				if (DrugWebApplication.isDevelopmentMode()) {
-					System.exit(0);
-				}
-			}
-		});
-		
-		add(new Label("profil",_profile.name()));
-	}
 }

@@ -23,10 +23,15 @@ package de.flapdoodle.drug.webapp;
 import org.apache.wicket.Application;
 import org.apache.wicket.Page;
 import org.apache.wicket.RuntimeConfigurationType;
+import org.apache.wicket.authentication.IAuthenticationStrategy;
+import org.apache.wicket.authentication.strategy.DefaultAuthenticationStrategy;
+import org.apache.wicket.authorization.IAuthorizationStrategy;
+import org.apache.wicket.authorization.IUnauthorizedComponentInstantiationListener;
 import org.apache.wicket.core.request.mapper.BookmarkableMapper;
 import org.apache.wicket.guice.GuiceComponentInjector;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.IRequestMapper;
+import org.apache.wicket.settings.ISecuritySettings;
 
 import com.google.inject.Inject;
 
@@ -36,11 +41,14 @@ import de.flapdoodle.drug.config.Profile;
 import de.flapdoodle.drug.webapp.app.StartPage;
 import de.flapdoodle.drug.webapp.app.edit.EditDescriptionPage;
 import de.flapdoodle.drug.webapp.app.edit.EditTransformationPage;
+import de.flapdoodle.drug.webapp.app.pages.LoginPage;
 import de.flapdoodle.drug.webapp.app.view.DescriptionPage;
 import de.flapdoodle.drug.webapp.app.view.DescriptionsPage;
 import de.flapdoodle.drug.webapp.app.view.TransformationPage;
 import de.flapdoodle.drug.webapp.app.view.TransformationsPage;
 import de.flapdoodle.drug.webapp.bootstrap.DrugBootstrap;
+import de.flapdoodle.drug.webapp.security.KeyBasedAccessAuthorizationStrategy;
+import de.flapdoodle.drug.webapp.security.LoginPageUnauthorizedComponentInstantiationListener;
 
 public class DrugWebApplication extends WebApplication
 {
@@ -60,6 +68,13 @@ public class DrugWebApplication extends WebApplication
 		super.init();
 		
 //		getComponentInstantiationListeners().add(new GuiceComponentInjector(this));
+		
+		if ((true) || (!isDevelopmentMode())) {
+			ISecuritySettings securitySettings = getSecuritySettings();
+			securitySettings.setAuthenticationStrategy(new DefaultAuthenticationStrategy("drug"));
+			securitySettings.setAuthorizationStrategy(new KeyBasedAccessAuthorizationStrategy());
+			securitySettings.setUnauthorizedComponentInstantiationListener(new LoginPageUnauthorizedComponentInstantiationListener(LoginPage.class));
+		}
 
     BootstrapSettings settings = new BootstrapSettings();
     settings.minify(true); // use minimized version of all bootstrap references
@@ -81,6 +96,7 @@ public class DrugWebApplication extends WebApplication
 			getMarkupSettings().setStripWicketTags(true);
 		}
 		
+		mountPage("/login", LoginPage.class);
 		mountPage("/info", DescriptionPage.class);
 		mountPage("/infos", DescriptionsPage.class);
 		mountPage("/editInfo", EditDescriptionPage.class);
@@ -105,5 +121,9 @@ public class DrugWebApplication extends WebApplication
 //		return MongoTestPage.class;
 //		return DashboardPage.class;
 		return StartPage.class;
+	}
+	
+	public static boolean isDevelopmentMode() {
+		return WebApplication.get().getConfigurationType()==RuntimeConfigurationType.DEVELOPMENT;
 	}
 }
