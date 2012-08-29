@@ -24,6 +24,7 @@ import de.flapdoodle.drug.markup.ContextType;
 import de.flapdoodle.mongoom.IEntity;
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Id;
+import de.flapdoodle.mongoom.annotations.Version;
 import de.flapdoodle.mongoom.annotations.index.IndexGroup;
 import de.flapdoodle.mongoom.annotations.index.IndexGroups;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
@@ -48,6 +49,9 @@ public class Transformation extends AbstractDescription implements IEntity<Trans
 
 	@Id
 	Reference<Transformation> _id;
+
+	@Version
+	String _version;
 
 	@Override
 	public Reference<Transformation> getId() {

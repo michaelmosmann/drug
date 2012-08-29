@@ -57,11 +57,13 @@ public abstract class AbstractBasePage extends WebPage {
 		    
 		if (!DrugWebApplication.isDevelopmentMode()) {
 			navbar.addButton(ButtonPosition.LEFT,
-			        new NavbarButton<StartPage>(StartPage.class, Model.of("Home"))
+	        new NavbarButton<StartPage>(StartPage.class, Model.of("Home")),
+	        new NavbarButton<MarkdownHelpPage>(MarkdownHelpPage.class, Model.of("Hilfe"))
 			        );
 		} else {
 			navbar.addButton(ButtonPosition.LEFT,
 	        new NavbarButton<StartPage>(StartPage.class, Model.of("Home")),
+	        new NavbarButton<MarkdownHelpPage>(MarkdownHelpPage.class, Model.of("Hilfe")),
 	        new NavbarButton<ShutdownWebappPage>(ShutdownWebappPage.class, Model.of("Shutdown"))
 	        );
 		}

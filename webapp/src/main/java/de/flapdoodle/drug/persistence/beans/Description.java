@@ -30,6 +30,7 @@ import de.flapdoodle.mongoom.IEntity;
 import de.flapdoodle.mongoom.annotations.Direction;
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Id;
+import de.flapdoodle.mongoom.annotations.Version;
 import de.flapdoodle.mongoom.annotations.index.IndexGroup;
 import de.flapdoodle.mongoom.annotations.index.IndexOption;
 import de.flapdoodle.mongoom.annotations.index.Indexed;
@@ -58,6 +59,9 @@ public class Description extends AbstractDescription implements IEntity<Descript
 	
 	@Id
 	Reference<Description> _id;
+	
+	@Version
+	String _version;
 
 	@Indexed(options=@IndexOption(unique=true))
 	@IndexedInGroup(group="namesAndType",priority=10,direction=Direction.ASC)

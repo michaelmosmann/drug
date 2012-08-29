@@ -38,13 +38,13 @@
 			</div>
 		</div>
 		<div class="row">
-    	<div class="span6">
+    	<div class="span10">
 		
-		<form wicket:id="form">
+		<form wicket:id="form" class="well form-inline">
 		
-			Name: <input wicket:id="name"><br>
-			Password: <input wicket:id="password" type="password"><br>
-			<input type="submit" value="Anmelden" class="btn">
+			<label>Name/Passwort</label> <input type="text" class="span1" wicket:id="name">
+			<input wicket:id="password" class="span1" type="password">
+			<button type="submit" class="btn btn-primary">Anmelden</button>
 		</form>
 			</div>
 		</div>

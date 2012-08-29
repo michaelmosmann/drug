@@ -33,22 +33,27 @@
 		</div>
 
 		<div class="row">
-	    <div class="span6">
+	    <div class="span11">
 				<div wicket:id="feedback"></div>
 			</div>
 		</div>
 		<div class="row">
-    	<div class="span6">
+    	<div class="span11">
 		
-		<form wicket:id="form">
-		
-			Name: <input wicket:id="name"><br>
-			Alt: <wicket:container wicket:id="other"></wicket:container><br>
-			Objekt: <input wicket:id="object" type="checkbox"> (nicht Prädikat)<br>
-			<textarea rows="10" cols="120" wicket:id="text"></textarea><br>
+		<form wicket:id="form" class="well">
+			<label>Name</label>
+			<input type="text" class="span3" wicket:id="name" placeholder="...">
+			<label>andere Bezeichnungen</label>
+			<wicket:container wicket:id="other"></wicket:container><br>
+		  <label class="checkbox">
+				<input wicket:id="object" type="checkbox"> Objekt/nicht Prädikat
+			</label>
+			<textarea class="span10" rows="20" cols="120" wicket:id="text"></textarea>
+			<button type="submit" class="btn btn-primary">Speichern</button> 
 			
-			<input type="submit" value="Speichern">
+			<span class="help-block" wicket:id="help"></span>
 		</form>
+
 			</div>
 		</div>
 	</section>

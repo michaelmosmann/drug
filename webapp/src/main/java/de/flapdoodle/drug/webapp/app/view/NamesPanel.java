@@ -53,7 +53,7 @@ public class NamesPanel extends Panel {
 		add(new ListView<String>("list",asList) {
 			@Override
 			protected void populateItem(ListItem<String> item) {
-				item.add(new Label("label",item.getModel()).add(new ButtonBehavior(ButtonType.Menu)));
+				item.add(new Label("label",item.getModel()));
 				
 			}
 		});

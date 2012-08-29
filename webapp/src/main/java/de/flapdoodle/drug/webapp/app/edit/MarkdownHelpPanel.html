@@ -1,0 +1,94 @@
+<!--
+
+    Copyright (C) 2011
+      Michael Mosmann <michael@mosmann.de>
+      Jan Bernitt <unknown@email.de>
+
+    with contributions from
+    	nobody yet
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<wicket:panel>
+Es wird die Markdown-Syntax mit ein paar Erweiterungen benutzt.<br>
+			Folgende Erweiterungen können verwendet werden:
+			<ul>
+		<li><strong>[[Begriff]]</strong> - Erzeugt einen Link auf eine
+			Begriffsdefinition für Begriff</li>
+		<li><strong>[<span class="label label-default">!</span><span
+				class="label label-success">s</span><span class="label label-info">3</span>:WortMitBeugung<span
+				class="label label-inverse">-&gt;Wortursprung</span>]
+		</strong>
+			<ul>
+				<li>Subjekt(<span class="label label-success">s</span>),
+					Prädikat(<span class="label label-success">p</span>) und Objekt(<span
+					class="label label-success">o</span>) - Erzeugt einen Link auf eine
+					Relation die aus Subjekt(<span class="label label-success">s</span>),
+					Prädikat(<span class="label label-success">p</span>) und Objekt(<span
+					class="label label-success">o</span>) bestehen kann.<br> Dabei
+					wird versucht, die Zuordnung so gut es get automatisch zu erkennen.
+					Es gibt verschiedene Geltungsbereiche wie z.B. Absätze und
+					Aufzählungen innerhalb deren Grenzen eine Zuordnung versucht wird.
+					Sollte man mehr als einmal ein Subjekt, Prädikat oder Objekt
+					innerhalb eines Geltungsbereichs benutzt haben, ist die Zuordnung
+					nicht möglich (sieht man bei der Darstellung genau).
+				</li>
+				<li>Index(<span class="label label-info">0..9</span>) -
+					Kollisionen können vermieden werden, indem ein zusätzlicher Index
+					angegeben werden kann. Dabei geht der Wertebereich von 0-9. Der
+					Index mit dem Wert 0 entspricht <strong>nicht</strong> dem Wert,
+					wenn der Index nicht angegeben wird.
+				</li>
+				<li>Sichtbarkeit - Wenn man ein <span
+					class="label label-default">!</span> angibt, dann wird der Link
+					nicht dargestellt.
+				</li>
+				<li>Wenn ein Wort in gebeugter Form im Text verwendet wird,
+					sollte man die ungebeugte Form für die Relation verwenden. Dazu
+					kann man <strong>optional</strong> <span
+					class="label label-inverse">-&gt;Ungebeugt</span> angeben.
+				</li>
+				<li>Es muss nicht immer Subjekt, Prädikat und Objekt angegeben
+					werden. Lässt man Teile weg, werden alle Treffer aufgelistet, die
+					zu den angegeben Teilen passen.</li>
+				<li>Ein paar Beispiele:
+					<ul>
+						<li>[s:Wie man->Mensch] ein [o:Loch] [p:bohrt->bohren]</li>
+						<li>Was kann [!s:Mensch] [p:gebohrt->bohren] werden?</li>
+					</ul>
+				</li>
+			</ul></li>
+		<li><strong>[<span class="label label-default">!</span><span
+				class="label label-success">at</span><span class="label label-info">3</span>:WortMitBeugung<span
+				class="label label-inverse">-&gt;Wortursprung</span>]
+		</strong>
+			<ul>
+				<li>Kontextbezug mit "Ortsangabe" ( <span
+					class="label label-success">at</span>, <span
+					class="label label-success">from</span>, <span
+					class="label label-success">to</span>, <span
+					class="label label-success">near</span>) - Erzeugt einen Link auf
+					eine Relation die aus Subjekt, Prädikat und Objekt bestehen kann
+					und ergänzt diese um einen Kontext.<br>
+				</li>
+				<li>Ein paar Beispiele:
+					<ul>
+						<li>[s:Wie man->Mensch] ein [o:Loch] [p:bohrt->bohren] in der [at:Werkstatt]</li>
+						<li>Was kann [!s:Mensch] in der [at:Werkstatt] [p:gebohrt->bohren] werden?</li>
+					</ul>
+				</li>
+			</ul></li>
+	</ul>
+
+</wicket:panel>

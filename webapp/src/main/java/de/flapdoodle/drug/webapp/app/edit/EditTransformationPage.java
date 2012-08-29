@@ -147,6 +147,7 @@ public class EditTransformationPage extends AbstractProtectedPage {
 		
 		form.add(contextType);
 
+		form.add(new MarkdownHelpPanel("help"));
 		
 		add(form);
 	}

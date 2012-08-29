@@ -22,6 +22,7 @@ package de.flapdoodle.drug.webapp.app.edit;
 
 import java.util.List;
 
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.link.Link;
@@ -108,7 +109,7 @@ public class EditReferencePanel extends Panel {
 		}
 		add(dropDownChoice);
 		
-		add(new Link<List<Reference<Description>>>("new",choices) {
+		Link<List<Reference<Description>>> link = new Link<List<Reference<Description>>>("new",choices) {
 			@Override
 			public void onClick() {
 				Description entity = new Description();
@@ -125,7 +126,9 @@ public class EditReferencePanel extends Panel {
 				
 				setVisible(getModelObject()==null || getModelObject().isEmpty());
 			}
-		});
+		};
+		link.add(new Label("begriff",name));
+		add(link);
 	}
 
 }

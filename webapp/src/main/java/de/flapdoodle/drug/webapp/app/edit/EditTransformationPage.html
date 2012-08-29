@@ -32,18 +32,34 @@
 			</h1>
 		</div>
 
-		<div wicket:id="feedback"></div>
-		<form wicket:id="form">
-		
-			Subjekt: <wicket:container wicket:id="subject"></wicket:container><br>
-			Prädiat: <wicket:container wicket:id="predicate"></wicket:container><br>
-			Objekt: <wicket:container wicket:id="object"></wicket:container><br>
-			Ortsbeschreibung: <select wicket:id="contextType"></select><br>
-			Kontext: <wicket:container wicket:id="context"></wicket:container><br>
-			Titel <input wicket:id="title"><br>
-			<textarea rows="10" cols="60" wicket:id="text"></textarea><br>
+		<div class="row">
+	    <div class="span11">
+				<div wicket:id="feedback"></div>
+			</div>
+		</div>
+		<div class="row">
+    	<div class="span11">
+    	
+		<form wicket:id="form" class="well">
+   		<label>Subjekt - Prädikat - Objekt</label>
+			<wicket:container wicket:id="subject"></wicket:container>
+			<wicket:container wicket:id="predicate"></wicket:container>
+			<wicket:container wicket:id="object"></wicket:container>
 			
-			<input type="submit" value="Speichern">
+			
+			<label>Kontext (Bezug und Begriff) - <strong>optional</strong></label>
+			<select wicket:id="contextType"></select>
+			<wicket:container wicket:id="context"></wicket:container>
+			
+			<label>Titel</label> <input type="text" class="span8" wicket:id="title">
+			
+			<textarea class="span10" rows="20" cols="120" wicket:id="text"></textarea>
+			<button type="submit" class="btn btn-primary">Speichern</button> 
+			
+			<span class="help-block" wicket:id="help"></span>
 		</form>
+
+			</div>
+		</div>
 	</section>
 </wicket:extend>

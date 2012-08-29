@@ -33,6 +33,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.validation.validator.StringValidator;
 import org.bson.types.ObjectId;
 
 import com.google.inject.Inject;
@@ -108,12 +109,18 @@ public class EditDescriptionPage extends AbstractProtectedPage {
 		};
 		form.add(new FormBehavior(Type.Default));
 				
-		form.add(new TextField<String>("name"));
-		form.add(new TextArea<String>("text"));
+		TextField<String> title = new TextField<String>("name");
+		title.add(StringValidator.minimumLength(3));
+		title.setRequired(true);
+		form.add(title);
+		TextArea<String> text = new TextArea<String>("text");
+		text.add(StringValidator.minimumLength(3));
+		text.setRequired(true);
+		form.add(text);
 		IModel<Set<String>> othersModel = new PropertyModel<Set<String>>(model, "otherNames");
 		form.add(new EditWordlistPanel("other",othersModel));
 		form.add(new CheckBox("object"));
-
+		form.add(new MarkdownHelpPanel("help"));
 		add(form);
 	}
 
