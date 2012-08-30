@@ -118,10 +118,11 @@ public class Navigation {
 				params.set(P_PREDICATE, predicate);
 			if (object != null)
 				params.set(P_OBJECT, object);
-			if (object != null)
+			if (context != null) {
 				params.set(P_CONTEXT, context);
-			if (contextType != null)
-				params.set(P_TYPE, contextType.asString());
+				if (contextType != null)
+					params.set(P_TYPE, contextType.asString());
+			}
 		}
 		return params;
 	}
@@ -131,7 +132,8 @@ public class Navigation {
 		String predicate=p.get(P_PREDICATE).toOptionalString();
 		String object=p.get(P_OBJECT).toOptionalString();
 		String context=p.get(P_CONTEXT).toOptionalString();
-		ContextType contextType=ContextType.fromString(p.get(P_TYPE).toOptionalString());
+		ContextType contextType=null;
+		if (context!=null) contextType=ContextType.fromString(p.get(P_TYPE).toOptionalString());
 		return new TagReference(subject, predicate, object, contextType, context);
 	}
 

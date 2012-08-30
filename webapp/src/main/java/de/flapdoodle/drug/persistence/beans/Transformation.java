@@ -29,6 +29,7 @@ import de.flapdoodle.mongoom.annotations.index.IndexGroup;
 import de.flapdoodle.mongoom.annotations.index.IndexGroups;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
+import de.flapdoodle.mongoom.mapping.types.enums.EnumConverterOption;
 import de.flapdoodle.mongoom.types.Reference;
 
 @Entity(value = "transformation")

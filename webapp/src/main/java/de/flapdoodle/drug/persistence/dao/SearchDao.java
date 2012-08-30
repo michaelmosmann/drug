@@ -61,7 +61,7 @@ public class SearchDao {
 		List<Description> objects = object != null
 				? _descriptionDao.findByName(true, object)
 				: null;
-		List<Description> contexts = context != null
+		List<Description> contexts = (context != null)
 				? _descriptionDao.findByName(true, context)
 				: null;
 

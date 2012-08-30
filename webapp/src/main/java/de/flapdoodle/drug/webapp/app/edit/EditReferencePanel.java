@@ -99,8 +99,8 @@ public class EditReferencePanel extends Panel {
 		};
 		
 		DropDownChoice<Reference<Description>> dropDownChoice = new DropDownChoice<Reference<Description>>("choices",descrModel,choices,renderer);
-		dropDownChoice.setRequired(type!=RefType.Context);
-		dropDownChoice.setNullValid(type==RefType.Context);
+//		dropDownChoice.setRequired(type!=RefType.Context);
+		dropDownChoice.setNullValid(true);
 		if (name!=null) {
 			List<Reference<Description>> choiceList = choices.getObject();
 			if (choiceList.size()==1) {

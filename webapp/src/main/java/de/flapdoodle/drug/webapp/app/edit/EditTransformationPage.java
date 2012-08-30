@@ -24,7 +24,9 @@ import java.util.List;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.EnumChoiceRenderer;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -77,6 +79,7 @@ public class EditTransformationPage extends AbstractProtectedPage {
 		String id=pageParameters.get(P_REF).toOptionalString();
 
 		Transformation t = new Transformation();
+		t.setContextType(reference.getContextType());
 		if (id!=null) {
 			Transformation byId=_transformationDao.get(Reference.getInstance(Transformation.class, new ObjectId(id)));
 			if (byId!=null) {
@@ -88,13 +91,25 @@ public class EditTransformationPage extends AbstractProtectedPage {
 				t=list.get(0);
 			}
 		}
-		t.setContextType(reference.getContextType());
 		
 		IModel<Transformation> model = Model.of(t);
 
 		add(new FeedbackPanel("feedback"));
 		
+//		IChoiceRenderer<? super ContextType> renderer=new IChoiceRenderer<ContextType>() {
+//			@Override
+//			public Object getDisplayValue(ContextType object) {
+//				return object.name();
+//			}
+//			
+//			@Override
+//			public String getIdValue(ContextType object, int index) {
+//				return ""+index;
+//			}
+//		};
+//		IModel<ContextType> contextTypeModel = new PropertyModel<ContextType>(model, "contextType");
 		final DropDownChoice<ContextType> contextType = new DropDownChoice<ContextType>("contextType",Lists.newArrayList(ContextType.values()));
+		contextType.setNullValid(true);
 		
 		Form<Transformation> form = new Form<Transformation>("form", new CompoundPropertyModel<Transformation>(model)) {
 
@@ -105,6 +120,32 @@ public class EditTransformationPage extends AbstractProtectedPage {
 				if (transformation.getContext()!=null) {
 					if (transformation.getContextType()==null) {
 						contextType.error("Bitte geben Sie einen Ortsbeschreibung für den Kontext an");
+					}
+				}
+				boolean hasSubject=transformation.getSubject()!=null;
+				boolean hasPredicate=transformation.getPredicate()!=null;
+				boolean hasObject=transformation.getObject()!=null;
+				
+				int count=0;
+				if (hasSubject) count++;
+				if (hasPredicate) count++;
+				if (hasObject) count++;
+				
+				if (count<3) {
+					// only one set
+					if (count==0) {
+						// nothing set
+						error("Sie müssen Subjekt, Prädikat und Objekt definiert werden.");
+					} else {
+						if (!hasSubject) {
+							error("Subjekt nicht definiert");
+						}
+						if (!hasObject) {
+							error("Objekt nicht definiert");
+						}
+						if (!hasPredicate) {
+							error("Prädikat nicht definiert");
+						}
 					}
 				}
 			}
