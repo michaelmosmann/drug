@@ -72,7 +72,7 @@ public class TagReference implements Serializable {
 	}
 
 	public boolean isOpen() {
-		return _subject==null || _predicate==null || _object==null ;
+		return _predicate==null || _object==null ;
 	}
 
 }

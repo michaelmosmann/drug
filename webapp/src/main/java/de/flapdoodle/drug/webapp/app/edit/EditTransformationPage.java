@@ -131,15 +131,12 @@ public class EditTransformationPage extends AbstractProtectedPage {
 				if (hasPredicate) count++;
 				if (hasObject) count++;
 				
-				if (count<3) {
+				if (count<2) {
 					// only one set
 					if (count==0) {
 						// nothing set
-						error("Sie müssen Subjekt, Prädikat und Objekt definiert werden.");
+						error("Es müssen mindestens Prädikat und Objekt definiert werden.");
 					} else {
-						if (!hasSubject) {
-							error("Subjekt nicht definiert");
-						}
 						if (!hasObject) {
 							error("Objekt nicht definiert");
 						}

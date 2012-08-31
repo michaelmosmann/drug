@@ -27,14 +27,14 @@ import de.flapdoodle.mongoom.annotations.Id;
 import de.flapdoodle.mongoom.annotations.Version;
 import de.flapdoodle.mongoom.annotations.index.IndexGroup;
 import de.flapdoodle.mongoom.annotations.index.IndexGroups;
+import de.flapdoodle.mongoom.annotations.index.IndexOption;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 import de.flapdoodle.mongoom.mapping.types.enums.EnumConverterOption;
 import de.flapdoodle.mongoom.types.Reference;
 
 @Entity(value = "transformation")
-@IndexGroups({@IndexGroup(name = "threeKey", group = "threeKey"),
-		@IndexGroup(name = "contextKey", group = "contextKey")})
+@IndexGroups({@IndexGroup(name = "refKey", group = "refKey",options=@IndexOption(unique=true))})
 public class Transformation extends AbstractDescription implements IEntity<Transformation> {
 
 	public static final PropertyReference<Reference<Description>> Subject = (PropertyReference) de.flapdoodle.mongoom.mapping.properties.Property.ref(
@@ -59,19 +59,19 @@ public class Transformation extends AbstractDescription implements IEntity<Trans
 		return _id;
 	}
 
-	@IndexedInGroup(group = "threeKey", priority = 11)
+	@IndexedInGroup(group = "refKey", priority = 11)
 	Reference<Description> _subject;
 
-	@IndexedInGroup(group = "threeKey", priority = 9)
+	@IndexedInGroup(group = "refKey", priority = 9)
 	Reference<Description> _predicate;
 
-	@IndexedInGroup(group = "threeKey", priority = 10)
+	@IndexedInGroup(group = "refKey", priority = 10)
 	Reference<Description> _object;
 
-	@IndexedInGroup(group = "contextKey", priority = 20)
+	@IndexedInGroup(group = "refKey", priority = 20)
 	Reference<Description> _context;
 
-	@IndexedInGroup(group = "contextKey", priority = 21)
+	@IndexedInGroup(group = "refKey", priority = 21)
 	ContextType _contextType;
 
 	String _title;
