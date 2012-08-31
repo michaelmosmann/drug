@@ -48,7 +48,7 @@ import org.pegdown.ast.VerbatimNode;
 
 public class AbstractPrintingVisitor extends AbstractVisitor {
 
-	protected final Printer printer = new Printer();
+	protected final Printer printer = new CustomPrinter();
 	protected final Map<String, String> abbreviations = new HashMap<String, String>();
 	protected final Map<String, ReferenceNode> references = new HashMap<String, ReferenceNode>();
 	protected final LinkRenderer defaultLinkRenderer = new LinkRenderer();
@@ -457,4 +457,21 @@ public class AbstractPrintingVisitor extends AbstractVisitor {
 	}
 
 
+	static class CustomPrinter extends Printer {
+
+		boolean notUnunsed=false;
+		
+		@Override
+		public Printer println() {
+      if (notUnunsed || (sb.length() > 0)) print('\n');
+      for (int i = 0; i < indent; i++) print(' ');
+      return this;
+		}
+		
+		@Override
+		public Printer clear() {
+			notUnunsed=true;
+			return super.clear();
+		}
+	}
 }

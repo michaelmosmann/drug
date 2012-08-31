@@ -113,11 +113,21 @@ public class TripleMarkdownMarkupVisitorAdapter extends AbstractPrintingVisitor 
 	
 	@Override
 	protected void visitChildren(SuperNode node) {
-//		_markupVisitor.text(printer.getString());
-//		printer.clear();
+		_markupVisitor.text(printer.getString());
+		printer.clear();
+		
+		_markupVisitor.blockStart(typeAsName(node));
+		
 		super.visitChildren(node);
-//		_markupVisitor.text(printer.getString());
-//		printer.clear();
+		
+		_markupVisitor.text(printer.getString());
+		printer.clear();
+		
+		_markupVisitor.blockEnd(typeAsName(node));
+	}
+	
+	static String typeAsName(SuperNode node) {
+		return node.getClass().getSimpleName();
 	}
 	
 	

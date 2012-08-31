@@ -38,4 +38,8 @@ public interface IMarkupVisitor {
 	void object(Label label, IRelation relation);
 
 	void context(Label label, ContextType type, IRelation relation);
+
+	void blockStart(String typeAsName);
+
+	void blockEnd(String typeAsName);
 }

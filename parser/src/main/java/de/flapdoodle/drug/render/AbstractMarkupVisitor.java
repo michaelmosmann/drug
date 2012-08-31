@@ -35,4 +35,14 @@ public abstract class AbstractMarkupVisitor implements IMarkupVisitor {
 	public void end() {
 		// do nothing
 	}
+	
+	@Override
+	public void blockEnd(String typeAsName) {
+		// do nothing
+	}
+	
+	@Override
+	public void blockStart(String typeAsName) {
+		// do nothing
+	}
 }
