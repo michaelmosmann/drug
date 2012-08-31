@@ -69,8 +69,10 @@ public class DescriptionPage extends AbstractProtectedPage {
 					ArrayList<Transformation> ret = Lists.newArrayList();
 					List<Transformation> subjects = t.apply(new TagReference(descr.getName(), null, null,null,null));
 					List<Transformation> objects = t.apply(new TagReference(null, null, descr.getName(),null,null));
+					List<Transformation> contexts = t.apply(new TagReference(null, null ,null,null,descr.getName()));
 					if (subjects!=null) ret.addAll(subjects);
 					if (objects!=null) ret.addAll(objects);
+					if (contexts!=null) ret.addAll(contexts);
 					return ret;
 				} else {
 					return t.apply(new TagReference(null, descr.getName(), null,null,null));
