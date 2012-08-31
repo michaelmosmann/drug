@@ -69,4 +69,14 @@ public class StraightTextRenderer extends AbstractMarkupVisitor {
 	public String toString() {
 		return sb.toString();
 	}
+	
+//	@Override
+//	public void blockStart(String typeAsName) {
+//		sb.append("{").append(typeAsName).append("--}");
+//	}
+//	
+//	@Override
+//	public void blockEnd(String typeAsName) {
+//		sb.append("{--").append(typeAsName).append("}");
+//	}
 }

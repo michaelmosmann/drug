@@ -25,6 +25,10 @@ import static org.parboiled.common.Preconditions.checkArgNotNull;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.pegdown.ast.BulletListNode;
+import org.pegdown.ast.ListItemNode;
+import org.pegdown.ast.OrderedListNode;
+import org.pegdown.ast.ParaNode;
 import org.pegdown.ast.RootNode;
 import org.pegdown.ast.SuperNode;
 import org.pegdown.ast.WikiLinkNode;
@@ -127,7 +131,13 @@ public class TripleMarkdownMarkupVisitorAdapter extends AbstractPrintingVisitor 
 	}
 	
 	static String typeAsName(SuperNode node) {
-		return node.getClass().getSimpleName();
+		if (node instanceof ParaNode) return "p";
+		if (node instanceof BulletListNode) return "ul";
+		if (node instanceof ListItemNode) return "li";
+		if (node instanceof OrderedListNode) return "ol";
+		if (node instanceof RootNode) return "root";
+		if (node instanceof SuperNode) return "super";
+		return "unknown";
 	}
 	
 	
