@@ -22,19 +22,24 @@ package de.flapdoodle.drug.parser.markdown;
 
 import static org.parboiled.common.Preconditions.checkArgNotNull;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.pegdown.ast.AbbreviationNode;
 import org.pegdown.ast.ReferenceNode;
 import org.pegdown.ast.RootNode;
-import org.pegdown.ast.Visitor;
+import org.pegdown.ast.SuperNode;
 import org.pegdown.ast.WikiLinkNode;
 
+import de.flapdoodle.drug.logging.Loggers;
 import de.flapdoodle.drug.markup.IMarkupVisitor;
 import de.flapdoodle.drug.markup.IRelation;
 import de.flapdoodle.drug.markup.Label;
 
 public class TripleMarkdownMarkupVisitorAdapter extends AbstractPrintingVisitor {
-
+	
+	private static final Logger _logger = Loggers.getLogger(TripleMarkdownMarkupVisitorAdapter.class);
+	
 	private IMarkupVisitor _markupVisitor;
 	private TripleNodeRelationMap _relations;
 //	private TripleReferenceVisitor _refVisitor;
@@ -56,11 +61,13 @@ public class TripleMarkdownMarkupVisitorAdapter extends AbstractPrintingVisitor 
 	}
 
 	public void visit(RootNode node) {
+		// refactor so that NOT this printer is used!!
 		for (ReferenceNode refNode : node.getReferences()) {
 			visitChildren(refNode);
 			references.put(normalize(printer.getString()), refNode);
 			printer.clear();
 		}
+		// refactor so that NOT this printer is used!!
 		for (AbbreviationNode abbrNode : node.getAbbreviations()) {
 			visitChildren(abbrNode);
 			String abbr = printer.getString();
@@ -124,6 +131,13 @@ public class TripleMarkdownMarkupVisitorAdapter extends AbstractPrintingVisitor 
 			}
 		}
 		printer.clear();
+	}
+	
+	@Override
+	protected void visitChildren(SuperNode node) {
+//		_logger.log(Level.WARNING,"Before VisitChildren() "+printer.getString(),new Exception());
+		super.visitChildren(node);
+//		_logger.log(Level.WARNING,"After VisitChildren() "+printer.getString(),new Exception());
 	}
 	
 	
