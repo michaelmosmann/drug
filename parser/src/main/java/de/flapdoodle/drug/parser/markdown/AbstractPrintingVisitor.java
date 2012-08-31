@@ -31,6 +31,7 @@ import org.pegdown.ast.QuotedNode;
 import org.pegdown.ast.RefImageNode;
 import org.pegdown.ast.RefLinkNode;
 import org.pegdown.ast.ReferenceNode;
+import org.pegdown.ast.RootNode;
 import org.pegdown.ast.SimpleNode;
 import org.pegdown.ast.SpecialTextNode;
 import org.pegdown.ast.StrongNode;
@@ -54,6 +55,28 @@ public class AbstractPrintingVisitor extends AbstractVisitor {
 	protected TableNode currentTableNode;
 	protected int currentTableColumn;
 	protected boolean inTableHeader;
+
+	public void visit(RootNode node) {
+		// refactor so that NOT this printer is used!!
+		for (ReferenceNode refNode : node.getReferences()) {
+			AbstractPrintingVisitor local = new AbstractPrintingVisitor();
+			local.visitChildren(refNode);
+			references.put(normalize(local.printer.getString()), refNode);
+//			printer.clear();
+		}
+		// refactor so that NOT this printer is used!!
+		for (AbbreviationNode abbrNode : node.getAbbreviations()) {
+			AbstractPrintingVisitor local = new AbstractPrintingVisitor();
+			local.visitChildren(abbrNode);
+			String abbr = local.printer.getString();
+			local.printer.clear();
+			abbrNode.getExpansion().accept(local);
+			String expansion = local.printer.getString();
+			abbreviations.put(abbr, expansion);
+//			printer.clear();
+		}
+		visitChildren(node);
+	}
 
 	protected void visitChildren(SuperNode node) {		
 		for (Node child : node.getChildren()) {
@@ -432,5 +455,6 @@ public class AbstractPrintingVisitor extends AbstractVisitor {
 	public void visit(SuperNode node) {
 		visitChildren(node);
 	}
+
 
 }

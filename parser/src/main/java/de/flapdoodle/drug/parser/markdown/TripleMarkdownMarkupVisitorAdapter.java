@@ -25,8 +25,6 @@ import static org.parboiled.common.Preconditions.checkArgNotNull;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.pegdown.ast.AbbreviationNode;
-import org.pegdown.ast.ReferenceNode;
 import org.pegdown.ast.RootNode;
 import org.pegdown.ast.SuperNode;
 import org.pegdown.ast.WikiLinkNode;
@@ -58,26 +56,6 @@ public class TripleMarkdownMarkupVisitorAdapter extends AbstractPrintingVisitor 
 		_markupVisitor.text(printer.getString());
 		_markupVisitor.end();
 //		return printer.getString();
-	}
-
-	public void visit(RootNode node) {
-		// refactor so that NOT this printer is used!!
-		for (ReferenceNode refNode : node.getReferences()) {
-			visitChildren(refNode);
-			references.put(normalize(printer.getString()), refNode);
-			printer.clear();
-		}
-		// refactor so that NOT this printer is used!!
-		for (AbbreviationNode abbrNode : node.getAbbreviations()) {
-			visitChildren(abbrNode);
-			String abbr = printer.getString();
-			printer.clear();
-			abbrNode.getExpansion().accept(this);
-			String expansion = printer.getString();
-			abbreviations.put(abbr, expansion);
-			printer.clear();
-		}
-		visitChildren(node);
 	}
 
 	public void visit(WikiLinkNode node) {
@@ -135,9 +113,11 @@ public class TripleMarkdownMarkupVisitorAdapter extends AbstractPrintingVisitor 
 	
 	@Override
 	protected void visitChildren(SuperNode node) {
-//		_logger.log(Level.WARNING,"Before VisitChildren() "+printer.getString(),new Exception());
+//		_markupVisitor.text(printer.getString());
+//		printer.clear();
 		super.visitChildren(node);
-//		_logger.log(Level.WARNING,"After VisitChildren() "+printer.getString(),new Exception());
+//		_markupVisitor.text(printer.getString());
+//		printer.clear();
 	}
 	
 	
