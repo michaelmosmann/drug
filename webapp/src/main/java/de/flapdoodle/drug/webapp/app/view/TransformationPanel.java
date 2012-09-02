@@ -45,6 +45,8 @@ public class TransformationPanel extends Panel {
 		add(new MarkupPanel("text",new PropertyModel<String>(model,"text")));
 		
 		add(Navigation.editTransformation(model.getObject()).asLink("edit").add(new ButtonBehavior(ButtonType.Primary)));
+		
+		add(new RelationInfoPanel("info",model));
 	}
 
 	@Override

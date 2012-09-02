@@ -21,9 +21,15 @@
 package de.flapdoodle.drug.persistence.dao;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import com.google.common.collect.Maps;
 
 import de.flapdoodle.drug.persistence.beans.Description;
+import de.flapdoodle.drug.persistence.beans.Description.OnlyName;
 import de.flapdoodle.mongoom.AbstractDao;
+import de.flapdoodle.mongoom.types.Reference;
 
 public class DescriptionDao extends AbstractDao<Description> {
 
@@ -47,5 +53,15 @@ public class DescriptionDao extends AbstractDao<Description> {
 
 	public Description getByName(String name) {
 		return createQuery().field(Description.Name).eq(name).result().order("name", true).get();
+	}
+
+	public Map<Reference<Description>, String> names(Set<Reference<Description>> idList) {
+		// TODO Auto-generated method stub
+		List<OnlyName> list = createQuery().id().in(idList).withView(Description.OnlyName.class).asList();
+		Map<Reference<Description>, String> map=Maps.newHashMap();
+		for (OnlyName o : list) {
+			map.put(o.getId(), o.getName());
+		}
+		return map;
 	}
 }
