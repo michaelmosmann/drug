@@ -105,11 +105,15 @@ public class MarkupPanel extends Panel {
 		public BlockEndFragment(String id, String markupId, MarkupContainer markupProvider, End end) {
 			super(id, markupId, markupProvider);
 			
-			String message="";
-			if (end.getRelations().size()+end.getReferences().size()==1) {
-				message="+"+end.getType();
-			}
-			add(new Label("m",message));
+//			String message="";
+//			if (end.getRelations().size()+end.getReferences().size()==1) {
+//				message="+"+end.getType();
+//			}
+			int size = end.getRelations().size()+end.getReferences().size();
+			add(new Label("m",""+size).setVisible(size>0));
+			
+			// TODO - disabled by default now - 
+			setVisible(false);
 		}
 		
 	}
