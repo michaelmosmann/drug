@@ -22,7 +22,7 @@ package de.flapdoodle.drug.render;
 
 import de.flapdoodle.drug.markup.Type;
 
-public class Tag {
+public class Tag implements ITag {
 
 	private final String _text;
 	private String _name;

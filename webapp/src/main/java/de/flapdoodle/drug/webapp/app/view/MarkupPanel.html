@@ -28,9 +28,9 @@
 		}
 	</style>
 </wicket:head>
+<wicket:fragment wicket:id="textFragment"><wicket:container wicket:id="text"></wicket:container></wicket:fragment>
+<wicket:fragment wicket:id="tagFragment"><a wicket:id="transformation"><wicket:container wicket:id="text"></wicket:container></a><a class="linkBegriff" wicket:id="descriptionsShort">+</a>
+	<a wicket:id="descriptions"><wicket:container wicket:id="text"></wicket:container></a></wicket:fragment>
 <wicket:panel>
-	<wicket:container wicket:id="list"><wicket:container wicket:id="text"></wicket:container>
-	<a wicket:id="transformation"><wicket:container wicket:id="text"></wicket:container></a><a class="linkBegriff" wicket:id="descriptionsShort">+</a>
-	<a wicket:id="descriptions"><wicket:container wicket:id="text"></wicket:container></a>
-	</wicket:container>
+	<wicket:container wicket:id="list"><wicket:container wicket:id="line"></wicket:container></wicket:container>
 </wicket:panel>

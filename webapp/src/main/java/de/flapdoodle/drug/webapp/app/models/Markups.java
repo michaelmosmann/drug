@@ -25,17 +25,18 @@ import java.util.List;
 import org.apache.wicket.model.IModel;
 
 import de.flapdoodle.drug.parser.markdown.TripleMarkdown;
+import de.flapdoodle.drug.render.ITag;
 import de.flapdoodle.drug.render.Tag;
 import de.flapdoodle.functions.Function1;
 import de.flapdoodle.wicket.model.Models;
 
 public class Markups {
 	
-	public static IModel<List<Tag>> asTagsFormMarkdown(IModel<String> markDown) {
-		return Models.on(markDown).apply(new Function1<List<Tag>, String>() {
+	public static IModel<List<ITag>> asTagsFormMarkdown(IModel<String> markDown) {
+		return Models.on(markDown).apply(new Function1<List<ITag>, String>() {
 
 			@Override
-			public List<Tag> apply(String markDown) {
+			public List<ITag> apply(String markDown) {
 				if (markDown!=null)
 					return TripleMarkdown.asTags(markDown);
 				return null;

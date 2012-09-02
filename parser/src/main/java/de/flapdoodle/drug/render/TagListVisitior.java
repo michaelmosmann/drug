@@ -31,11 +31,11 @@ import de.flapdoodle.drug.markup.Type;
 
 public class TagListVisitior extends AbstractMarkupVisitor {
 
-	List<Tag> _tags = Lists.newArrayList();
+	List<ITag> _tags = Lists.newArrayList();
 
 	@Override
 	public void text(String text) {
-		_tags.add(new Tag(text));
+		_tags.add(new Text(text));
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class TagListVisitior extends AbstractMarkupVisitor {
 				: new Label(null);
 	}
 
-	public List<Tag> getTags() {
+	public List<ITag> getTags() {
 		return Lists.newArrayList(_tags);
 	}
 }
