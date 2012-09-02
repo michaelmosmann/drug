@@ -74,17 +74,13 @@ public class TagListVisitior extends AbstractMarkupVisitor {
 	}
 
 	private void relation(Label label, boolean isObject, IRelation relation) {
-		if (relation != null) {
-			String subject = notNull(relation.getSubject()).getName();
-			String predicate = notNull(relation.getPredicate()).getName();
-			String object = notNull(relation.getObject()).getName();
-			String context = notNull(relation.getContext()).getName();
-			ContextType contextType = relation.getContextType();
-			_tags.add(new Tag(label.getDisplayOrName(), label.getName(), isObject, new TagReference(subject, predicate,
-					object, contextType, context)));
-		} else {
-			_tags.add(new Tag(label.getDisplayOrName(), label.getName()));
-		}
+		String subject = notNull(relation.getSubject()).getName();
+		String predicate = notNull(relation.getPredicate()).getName();
+		String object = notNull(relation.getObject()).getName();
+		String context = notNull(relation.getContext()).getName();
+		ContextType contextType = relation.getContextType();
+		_tags.add(new Tag(label.getDisplayOrName(), label.getName(), isObject, new TagReference(subject, predicate,
+				object, contextType, context)));
 	}
 
 	private Label notNull(Label subject) {

@@ -107,7 +107,7 @@ public class MarkupPanel extends Panel {
 			transformationLink.add(new Label("text", tag.getText()));
 			add(transformationLink);
 
-			BookmarkablePageLink<DescriptionsPage> descriptionsShortLink = Navigation.toDescriptions(tag.getRelName(),
+			BookmarkablePageLink<DescriptionsPage> descriptionsShortLink = Navigation.toDescriptions(tag.getName(),
 					tag.isObject()).asLink("descriptionsShort");
 			add(descriptionsShortLink);
 
