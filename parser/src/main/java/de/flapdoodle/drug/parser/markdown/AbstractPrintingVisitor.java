@@ -98,6 +98,7 @@ public class AbstractPrintingVisitor extends AbstractVisitor {
 		visitChildren(node);
 	}
 
+	@Override
 	protected void visitChildren(SuperNode node) {		
 		for (Node child : node.getChildren()) {
 			child.accept(this);
@@ -468,10 +469,12 @@ public class AbstractPrintingVisitor extends AbstractVisitor {
 		}
 	}
 
+	@Override
 	public void visit(SpecialTextNode node) {
 		printer.printEncoded(node.getText());
 	}
 
+	@Override
 	public void visit(SuperNode node) {
 		visitChildren(node);
 	}

@@ -23,10 +23,11 @@ package de.flapdoodle.drug.markup;
 public class Label {
 
 	final String _name;
-	String _display;
+	final String _display;
 
 	public Label(String name) {
 		_name = name;
+		_display=null;
 	}
 
 	public Label(String name, String display) {

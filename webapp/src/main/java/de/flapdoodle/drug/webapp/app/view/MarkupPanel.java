@@ -31,6 +31,9 @@ import org.apache.wicket.markup.html.panel.Fragment;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 
+import de.flapdoodle.drug.render.Block;
+import de.flapdoodle.drug.render.Block.End;
+import de.flapdoodle.drug.render.Block.Start;
 import de.flapdoodle.drug.render.ITag;
 import de.flapdoodle.drug.render.Single;
 import de.flapdoodle.drug.render.Tag;
@@ -64,6 +67,14 @@ public class MarkupPanel extends Panel {
 					item.add(new SingleFragment("line", "singleFragment", MarkupPanel.this, (Single) itag));
 					gotSomething = true;
 				}
+				if (itag instanceof Block.Start) {
+					item.add(new BlockStartFragment("line", "blockstartFragment", MarkupPanel.this, (Block.Start) itag));
+					gotSomething = true;
+				}
+				if (itag instanceof Block.End) {
+					item.add(new BlockEndFragment("line", "blockendFragment", MarkupPanel.this, (Block.End) itag));
+					gotSomething = true;
+				}
 				if (!gotSomething) {
 					item.add(new Label("line", "" + itag.getClass().getName()));
 				}
@@ -79,6 +90,28 @@ public class MarkupPanel extends Panel {
 			add(new Label("text", text.getText()).setEscapeModelStrings(false));
 		}
 
+	}
+	
+	static class BlockStartFragment extends Fragment {
+
+		public BlockStartFragment(String id, String markupId, MarkupContainer markupProvider, Start itag) {
+			super(id, markupId, markupProvider);
+		}
+		
+	}
+	
+	static class BlockEndFragment extends Fragment {
+
+		public BlockEndFragment(String id, String markupId, MarkupContainer markupProvider, End end) {
+			super(id, markupId, markupProvider);
+			
+			String message="";
+			if (end.getRelations().size()+end.getReferences().size()==1) {
+				message="+"+end.getType();
+			}
+			add(new Label("m",message));
+		}
+		
 	}
 
 	static class SingleFragment extends Fragment {

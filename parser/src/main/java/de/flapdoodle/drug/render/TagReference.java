@@ -75,4 +75,61 @@ public class TagReference implements Serializable {
 		return _predicate==null || _object==null ;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((_context == null)
+				? 0
+				: _context.hashCode());
+		result = prime * result + ((_contextType == null)
+				? 0
+				: _contextType.hashCode());
+		result = prime * result + ((_object == null)
+				? 0
+				: _object.hashCode());
+		result = prime * result + ((_predicate == null)
+				? 0
+				: _predicate.hashCode());
+		result = prime * result + ((_subject == null)
+				? 0
+				: _subject.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TagReference other = (TagReference) obj;
+		if (_context == null) {
+			if (other._context != null)
+				return false;
+		} else if (!_context.equals(other._context))
+			return false;
+		if (_contextType != other._contextType)
+			return false;
+		if (_object == null) {
+			if (other._object != null)
+				return false;
+		} else if (!_object.equals(other._object))
+			return false;
+		if (_predicate == null) {
+			if (other._predicate != null)
+				return false;
+		} else if (!_predicate.equals(other._predicate))
+			return false;
+		if (_subject == null) {
+			if (other._subject != null)
+				return false;
+		} else if (!_subject.equals(other._subject))
+			return false;
+		return true;
+	}
+
+	
 }

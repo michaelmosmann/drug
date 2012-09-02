@@ -215,7 +215,8 @@ public abstract class AbstractVisitor implements Visitor {
 	public void visit(TripleContextNode node) {
 		
 	}
-	
+
+	@Override
 	public void visit(Node node) {
 		if (node instanceof TripleNode) {
 			visit((TripleNode) node);
