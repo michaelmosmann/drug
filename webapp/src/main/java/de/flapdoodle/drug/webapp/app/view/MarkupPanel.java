@@ -32,6 +32,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 
 import de.flapdoodle.drug.render.ITag;
+import de.flapdoodle.drug.render.Single;
 import de.flapdoodle.drug.render.Tag;
 import de.flapdoodle.drug.render.Text;
 import de.flapdoodle.drug.webapp.app.models.Markups;
@@ -50,17 +51,21 @@ public class MarkupPanel extends Panel {
 			protected void populateItem(ListItem<ITag> item) {
 				ITag itag = item.getModelObject();
 
-				boolean gotSomething=false;
+				boolean gotSomething = false;
 				if (itag instanceof Text) {
 					item.add(new TextFragment("line", "textFragment", MarkupPanel.this, (Text) itag));
-					gotSomething=true;
+					gotSomething = true;
 				}
 				if (itag instanceof Tag) {
 					item.add(new TagFragment("line", "tagFragment", MarkupPanel.this, (Tag) itag));
-					gotSomething=true;
+					gotSomething = true;
+				}
+				if (itag instanceof Single) {
+					item.add(new SingleFragment("line", "singleFragment", MarkupPanel.this, (Single) itag));
+					gotSomething = true;
 				}
 				if (!gotSomething) {
-					item.add(new Label("line",""+itag.getClass().getName()));
+					item.add(new Label("line", "" + itag.getClass().getName()));
 				}
 			}
 		});
@@ -71,9 +76,23 @@ public class MarkupPanel extends Panel {
 		public TextFragment(String id, String markupId, MarkupContainer markupProvider, Text text) {
 			super(id, markupId, markupProvider);
 
-			add(new Label("text",text.getText()).setEscapeModelStrings(false));
+			add(new Label("text", text.getText()).setEscapeModelStrings(false));
 		}
 
+	}
+
+	static class SingleFragment extends Fragment {
+
+		public SingleFragment(String id, String markupId, MarkupContainer markupProvider, Single single) {
+			super(id, markupId, markupProvider);
+
+			String name = single.getName();
+
+			BookmarkablePageLink<DescriptionsPage> descriptionLink = Navigation.toDescriptions(name, true).asLink(
+					"descriptions");
+			descriptionLink.add(new Label("text", single.getText()));
+			add(descriptionLink);
+		}
 	}
 
 	static class TagFragment extends Fragment {
@@ -83,35 +102,18 @@ public class MarkupPanel extends Panel {
 
 			String name = tag.getName();
 
-			//		Label text = new Label("text",tag.getText());
-			//		text.setEscapeModelStrings(false);
-			//		item.add(text);
-
 			BookmarkablePageLink<TransformationsPage> transformationLink = Navigation.toTransformations(tag.getReference()).asLink(
 					"transformation");
 			transformationLink.add(new Label("text", tag.getText()));
 			add(transformationLink);
 
-			BookmarkablePageLink<DescriptionsPage> descriptionLink = Navigation.toDescriptions(name, tag.isObject()).asLink(
-					"descriptions");
-			descriptionLink.add(new Label("text", tag.getText()));
-			add(descriptionLink);
-
 			BookmarkablePageLink<DescriptionsPage> descriptionsShortLink = Navigation.toDescriptions(tag.getRelName(),
 					tag.isObject()).asLink("descriptionsShort");
 			add(descriptionsShortLink);
 
-			//		text.setVisible(tag.isText());
-
-			transformationLink.setVisible(tag.isRelation());
-			descriptionsShortLink.setVisible(tag.isRelation());
-
-			descriptionLink.setVisible(!tag.isRelation());
-
 			if ("".equals(tag.getText())) {
 				transformationLink.setVisible(false);
 				descriptionsShortLink.setVisible(false);
-				descriptionLink.setVisible(false);
 			}
 
 		}

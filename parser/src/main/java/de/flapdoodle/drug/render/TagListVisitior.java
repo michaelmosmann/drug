@@ -40,7 +40,7 @@ public class TagListVisitior extends AbstractMarkupVisitor {
 
 	@Override
 	public void reference(Label label) {
-		_tags.add(new Tag(label.getDisplayOrName(), label.getName()));
+		_tags.add(new Single(label));
 	}
 
 	@Override
@@ -61,6 +61,16 @@ public class TagListVisitior extends AbstractMarkupVisitor {
 	@Override
 	public void context(Label label, ContextType type, IRelation relation) {
 		relation(label, true, relation);
+	}
+	
+	@Override
+	public void blockStart(String typeAsName) {
+		
+	}
+	
+	@Override
+	public void blockEnd(String typeAsName) {
+		
 	}
 
 	private void relation(Label label, boolean isObject, IRelation relation) {
