@@ -3,6 +3,27 @@
 
 (Drug ist russisch und bedeutet Freund, wird eher wie Druug ausgesprochen.)
 
+# die kurze Erklärung
+
+In einem klassischen Wiki könnte für den Begriff "Boot" folgender Definition hinterlegt sein:
+
+	Boot:
+	Ein Ding, dass auf Wasser schwimmt und mit dem man deshalb auf Wasser fahren kann.
+
+Dann ist in dem Text das Wort "fahren" verlinkt, das wie folgt definiert sein könnte:
+
+	fahren:
+	Man bewegt sich von A nach B mit Kontakt zur Oberfläche.
+	
+Wenn nun jemand beschreiben möchte, was zu beachten ist, wenn man mit dem "Boot fährt", dann hat er
+drei Möglichkeiten:
+- Er beschreibt das unter dem Begriff "Boot"
+- Er beschreibt das unter dem Begriff "fahren"
+- Er beschreibt das unter "Boot fahren"
+
+
+# die lange Erklärung
+
 Wikis sind gut, um Begriffsdefinitionen abzulegen und zu vernetzten. Leider werden sie oft benutzt, um Prozesse, Hierarchien und Beschreibungen
 abzubilden. Dafür sind sie eigentlich eher schlecht geeignet.
 
