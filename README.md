@@ -19,8 +19,8 @@ Wenn nun jemand beschreiben möchte, was zu beachten ist, wenn man mit dem "Boot
 drei Möglichkeiten:
 
 1. Er beschreibt das unter dem Begriff "Boot"
-1. Er beschreibt das unter dem Begriff "fahren"
-1. Er beschreibt das unter "Boot fahren"
+2. Er beschreibt das unter dem Begriff "fahren"
+3. Er beschreibt das unter "Boot fahren"
 
 
 # die lange Erklärung
