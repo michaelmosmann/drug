@@ -55,17 +55,17 @@ irgendwelchen anderen Installationen vorgenommen.
 Es gilt die Markdown-Syntax (wird durch https://github.com/sirthias/pegdown implementiert), die um ein paar Erweiterungen ergänzt wurde.
 Auf Begriffsdefinitionen wird klassisch per [[Begriff]] verlinkt. Die Markierungen für Subjekt, Prädikat und Objekt folgen einer einfachen Syntax. Beispiele:
 
-* Begriff als Subjekt: *[s:Begriff]*
-* Begriff als Prädikat mit Wortstamm: [s:gefahren->fahren]
-* Begriff als Objekt, der aber in der Ausgabe nicht dargestellt wird: [!o:Begriff]
-* Einfacher Satz: [s:Ich] [p:baue->bauen] ein [o:Haus].
-* Vermutlich häufigster Anwendungsfall: [p:Aktion->alsPrädikat] [o:Objekt]
+* Begriff als Subjekt: **[s:Begriff]**
+* Begriff als Prädikat mit Wortstamm: **[s:gefahren->fahren]**
+* Begriff als Objekt, der aber in der Ausgabe nicht dargestellt wird: **[!o:Begriff]**
+* Einfacher Satz: **[s:Ich]** **[p:baue->bauen]** ein **[o:Haus]**.
+* Vermutlich häufigster Anwendungsfall: **[p:Aktion->alsPrädikat]** **[o:Objekt]**
 	> [o:Arbeitsplatz] [p:einrichten]
 	> [o:Festplatte] [p:formatioeren]
 	
 Zusätzlich gibt es eine ähnlich gelagerte Syntax für die optionale Ortsbeziehung:
 
-* Eine Beschreibung mit Ortsbezug: [o:Blumen] [p:importieren] aus [from:Holland]
+* Eine Beschreibung mit Ortsbezug: **[o:Blumen]** **[p:importieren]** aus **[from:Holland]**
 
 
 
