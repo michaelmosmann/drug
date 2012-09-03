@@ -63,9 +63,8 @@ Auf Begriffsdefinitionen wird klassisch per [[Begriff]] verlinkt. Die Markierung
 * Einfacher Satz: **[s:Ich]** **[p:baue->bauen]** ein **[o:Haus]**.
 * Vermutlich häufigster Anwendungsfall: **[p:Aktion->alsPrädikat]** **[o:Objekt]**
 
-	> [o:Arbeitsplatz] [p:einrichten]
-	
-	> [o:Festplatte] [p:formatioeren]
+	> * [o:Arbeitsplatz] [p:einrichten]
+	> * [o:Festplatte] [p:formatioeren]
 	
 ## Eindeutigkeit und Kollisionen
 
