@@ -25,7 +25,7 @@ drei Möglichkeiten:
 Problem: Die Erklärung gehört weder zu 1 noch zu 2. Bei 3 wird aus "Boot fahren" schnell auch "Mit dem Boot fahren", "Ein Boot fahren"... 
 Außerdem ist nicht mehr erkennbar, dass es sowohl um "Boot" als auch um "fahren" geht.
 
-# die lange Erklärung
+# Die lange Erklärung
 
 Wikis sind gut, um Begriffsdefinitionen abzulegen und zu vernetzten. Leider werden sie oft benutzt, um Prozesse, Hierarchien und Beschreibungen
 abzubilden. Dafür sind sie eigentlich eher schlecht geeignet.
@@ -55,7 +55,7 @@ irgendwelchen anderen Installationen vorgenommen.
 Es gilt die Markdown-Syntax (wird durch https://github.com/sirthias/pegdown implementiert), die um ein paar Erweiterungen ergänzt wurde.
 Auf Begriffsdefinitionen wird klassisch per [[Begriff]] verlinkt. Die Markierungen für Subjekt, Prädikat und Objekt folgen einer einfachen Syntax. Beispiele:
 
-* Begriff als Subjekt: [s:Begriff]
+* Begriff als Subjekt: *[s:Begriff]*
 * Begriff als Prädikat mit Wortstamm: [s:gefahren->fahren]
 * Begriff als Objekt, der aber in der Ausgabe nicht dargestellt wird: [!o:Begriff]
 * Einfacher Satz: [s:Ich] [p:baue->bauen] ein [o:Haus].
