@@ -17,9 +17,9 @@ Dann ist in dem Text das Wort "fahren" verlinkt, das wie folgt definiert sein k�
 	
 Wenn nun jemand beschreiben möchte, was zu beachten ist, wenn man mit dem "Boot fährt", dann hat er
 drei Möglichkeiten:
-- Er beschreibt das unter dem Begriff "Boot"
-- Er beschreibt das unter dem Begriff "fahren"
-- Er beschreibt das unter "Boot fahren"
+1. Er beschreibt das unter dem Begriff "Boot"
+2. Er beschreibt das unter dem Begriff "fahren"
+3. Er beschreibt das unter "Boot fahren"
 
 
 # die lange Erklärung
