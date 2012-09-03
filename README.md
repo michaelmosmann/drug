@@ -52,17 +52,35 @@ irgendwelchen anderen Installationen vorgenommen.
 
 # Syntax
 
+## Grundlagen - Subjekt, Prädikat, Objekt
+
 Es gilt die Markdown-Syntax (wird durch https://github.com/sirthias/pegdown implementiert), die um ein paar Erweiterungen ergänzt wurde.
-Auf Begriffsdefinitionen wird klassisch per [[Begriff]] verlinkt. Die Markierungen für Subjekt, Prädikat und Objekt folgen einer einfachen Syntax. Beispiele:
+Auf Begriffsdefinitionen wird klassisch per [[Begriff]] verlinkt. Die Markierungen für Subjekt**(s)**, Prädikat**(p)** und Objekt**(o)** folgen einer einfachen Syntax. Beispiele:
 
 * Begriff als Subjekt: **[s:Begriff]**
 * Begriff als Prädikat mit Wortstamm: **[s:gefahren->fahren]**
 * Begriff als Objekt, der aber in der Ausgabe nicht dargestellt wird: **[!o:Begriff]**
 * Einfacher Satz: **[s:Ich]** **[p:baue->bauen]** ein **[o:Haus]**.
 * Vermutlich häufigster Anwendungsfall: **[p:Aktion->alsPrädikat]** **[o:Objekt]**
+
 	> [o:Arbeitsplatz] [p:einrichten]
 	> [o:Festplatte] [p:formatioeren]
 	
+## Eindeutigkeit und Kollisionen
+
+Es kann passieren, dass in einem Absatz mehr als einmal Subjekt, Prädikat oder Objekt benutzt wird. Dann kann nicht mehr automatisch ermittelt werden, was zusammen
+gehört. In diesem Fall kann vor dem ":" eine Zahl von 0-9 angegeben werden.
+
+* Absatz mit Kollision:
+
+	> Ich [p:fahre->fahren] mit dem [o:Boot]. Dabei muss das [o:Boot] immer [p:beleuchtet->beleuchten] sein.
+
+* Anpassungen um Kollisionen zu vermeiden:
+
+	> Ich [p:fahre->fahren] mit dem [o:Boot]. Dabei muss das [o0:Boot] immer [p0:beleuchtet->beleuchten] sein.
+
+## Ortsbezug
+
 Zusätzlich gibt es eine ähnlich gelagerte Syntax für die optionale Ortsbeziehung:
 
 * Eine Beschreibung mit Ortsbezug: **[o:Blumen]** **[p:importieren]** aus **[from:Holland]**
