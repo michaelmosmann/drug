@@ -3,7 +3,7 @@
 
 (Drug ist russisch und bedeutet Freund, wird eher wie Druug ausgesprochen.)
 
-# die kurze Erklärung
+# Die kurze Erklärung
 
 In einem klassischen Wiki könnte für den Begriff "Boot" folgender Definition hinterlegt sein:
 
