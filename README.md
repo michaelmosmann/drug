@@ -53,7 +53,13 @@ irgendwelchen anderen Installationen vorgenommen.
 # Syntax
 
 Es gilt die Markdown-Syntax (wird durch https://github.com/sirthias/pegdown implementiert), die um ein paar Erweiterungen ergänzt wurde.
-Auf Begriffsdefinitionen wird klassisch per [[Begriff]] verlinkt.
+Auf Begriffsdefinitionen wird klassisch per [[Begriff]] verlinkt. Die Markierungen für Subjekt, Prädikat und Objekt folgen einer einfachen Syntax. Beispiele:
+
+* Begriff als Subjekt: [s:Begriff]
+* Begriff als Prädikat mit Wortstamm: [s:gefahren->fahren]
+* Begriff als Objekt, der aber in der Ausgabe nicht dargestellt wird: [!o:Begriff]
+* Einfacher Satz:
+
 
 ## Aktuell
 
