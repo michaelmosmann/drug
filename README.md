@@ -64,6 +64,7 @@ Auf Begriffsdefinitionen wird klassisch per [[Begriff]] verlinkt. Die Markierung
 * Vermutlich häufigster Anwendungsfall: **[p:Aktion->alsPrädikat]** **[o:Objekt]**
 
 	> [o:Arbeitsplatz] [p:einrichten]
+	
 	> [o:Festplatte] [p:formatioeren]
 	
 ## Eindeutigkeit und Kollisionen
