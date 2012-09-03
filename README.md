@@ -22,6 +22,8 @@ drei Möglichkeiten:
 2. Er beschreibt das unter dem Begriff "fahren"
 3. Er beschreibt das unter "Boot fahren"
 
+Problem: Die Erklärung gehört weder zu 1 noch zu 2. Bei 3 wird aus "Boot fahren" schnell auch "Mit dem Boot fahren", "Ein Boot fahren"... 
+Außerdem ist nicht mehr erkennbar, dass es sowohl um "Boot" als auch um "fahren" geht.
 
 # die lange Erklärung
 
@@ -32,9 +34,9 @@ Das Projekt beschäftigt sich mit einer Alternative, die ausdrucksstärker ist u
 pragmatische Lösung im Vordergrund.
 
 Die Idee kann man kurz wie folgt beschreiben: neben der in Wikis üblichen Begriffsbeschreibung kann man Definitionen nach dem Muster
-Subjekt, Prädikat, Objekt erstellen. Dabei sind alle drei Angaben als Schlüssel zu verstehen. Optional kann eine Ortsbeziehung angegeben werden.
+Subjekt, Prädikat, Objekt erstellen. Dabei sind die Angaben als Schlüssel zu verstehen. Das Subjekt ist optional, ebenfalls kann eine Ortsbeziehung (z.B. in Leipzig) angegeben werden.
 
-Interessant wird es, wenn die Begriffsdefinitionen, die für Subjekt, Prädikat, Objekt und Ort benutzt werden, auch Informationen über Wortbeugungnen 
+Interessant wird es, wenn die Begriffsdefinitionen, die für Subjekt, Prädikat, Objekt und Ort benutzt werden, auch Informationen über Wortbeugungen 
 oder alternative Bezeichnungen enthalten.
 
 Ebenfalls denkbar wäre eine Ausweitung auf Informationen wie Neuer Mitarbeiter -> Mitarbeiter -> Mensch.
@@ -43,13 +45,15 @@ Ebenfalls denkbar wäre eine Ausweitung auf Informationen wie Neuer Mitarbeiter 
 
 # Version
 
-Das ist hier eine erste Alpha-Version. Man benötigt zum ausführen eine installierte MongoDB Datenbank, die auf den Standardport hört.
+Das ist hier eine erste Alpha-Version. Die benötigte MongoDB-Instanz wird ohne Installation heruntergeladen und gestartet. Es werden keine Veränderungen an
+irgendwelchen anderen Installationen vorgenommen.
 
 .. viel Spass.
 
 # Syntax
 
-Die Markup-Syntax ist bereits im Wandel. Vorschläge gern als Kommentar.
+Es gilt die Markdown-Syntax (wird durch https://github.com/sirthias/pegdown implementiert), die um ein paar Erweiterungen ergänzt wurde.
+Auf Begriffsdefinitionen wird klassisch per [[Begriff]] verlinkt.
 
 ## Aktuell
 
