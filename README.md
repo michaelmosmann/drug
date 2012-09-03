@@ -104,10 +104,7 @@ potentiellen Kandidat gibt. Beispiel:
 # Changelog (aktuell ist oben)
 
 - diverse Anpassungen basierend auf den ersten Erkenntnissen
-
 - mongodb wird jetzt ohne installation auch beim starten der webanwendung gestartet
-
 - von wiki-markup und antlr auf peg-parser basiertes markDown umgestellt
-
 - wicket bootstrap added
 
