@@ -85,21 +85,25 @@ Zusätzlich gibt es eine ähnlich gelagerte Syntax für die optionale Ortsbezieh
 
 * Eine Beschreibung mit Ortsbezug: **[o:Blumen]** **[p:importieren]** aus **[from:Holland]**
 
+Als Bezug zum Ort kann **from**, **to**, **at** und **near** verwendet werden. Andere Angaben sind ungültig.
 
+## Eindeutigkeit des Links
 
-## Aktuell
+Da man sowohl eine Definition für Prädiktat und Objekt, aber auch für Subjekt, Prädikat und Objekt, sowie (bisher) vier möglichen Ortsangaben anlegen kann,
+bedeutet das, dass das Ergebnis nicht eindeutig bestimmt ist. Daher wird bisher eine Liste der möglichen Kandidaten angezeigt, wenn es mehr als einen
+potentiellen Kandidat gibt. Beispiel:
 
-	[s:Ich] [p:bauen|baue] ein [o:Haus]. Das ist ein normaler [Begriff].
-	
-## Überarbeitung
+* [o:Boot] [p:fahren] könnte folgende Treffer liefern:
 
-	(Ich-) (-baue->bauen-) ein (-Haus).
-	(Ich-) (-kaufe->kaufen-) einen (-Laptop) in (@China).
-	(Ich-) (-schicke->schicken-) einen (-Laptop) nach (->China).
-	(Man-) (-schickt->schicken-) mir einen (-Laptop) aus (<-China).
-	(Ich-) (-besuche->besuchen-) meine (-Tante) bei (@@Peking).
-	
-## Changelog (aktuell ist oben)
+  > * [o:Boot] [p:fahren]
+  > * [o:Boot] [p:fahren] in [at:China]
+  > * [s:Klaus] [p:fährt->fahren] [o:Boot] nach [to:New York]
+
+* Für [o:Boot] [p:fahren] in [at:China] gäbe es nur ein Ergebnis (was man dann wohl auch gemeint hat).
+
+# Changelog (aktuell ist oben)
+
+- diverse Anpassungen basierend auf den ersten Erkenntnissen
 
 - mongodb wird jetzt ohne installation auch beim starten der webanwendung gestartet
 
