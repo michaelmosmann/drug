@@ -58,7 +58,15 @@ Auf Begriffsdefinitionen wird klassisch per [[Begriff]] verlinkt. Die Markierung
 * Begriff als Subjekt: [s:Begriff]
 * Begriff als Prädikat mit Wortstamm: [s:gefahren->fahren]
 * Begriff als Objekt, der aber in der Ausgabe nicht dargestellt wird: [!o:Begriff]
-* Einfacher Satz:
+* Einfacher Satz: [s:Ich] [p:baue->bauen] ein [o:Haus].
+* Vermutlich häufigster Anwendungsfall: [p:Aktion->alsPrädikat] [o:Objekt]
+	> [o:Arbeitsplatz] [p:einrichten]
+	> [o:Festplatte] [p:formatioeren]
+	
+Zusätzlich gibt es eine ähnlich gelagerte Syntax für die optionale Ortsbeziehung:
+
+* Eine Beschreibung mit Ortsbezug: [o:Blumen] [p:importieren] aus [from:Holland]
+
 
 
 ## Aktuell
