@@ -43,13 +43,6 @@ Ebenfalls denkbar wäre eine Ausweitung auf Informationen wie Neuer Mitarbeiter 
 
 (das soll aber nicht in sowas wie RDF enden: http://www.w3.org/TR/rdf-concepts/)
 
-# Version
-
-Das ist hier eine erste Alpha-Version. Die benötigte MongoDB-Instanz wird ohne Installation heruntergeladen und gestartet. Es werden keine Veränderungen an
-irgendwelchen anderen Installationen vorgenommen.
-
-.. viel Spass.
-
 # Syntax
 
 ## Grundlagen - Subjekt, Prädikat, Objekt
@@ -100,6 +93,14 @@ potentiellen Kandidat gibt. Beispiel:
   > * [s:Klaus] [p:fährt->fahren] [o:Boot] nach [to:New York]
 
 * Für [o:Boot] [p:fahren] in [at:China] gäbe es nur ein Ergebnis (was man dann wohl auch gemeint hat).
+
+# Ausprobieren
+
+Das ist hier eine erste Alpha-Version. Die benötigte MongoDB-Instanz wird ohne Installation heruntergeladen und gestartet. Es werden keine Veränderungen an
+irgendwelchen anderen Installationen vorgenommen. Allerdings sollte man im Menu ganz oben auf "Shutdown" klicken, damit die Mongodb-Instanz sauber beendet und
+aufgeräumt wird.
+
+.. viel Spass.
 
 # Changelog (aktuell ist oben)
 

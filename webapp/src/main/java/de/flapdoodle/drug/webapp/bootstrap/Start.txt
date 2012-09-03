@@ -1,37 +1,17 @@
 Drug
 ===
 
-Das alles ist noch ein Test, eine Idee, eine Vision. Aber es fühlt sich jetzt schon viel besser an.
+Die aktuelle Beschreibung findest Du unter https://github.com/michaelmosmann/drug .
 
-Aufbau
-----
+# Ein guter Start
 
-Neben der Beschreibung von [[Begriffen]] wird die Beschreibung von Relationen ermöglicht. Dabei wird eine System verwendet, dass eine Adressierung nach [[Subjekt]],[[Prädikat]] und [[Objekt]] vornimmt. Das hat nette Nebeneffekte, wie das [s:->Mensch] [p:filtern] [o:->Drug] nach verschieden Relationsbestandteilen.
+Folgende Links einfach mal nacheinander anklicken und mit Inhalten füllen:
 
-Nächste Schritte
----
-Das ganze muss man noch um einen Kontext erweitern. Der Kontext kann etwas beliebiges, aber Optional sein. Beispiele:
+* [[Arbeitsplatz]]
+* [o:Arbeitsplatz] [p:einrichten]
+* [[Rechner]]
+* [o:Rechner] [p:einrichten]
+* Was kann man alles [p:einrichten]?
 
-* [s:->Mensch] mit dem [o:Zug] [p:fahren]
-* [s:->Mensch] mit dem [o:Zug] [p:fahren] in der [at:Schweiz]
-* [s:->Mensch] mit dem [o:Zug] [p:fahren] in [at:Niedersachsen]
 
-Den Kontext könnte man immer angeben mit [\@Schweiz]. Außerdem könnte man eine alternative Syntax angeben. Statt [\spo:displayText->Text] könnte man (s:Bla) (@Blub) anbieten wobei eckige Klammern wohl eher dem MarkDown-Gedanken entsprechen.
-
-Test
----
-
-Das ist die Start-Testseite. Ab hier kann [s:man->Mensch] weitere [o:Seiten] [p:erstellen].
-
-Tests:
-
-* [s:->Mensch] [p:einrichten] des [o:Arbeitsplatzes->Arbeitsplatz]
-* [p:einrichten] des [o:Arbeitsplatzes->Arbeitsplatz] für [s:Mitarbeiter]
-* Übersicht zum [p:einrichten] eines [o:Arbeitsplatzes->Arbeitsplatz]
-
-.. danke
-
-Crazy Stuff
----
-
-Der [s:Start] [p:ist nicht->!ist] das [o:Ende]
+ 
