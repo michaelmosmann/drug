@@ -102,6 +102,24 @@ aufgeräumt wird.
 
 .. viel Spass.
 
+# Weitere Ideen
+
+Man könnte in der Beschreibung eine Liste von Referenzen angeben die dann wie Kapitel behandelt werden.
+
+Beispiel:
+
+  Title: Mit dem Boot fahren
+  -------
+  Text: Für das fahren auf Gewässern braucht man ein passendes Boot. .... .. 
+  -------
+  Kapitel:
+  [o:Boot] [p:kaufen]
+  [o:Boot] [p:versichern]
+  [o:Bootsführerschein] [p:erwerben]
+  
+Darüber könnte man dann Hierarchien abbilden, die eher der Realität entsprechen als der klassische Ansatz eine Wiki-Seite
+einer anderen Wiki-Seite unterzuordnen. Außerdem entsteht so automatisch eine Reihenfolge.
+
 # Changelog (aktuell ist oben)
 
 - diverse Anpassungen basierend auf den ersten Erkenntnissen
