@@ -56,8 +56,8 @@ Auf Begriffsdefinitionen wird klassisch per [[Begriff]] verlinkt. Die Markierung
 * Einfacher Satz: **[s:Ich]** **[p:baue->bauen]** ein **[o:Haus]**.
 * Vermutlich häufigster Anwendungsfall: **[p:Aktion->alsPrädikat]** **[o:Objekt]**
 
-	> * [o:Arbeitsplatz] [p:einrichten]
-	> * [o:Festplatte] [p:formatioeren]
+	* [o:Arbeitsplatz] [p:einrichten]
+	* [o:Festplatte] [p:formatioeren]
 	
 ## Eindeutigkeit und Kollisionen
 
@@ -87,10 +87,9 @@ bedeutet das, dass das Ergebnis nicht eindeutig bestimmt ist. Daher wird bisher 
 potentiellen Kandidat gibt. Beispiel:
 
 * [o:Boot] [p:fahren] könnte folgende Treffer liefern:
-
-  > * [o:Boot] [p:fahren]
-  > * [o:Boot] [p:fahren] in [at:China]
-  > * [s:Klaus] [p:fährt->fahren] [o:Boot] nach [to:New York]
+  * [o:Boot] [p:fahren]
+  * [o:Boot] [p:fahren] in [at:China]
+  * [s:Klaus] [p:fährt->fahren] [o:Boot] nach [to:New York]
 
 * Für [o:Boot] [p:fahren] in [at:China] gäbe es nur ein Ergebnis (was man dann wohl auch gemeint hat).
 
@@ -101,6 +100,22 @@ irgendwelchen anderen Installationen vorgenommen. Allerdings sollte man im Menu 
 aufgeräumt wird.
 
 .. viel Spass.
+
+# Weitere Ideen
+
+Man könnte in der Beschreibung eine Liste von Referenzen angeben die dann wie Kapitel behandelt werden.
+
+Beispiel:
+
+* Title - Mit dem Boot fahren
+* Text - Für das fahren auf Gewässern braucht man ein passendes Boot. .... .. 
+* Kapitel:
+  * [o:Boot] [p:kaufen]
+  * [o:Boot] [p:versichern]
+  * [o:Bootsführerschein] [p:erwerben]
+  
+Darüber könnte man dann Hierarchien abbilden, die eher der Realität entsprechen als der klassische Ansatz eine Wiki-Seite
+einer anderen Wiki-Seite unterzuordnen. Außerdem entsteht so automatisch eine Reihenfolge.
 
 # Changelog (aktuell ist oben)
 
