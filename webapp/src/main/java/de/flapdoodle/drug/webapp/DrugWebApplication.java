@@ -42,6 +42,7 @@ import de.flapdoodle.drug.webapp.app.StartPage;
 import de.flapdoodle.drug.webapp.app.edit.EditDescriptionPage;
 import de.flapdoodle.drug.webapp.app.edit.EditTransformationPage;
 import de.flapdoodle.drug.webapp.app.pages.LoginPage;
+import de.flapdoodle.drug.webapp.app.pages.MarkdownHelpPage;
 import de.flapdoodle.drug.webapp.app.view.DescriptionPage;
 import de.flapdoodle.drug.webapp.app.view.DescriptionsPage;
 import de.flapdoodle.drug.webapp.app.view.TransformationPage;
@@ -103,6 +104,7 @@ public class DrugWebApplication extends WebApplication
 		mountPage("/tranformation", TransformationPage.class);
 		mountPage("/tranformations", TransformationsPage.class);
 		mountPage("/editTranformation", EditTransformationPage.class);
+		mountPage("/help", MarkdownHelpPage.class);
 //		mountAnnotated(DescriptionPage.class);
 //		mountAnnotated(TransformationPage.class);
 //		mountAnnotated(EditTransformationPage.class);

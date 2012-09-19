@@ -23,7 +23,7 @@ package de.flapdoodle.drug.webapp.app.pages;
 import de.flapdoodle.drug.webapp.app.edit.MarkdownHelpPanel;
 
 
-public class MarkdownHelpPage extends AbstractProtectedPage {
+public class MarkdownHelpPage extends AbstractBasePage {
 
 	
 	public MarkdownHelpPage() {
