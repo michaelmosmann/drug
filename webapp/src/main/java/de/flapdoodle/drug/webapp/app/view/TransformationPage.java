@@ -42,7 +42,7 @@ import de.flapdoodle.drug.webapp.app.pages.AbstractBasePage;
 import de.flapdoodle.drug.webapp.app.pages.AbstractProtectedPage;
 import de.flapdoodle.mongoom.types.Reference;
 
-public class TransformationPage extends AbstractProtectedPage {
+public class TransformationPage extends AbstractBasePage {
 
 //	static final String P_SUB = "Subjekt";
 //	static final String P_PRED = "Predikat";

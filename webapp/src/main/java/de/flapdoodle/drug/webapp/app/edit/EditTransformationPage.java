@@ -192,7 +192,7 @@ public class EditTransformationPage extends AbstractProtectedPage {
 
 	public static Jump<EditTransformationPage> editTransformation(TagReference reference) {
 		PageParameters params = Navigation.asPageParameters(reference);
-		return new Jump<EditTransformationPage>(EditTransformationPage.class, params);
+		return new Jump<EditTransformationPage>(EditTransformationPage.class, params,true);
 	}
 
 	public static Jump<EditTransformationPage> editTransformation(Transformation transformation) {
@@ -200,6 +200,6 @@ public class EditTransformationPage extends AbstractProtectedPage {
 		if (transformation!=null) {
 		params.add(P_REF, transformation.getId().getId().toString());
 		}
-		return new Jump<EditTransformationPage>(EditTransformationPage.class, params);
+		return new Jump<EditTransformationPage>(EditTransformationPage.class, params,true);
 	}
 }

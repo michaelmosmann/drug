@@ -44,7 +44,7 @@ import de.flapdoodle.functions.Function1;
 import de.flapdoodle.wicket.model.Models;
 
 
-public class DescriptionPage extends AbstractProtectedPage {
+public class DescriptionPage extends AbstractBasePage {
 
 	static final String P_BEGRIFF="Begriff";
 

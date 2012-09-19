@@ -128,13 +128,13 @@ public class EditDescriptionPage extends AbstractProtectedPage {
 		PageParameters params = new PageParameters();
 		params.add(P_NAME, name);
 		params.add(P_OBJECT, isObject);
-		return new Jump<EditDescriptionPage>(EditDescriptionPage.class, params);
+		return new Jump<EditDescriptionPage>(EditDescriptionPage.class, params,true);
 	}
 
 	public static Jump<EditDescriptionPage> editDescription(Description descr) {
 		PageParameters params = new PageParameters();
 		if (descr != null)
 			params.add(P_REF, descr.getId().getId().toString());
-		return new Jump<EditDescriptionPage>(EditDescriptionPage.class, params);
+		return new Jump<EditDescriptionPage>(EditDescriptionPage.class, params,true);
 	}
 }

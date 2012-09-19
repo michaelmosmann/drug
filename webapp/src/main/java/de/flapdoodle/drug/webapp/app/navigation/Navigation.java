@@ -38,6 +38,7 @@ import de.flapdoodle.drug.webapp.app.view.DescriptionPage;
 import de.flapdoodle.drug.webapp.app.view.DescriptionsPage;
 import de.flapdoodle.drug.webapp.app.view.TransformationPage;
 import de.flapdoodle.drug.webapp.app.view.TransformationsPage;
+import de.flapdoodle.drug.webapp.security.NotPublic;
 
 public class Navigation {
 
@@ -83,18 +84,33 @@ public class Navigation {
 
 		private final Class<T> _pageClass;
 		private final PageParameters _params;
+		private final boolean _privateLink;
 
 		public Jump(Class<T> pageClass, PageParameters params) {
+			this(pageClass,params,false);
+		}
+		
+		public Jump(Class<T> pageClass, PageParameters params, boolean privateLink) {
 			_pageClass = pageClass;
 			_params = params;
+			_privateLink = privateLink;
 		}
 
 		public BookmarkablePageLink<T> asLink(String id) {
+			if (_privateLink) return new PrivateBookmarkablePageLink<T>(id, _pageClass, _params);
 			return new BookmarkablePageLink<T>(id, _pageClass, _params);
 		}
 
 		public void asResponse() {
 			throw new RedirectToUrlException(RequestCycle.get().urlFor(_pageClass,_params).toString());
+		}
+	}
+
+	@NotPublic
+	static class PrivateBookmarkablePageLink<T extends Page> extends BookmarkablePageLink<T> {
+
+		public PrivateBookmarkablePageLink(String id, Class<T> pageClass, PageParameters parameters) {
+			super(id, pageClass, parameters);
 		}
 	}
 

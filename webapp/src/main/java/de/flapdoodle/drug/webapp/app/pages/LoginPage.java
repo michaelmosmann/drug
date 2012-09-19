@@ -48,7 +48,7 @@ public class LoginPage extends AbstractBasePage {
 				if (!PasswordHash.isSecure(hash)) {
 					error("Password not valid");
 				} else {
-					getSession().setMetaData(new ValidUserKey(), hash);
+					ValidUserKey.set(getSession(), hash);
 					setModelObject(new FormData());
 					
 					continueToOriginalDestination();

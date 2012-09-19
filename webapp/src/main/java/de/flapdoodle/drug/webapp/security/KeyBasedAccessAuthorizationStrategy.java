@@ -20,21 +20,41 @@
  */
 package de.flapdoodle.drug.webapp.security;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
+import org.apache.wicket.authorization.Action;
+import org.apache.wicket.authorization.IAuthorizationStrategy;
 import org.apache.wicket.authorization.strategies.page.AbstractPageAuthorizationStrategy;
+import org.apache.wicket.request.component.IRequestableComponent;
 
-public class KeyBasedAccessAuthorizationStrategy extends AbstractPageAuthorizationStrategy {
+public class KeyBasedAccessAuthorizationStrategy implements IAuthorizationStrategy {
 
-	@Override
-	protected <T extends Page> boolean isPageAuthorized(Class<T> pageClass) {
+	
+	protected <T extends Component> boolean isAuthorized(Class<T> pageClass) {
 		if (pageClass.getAnnotation(NotPublic.class) != null) {
-			return Session.get().getMetaData(new ValidUserKey()) != null;
+			return ValidUserKey.isSet(Session.get());
 		} else {
 			Class<? super T> sclazz = pageClass.getSuperclass();
-			if (Page.class.isAssignableFrom(sclazz)) {
-				return isPageAuthorized((Class<Page>) sclazz);
+			if (Component.class.isAssignableFrom(sclazz)) {
+				return isAuthorized((Class<Component>) sclazz);
 			}
+		}
+		return true;
+	}
+
+	@Override
+	public <T extends IRequestableComponent> boolean isInstantiationAuthorized(Class<T> componentClass) {
+		if (Page.class.isAssignableFrom(componentClass)) {
+			return isAuthorized((Class<Page>) componentClass);
+		}
+		return true;
+	}
+
+	@Override
+	public boolean isActionAuthorized(Component component, Action action) {
+		if (action.equals(Component.RENDER)) {
+			return isAuthorized(component.getClass());
 		}
 		return true;
 	}

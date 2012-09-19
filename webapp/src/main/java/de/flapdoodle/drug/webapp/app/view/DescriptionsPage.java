@@ -35,7 +35,7 @@ import de.flapdoodle.drug.webapp.app.navigation.Navigation.Jump;
 import de.flapdoodle.drug.webapp.app.pages.AbstractBasePage;
 import de.flapdoodle.drug.webapp.app.pages.AbstractProtectedPage;
 
-public class DescriptionsPage extends AbstractProtectedPage {
+public class DescriptionsPage extends AbstractBasePage {
 
 	static final String P_BEGRIFF = "Begriff";
 	static final String P_OBJECT = "Object";
