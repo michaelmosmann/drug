@@ -23,6 +23,8 @@ package de.flapdoodle.drug.persistence.config;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.AbstractModule;
 
 import de.flapdoodle.mongoom.datastore.Datastore;
@@ -36,6 +38,8 @@ public class Logging extends AbstractModule
 	protected void configure()
 	{
 		_logger.severe("Logging");
+
+		Logger.getGlobal().setLevel(Level.ALL);
 		
 		Logger.getLogger("de.flapdoodle").setLevel(Level.WARNING);
 		_logger.info("Info hidden");
@@ -44,6 +48,8 @@ public class Logging extends AbstractModule
 		Logger.getLogger(Datastore.class.getName()).setLevel(Level.FINEST);
 		Logger.getLogger("com.google").setLevel(Level.ALL);
 		_logger.info("Info done");
+		
+		Logger.getLogger("com.google").severe("foooooooooooooooooooooooOO");
 	}
 
 }

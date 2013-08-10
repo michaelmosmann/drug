@@ -47,6 +47,11 @@ import de.flapdoodle.drug.persistence.mongo.beans.Transformation;
 import de.flapdoodle.drug.persistence.mongo.dao.DescriptionDao;
 import de.flapdoodle.drug.persistence.mongo.dao.SearchDao;
 import de.flapdoodle.drug.persistence.mongo.dao.TransformationDao;
+import de.flapdoodle.drug.persistence.service.DescriptionDto;
+import de.flapdoodle.drug.persistence.service.ITransformationService;
+import de.flapdoodle.drug.persistence.service.ReferenceDto;
+import de.flapdoodle.drug.persistence.service.SearchService;
+import de.flapdoodle.drug.persistence.service.TransformationDto;
 import de.flapdoodle.drug.render.TagReference;
 import de.flapdoodle.drug.webapp.app.edit.EditReferencePanel.RefType;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
@@ -64,13 +69,10 @@ public class EditTransformationPage extends AbstractProtectedPage {
 	static final String P_REF = "Id";
 	
 	@Inject
-	DescriptionDao _descriptionDao;
-
-	@Inject
-	TransformationDao _transformationDao;
+	ITransformationService _transformationService;
 	
 	@Inject
-	SearchDao _searchDao;
+	SearchService _searchService;
 
 	public EditTransformationPage(PageParameters pageParameters) {
 		
@@ -78,21 +80,21 @@ public class EditTransformationPage extends AbstractProtectedPage {
 		
 		String id=pageParameters.get(P_REF).toOptionalString();
 
-		Transformation t = new Transformation();
+		TransformationDto t = new TransformationDto();
 		t.setContextType(reference.getContextType());
 		if (id!=null) {
-			Transformation byId=_transformationDao.getByStringId(id);
+			TransformationDto byId=_transformationService.getByStringId(id);
 			if (byId!=null) {
 				t=byId;
 			}
 		} else {
-			List<Transformation> list = _searchDao.find(reference.getSubject(),reference.getPredicate(),reference.getObject(),reference.getContextType(),reference.getContext());
+			List<TransformationDto> list = _searchService.find(reference.getSubject(),reference.getPredicate(),reference.getObject(),reference.getContextType(),reference.getContext());
 			if ((list!=null) && (list.size()==1)) {
 				t=list.get(0);
 			}
 		}
 		
-		IModel<Transformation> model = Model.of(t);
+		IModel<TransformationDto> model = Model.of(t);
 
 		add(new FeedbackPanel("feedback"));
 		
@@ -111,12 +113,12 @@ public class EditTransformationPage extends AbstractProtectedPage {
 		final DropDownChoice<ContextType> contextType = new DropDownChoice<ContextType>("contextType",Lists.newArrayList(ContextType.values()));
 		contextType.setNullValid(true);
 		
-		Form<Transformation> form = new Form<Transformation>("form", new CompoundPropertyModel<Transformation>(model)) {
+		Form<TransformationDto> form = new Form<TransformationDto>("form", new CompoundPropertyModel<TransformationDto>(model)) {
 
 			@Override
 			protected void onValidateModelObjects() {
 				super.onValidateModelObjects();
-				Transformation transformation = getModelObject();
+				TransformationDto transformation = getModelObject();
 				if (transformation.getContext()!=null) {
 					if (transformation.getContextType()==null) {
 						contextType.error("Bitte geben Sie einen Ortsbeschreibung für den Kontext an");
@@ -151,11 +153,11 @@ public class EditTransformationPage extends AbstractProtectedPage {
 			protected void onSubmit() {
 				super.onSubmit();
 				
-				Transformation transformation = getModelObject();
+				TransformationDto transformation = getModelObject();
 				if (transformation.getId()==null) {
-					_transformationDao.save(transformation);
+					_transformationService.save(transformation);
 				} else {
-					_transformationDao.update(transformation);
+					_transformationService.update(transformation);
 				}
 				setModelObject(transformation);
 				
@@ -174,13 +176,13 @@ public class EditTransformationPage extends AbstractProtectedPage {
 		form.add(title);
 		form.add(text);
 		
-		IModel<Reference<Description>> subjectModel = new PropertyModel<Reference<Description>>(model, "subject");
+		IModel<ReferenceDto<DescriptionDto>> subjectModel = new PropertyModel<ReferenceDto<DescriptionDto>>(model, "subject");
 		form.add(new EditReferencePanel("subject", subjectModel, RefType.Subject, reference.getSubject()));
-		IModel<Reference<Description>> predicateModel = new PropertyModel<Reference<Description>>(model, "predicate");
+		IModel<ReferenceDto<DescriptionDto>> predicateModel = new PropertyModel<ReferenceDto<DescriptionDto>>(model, "predicate");
 		form.add(new EditReferencePanel("predicate", predicateModel, RefType.Predicate, reference.getPredicate()));
-		IModel<Reference<Description>> objectModel = new PropertyModel<Reference<Description>>(model, "object");
+		IModel<ReferenceDto<DescriptionDto>> objectModel = new PropertyModel<ReferenceDto<DescriptionDto>>(model, "object");
 		form.add(new EditReferencePanel("object", objectModel, RefType.Object, reference.getObject()));
-		IModel<Reference<Description>> contextModel = new PropertyModel<Reference<Description>>(model, "context");
+		IModel<ReferenceDto<DescriptionDto>> contextModel = new PropertyModel<ReferenceDto<DescriptionDto>>(model, "context");
 		form.add(new EditReferencePanel("context", contextModel, RefType.Context, reference.getContext()));
 		
 		form.add(contextType);
@@ -196,6 +198,14 @@ public class EditTransformationPage extends AbstractProtectedPage {
 	}
 
 	public static Jump<EditTransformationPage> editTransformation(Transformation transformation) {
+		PageParameters params = new PageParameters();
+		if (transformation!=null) {
+		params.add(P_REF, transformation.getId().getId().toString());
+		}
+		return new Jump<EditTransformationPage>(EditTransformationPage.class, params,true);
+	}
+
+	public static Jump<EditTransformationPage> editTransformation(TransformationDto transformation) {
 		PageParameters params = new PageParameters();
 		if (transformation!=null) {
 		params.add(P_REF, transformation.getId().getId().toString());

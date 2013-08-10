@@ -32,6 +32,7 @@ import com.google.common.collect.Lists;
 import de.flapdoodle.drug.persistence.mongo.beans.Description;
 import de.flapdoodle.drug.persistence.mongo.beans.Transformation;
 import de.flapdoodle.drug.persistence.service.DescriptionDto;
+import de.flapdoodle.drug.persistence.service.TransformationDto;
 import de.flapdoodle.drug.render.TagReference;
 import de.flapdoodle.drug.webapp.app.models.Descriptions;
 import de.flapdoodle.drug.webapp.app.models.ListModels;
@@ -53,24 +54,24 @@ public class DescriptionPage extends AbstractBasePage {
 	public DescriptionPage(PageParameters pageParameters) {
 		
 		String begriff = pageParameters.get(P_BEGRIFF).toOptionalString();
-		IModel<List<Description>> descriptionsModel=Descriptions.get(begriff);
+		IModel<List<DescriptionDto>> descriptionsModel=Descriptions.get(begriff);
 		
-		IModel<Description> descriptionModel = ListModels.ifOnlyOne(descriptionsModel);
+		IModel<DescriptionDto> descriptionModel = ListModels.ifOnlyOne(descriptionsModel);
 		add(new DescriptionPanel("description", descriptionModel));
 		
 		if (descriptionModel.getObject()==null) {
 			Navigation.editDescription(begriff,true).asResponse();
 		}
 		
-		IModel<List<Transformation>> transformations = Models.on(descriptionModel).apply(new Function1<List<Transformation>, Description>() {
+		IModel<List<TransformationDto>> transformations = Models.on(descriptionModel).apply(new Function1<List<TransformationDto>, DescriptionDto>() {
 			@Override
-			public List<Transformation> apply(Description descr) {
+			public List<TransformationDto> apply(DescriptionDto descr) {
 				Transformations t=new Transformations();
 				if (descr.isObject()) {
-					ArrayList<Transformation> ret = Lists.newArrayList();
-					List<Transformation> subjects = t.apply(new TagReference(descr.getName(), null, null,null,null));
-					List<Transformation> objects = t.apply(new TagReference(null, null, descr.getName(),null,null));
-					List<Transformation> contexts = t.apply(new TagReference(null, null ,null,null,descr.getName()));
+					ArrayList<TransformationDto> ret = Lists.newArrayList();
+					List<TransformationDto> subjects = t.apply(new TagReference(descr.getName(), null, null,null,null));
+					List<TransformationDto> objects = t.apply(new TagReference(null, null, descr.getName(),null,null));
+					List<TransformationDto> contexts = t.apply(new TagReference(null, null ,null,null,descr.getName()));
 					if (subjects!=null) ret.addAll(subjects);
 					if (objects!=null) ret.addAll(objects);
 					if (contexts!=null) ret.addAll(contexts);

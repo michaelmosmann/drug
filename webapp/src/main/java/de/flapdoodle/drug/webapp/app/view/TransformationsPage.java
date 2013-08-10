@@ -33,6 +33,10 @@ import de.flapdoodle.drug.persistence.mongo.beans.Transformation;
 import de.flapdoodle.drug.persistence.mongo.dao.DescriptionDao;
 import de.flapdoodle.drug.persistence.mongo.dao.SearchDao;
 import de.flapdoodle.drug.persistence.mongo.dao.TransformationDao;
+import de.flapdoodle.drug.persistence.service.IDescriptionService;
+import de.flapdoodle.drug.persistence.service.ITransformationService;
+import de.flapdoodle.drug.persistence.service.SearchService;
+import de.flapdoodle.drug.persistence.service.TransformationDto;
 import de.flapdoodle.drug.render.TagReference;
 import de.flapdoodle.drug.webapp.app.models.ListModels;
 import de.flapdoodle.drug.webapp.app.models.Transformations;
@@ -49,13 +53,13 @@ public class TransformationsPage extends AbstractBasePage {
 	static final String P_OBJ = "Objekt";
 
 	@Inject
-	TransformationDao _transformationDao;
+	ITransformationService _transformationDao;
 
 	@Inject
-	DescriptionDao _descriptionDao;
+	IDescriptionService _descriptionDao;
 
 	@Inject
-	SearchDao _searchDao;
+	SearchService _searchDao;
 
 	public TransformationsPage(PageParameters pageParameters) {
 
@@ -65,9 +69,9 @@ public class TransformationsPage extends AbstractBasePage {
 		
 		TagReference reference=Navigation.fromPageParameters(pageParameters);
 
-		IModel<List<Transformation>> transformations = Transformations.search(reference);
+		IModel<List<TransformationDto>> transformations = Transformations.search(reference);
 
-		List<Transformation> list = transformations.getObject();
+		List<TransformationDto> list = transformations.getObject();
 
 		if ((list!=null) && (!list.isEmpty())) {
 			if ((list.size()==1) && (!reference.isOpen())) {

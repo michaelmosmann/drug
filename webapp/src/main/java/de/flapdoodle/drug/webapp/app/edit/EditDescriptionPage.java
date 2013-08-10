@@ -48,6 +48,7 @@ import de.flapdoodle.drug.persistence.mongo.dao.DescriptionDao;
 import de.flapdoodle.drug.persistence.mongo.dao.SearchDao;
 import de.flapdoodle.drug.persistence.service.DescriptionDto;
 import de.flapdoodle.drug.persistence.service.IDescriptionService;
+import de.flapdoodle.drug.persistence.service.SearchService;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation.Jump;
 import de.flapdoodle.drug.webapp.app.pages.AbstractBasePage;
@@ -62,9 +63,6 @@ public class EditDescriptionPage extends AbstractProtectedPage {
 
 	@Inject
 	IDescriptionService _descriptionService;
-
-	@Inject
-	SearchDao _searchDao;
 
 	public EditDescriptionPage(PageParameters pageParameters) {
 
@@ -134,6 +132,13 @@ public class EditDescriptionPage extends AbstractProtectedPage {
 	}
 
 	public static Jump<EditDescriptionPage> editDescription(Description descr) {
+		PageParameters params = new PageParameters();
+		if (descr != null)
+			params.add(P_REF, descr.getId().getId().toString());
+		return new Jump<EditDescriptionPage>(EditDescriptionPage.class, params,true);
+	}
+
+	public static Jump<EditDescriptionPage> editDescription(DescriptionDto descr) {
 		PageParameters params = new PageParameters();
 		if (descr != null)
 			params.add(P_REF, descr.getId().getId().toString());

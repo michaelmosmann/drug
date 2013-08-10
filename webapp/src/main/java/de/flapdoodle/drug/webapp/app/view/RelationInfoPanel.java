@@ -39,6 +39,9 @@ import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonSize;
 import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonType;
 import de.flapdoodle.drug.persistence.mongo.beans.Description;
 import de.flapdoodle.drug.persistence.mongo.beans.Transformation;
+import de.flapdoodle.drug.persistence.service.DescriptionDto;
+import de.flapdoodle.drug.persistence.service.ReferenceDto;
+import de.flapdoodle.drug.persistence.service.TransformationDto;
 import de.flapdoodle.drug.webapp.app.models.TransformationProperties;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation.Jump;
@@ -48,17 +51,17 @@ import de.flapdoodle.wicket.model.Models;
 
 public class RelationInfoPanel extends Panel {
 
-	public RelationInfoPanel(String id, IModel<Transformation> relation) {
+	public RelationInfoPanel(String id, IModel<TransformationDto> relation) {
 		super(id);
 
-		IModel<Map<Reference<Description>, String>> names = TransformationProperties.names(relation);
+		IModel<Map<ReferenceDto<DescriptionDto>, String>> names = TransformationProperties.names(relation);
 
 		IModel<List<JumpInfo<DescriptionsPage>>> links = Models.on(relation, names).apply(
-				new Function2<List<JumpInfo<DescriptionsPage>>, Transformation, Map<Reference<Description>, String>>() {
+				new Function2<List<JumpInfo<DescriptionsPage>>, TransformationDto, Map<ReferenceDto<DescriptionDto>, String>>() {
 
 					@Override
-					public List<JumpInfo<DescriptionsPage>> apply(Transformation t,
-							Map<Reference<Description>, String> names) {
+					public List<JumpInfo<DescriptionsPage>> apply(TransformationDto t,
+							Map<ReferenceDto<DescriptionDto>, String> names) {
 						ArrayList<JumpInfo<DescriptionsPage>> ret = Lists.newArrayList();
 						
 						addIfSet(ret, names, "s", t.getSubject(), true);
@@ -69,8 +72,8 @@ public class RelationInfoPanel extends Panel {
 						return ret;
 					}
 
-					private void addIfSet(ArrayList<JumpInfo<DescriptionsPage>> ret, Map<Reference<Description>, String> names,
-							String prefix, Reference<Description> subject, boolean isObject) {
+					private void addIfSet(ArrayList<JumpInfo<DescriptionsPage>> ret, Map<ReferenceDto<DescriptionDto>, String> names,
+							String prefix, ReferenceDto<DescriptionDto> subject, boolean isObject) {
 						if (subject!=null) {
 							String name = names.get(subject);
 							if (name!=null) {

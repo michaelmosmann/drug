@@ -24,7 +24,9 @@ import com.google.inject.AbstractModule;
 
 import de.flapdoodle.drug.config.Profile;
 import de.flapdoodle.drug.persistence.mongo.service.DescriptionService;
+import de.flapdoodle.drug.persistence.mongo.service.TransformationService;
 import de.flapdoodle.drug.persistence.service.IDescriptionService;
+import de.flapdoodle.drug.persistence.service.ITransformationService;
 
 
 public class Persistence extends AbstractModule
@@ -60,5 +62,6 @@ public class Persistence extends AbstractModule
 		install(new Dao());
 		
 		bind(IDescriptionService.class).to(DescriptionService.class);
+		bind(ITransformationService.class).to(TransformationService.class);
 	}
 }

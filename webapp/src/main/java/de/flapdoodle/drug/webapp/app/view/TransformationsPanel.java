@@ -32,17 +32,18 @@ import org.apache.wicket.model.PropertyModel;
 
 import de.flapdoodle.drug.persistence.mongo.beans.Description;
 import de.flapdoodle.drug.persistence.mongo.beans.Transformation;
+import de.flapdoodle.drug.persistence.service.TransformationDto;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
 
 
 public class TransformationsPanel extends Panel {
 
-	public TransformationsPanel(String id, IModel<List<Transformation>> descriptionsModel) {
+	public TransformationsPanel(String id, IModel<List<TransformationDto>> descriptionsModel) {
 		super(id);
 		
-		add(new ListView<Transformation>("list",descriptionsModel) {
+		add(new ListView<TransformationDto>("list",descriptionsModel) {
 			@Override
-			protected void populateItem(ListItem<Transformation> item) {
+			protected void populateItem(ListItem<TransformationDto> item) {
 				BookmarkablePageLink<TransformationPage> link = Navigation.toTransformation(item.getModelObject()).asLink("link");
 				link.add(new Label("title",new PropertyModel<String>(item.getModel(), "title")));
 				item.add(link);

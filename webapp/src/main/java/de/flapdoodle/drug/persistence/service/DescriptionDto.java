@@ -6,9 +6,11 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 import com.google.inject.internal.Lists;
 
+import de.flapdoodle.drug.persistence.mongo.beans.Description;
+
 public class DescriptionDto extends AbstractDescriptionDto {
 
-	String _id;
+	ReferenceDto<DescriptionDto> _id;
 
 	String _name;
 
@@ -16,11 +18,11 @@ public class DescriptionDto extends AbstractDescriptionDto {
 
 	boolean _object = true;
 
-	public void setId(String id) {
+	public void setId(ReferenceDto<DescriptionDto> id) {
 		_id = id;
 	}
 	
-	public String getId() {
+	public ReferenceDto<DescriptionDto> getId() {
 		return _id;
 	}
 

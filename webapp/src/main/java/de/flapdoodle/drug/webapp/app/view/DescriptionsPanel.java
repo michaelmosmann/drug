@@ -31,17 +31,18 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 
 import de.flapdoodle.drug.persistence.mongo.beans.Description;
+import de.flapdoodle.drug.persistence.service.DescriptionDto;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
 
 
 public class DescriptionsPanel extends Panel {
 
-	public DescriptionsPanel(String id, IModel<List<Description>> descriptionsModel) {
+	public DescriptionsPanel(String id, IModel<List<DescriptionDto>> descriptionsModel) {
 		super(id);
 		
-		add(new ListView<Description>("list",descriptionsModel) {
+		add(new ListView<DescriptionDto>("list",descriptionsModel) {
 			@Override
-			protected void populateItem(ListItem<Description> item) {
+			protected void populateItem(ListItem<DescriptionDto> item) {
 				BookmarkablePageLink<DescriptionPage> link = Navigation.toDescription(item.getModelObject()).asLink("link");
 				link.add(new Label("name",new PropertyModel<String>(item.getModel(), "name")));
 				item.add(link);

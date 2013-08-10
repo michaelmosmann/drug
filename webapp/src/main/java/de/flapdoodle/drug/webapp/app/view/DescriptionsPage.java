@@ -28,6 +28,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import com.google.common.collect.Lists;
 
 import de.flapdoodle.drug.persistence.mongo.beans.Description;
+import de.flapdoodle.drug.persistence.service.DescriptionDto;
 import de.flapdoodle.drug.webapp.app.models.Descriptions;
 import de.flapdoodle.drug.webapp.app.models.ListModels;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
@@ -43,11 +44,11 @@ public class DescriptionsPage extends AbstractBasePage {
 	public DescriptionsPage(PageParameters pageParameters) {
 		String begriff = pageParameters.get(P_BEGRIFF).toOptionalString();
 		boolean isObject = pageParameters.get(P_OBJECT).toBoolean(true);
-		IModel<List<Description>> descriptionsModel = Descriptions.withQuery(begriff);
+		IModel<List<DescriptionDto>> descriptionsModel = Descriptions.withQuery(begriff);
 
 		add(new DescriptionsPanel("descriptions", descriptionsModel));
 
-		List<Description> result = descriptionsModel.getObject();
+		List<DescriptionDto> result = descriptionsModel.getObject();
 		if ((result != null) && (!result.isEmpty())) {
 			if (result.size() == 1) {
 				Navigation.toDescription(result.get(0)).asResponse();

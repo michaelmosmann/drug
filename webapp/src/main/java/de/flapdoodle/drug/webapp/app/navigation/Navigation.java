@@ -31,6 +31,7 @@ import de.flapdoodle.drug.markup.Type;
 import de.flapdoodle.drug.persistence.mongo.beans.Description;
 import de.flapdoodle.drug.persistence.mongo.beans.Transformation;
 import de.flapdoodle.drug.persistence.service.DescriptionDto;
+import de.flapdoodle.drug.persistence.service.TransformationDto;
 import de.flapdoodle.drug.render.TagReference;
 import de.flapdoodle.drug.webapp.app.edit.EditDescriptionPage;
 import de.flapdoodle.drug.webapp.app.edit.EditTransformationPage;
@@ -61,8 +62,12 @@ public class Navigation {
 		return DescriptionsPage.toDescriptions(name,isObject);
 	}
 	
-	public static Jump<EditDescriptionPage> editDescription(Description transformation) {
-		return EditDescriptionPage.editDescription(transformation);
+	public static Jump<EditDescriptionPage> editDescription(Description description) {
+		return EditDescriptionPage.editDescription(description);
+	}
+	
+	public static Jump<EditDescriptionPage> editDescription(DescriptionDto descriptionDto) {
+		return EditDescriptionPage.editDescription(descriptionDto);
 	}
 	
 	public static Jump<EditDescriptionPage> editDescription(String name,boolean isObject) {
@@ -77,11 +82,19 @@ public class Navigation {
 		return TransformationPage.toTransformation(transformation);
 	}
 	
+	public static Jump<TransformationPage> toTransformation(TransformationDto transformationDto) {
+		return TransformationPage.toTransformation(transformationDto);
+	}
+	
 	public static Jump<EditTransformationPage> editTransformation(TagReference reference) {
 		return EditTransformationPage.editTransformation(reference);
 	}
 	
 	public static Jump<EditTransformationPage> editTransformation(Transformation transformation) {
+		return EditTransformationPage.editTransformation(transformation);
+	}
+	
+	public static Jump<EditTransformationPage> editTransformation(TransformationDto transformation) {
 		return EditTransformationPage.editTransformation(transformation);
 	}
 	

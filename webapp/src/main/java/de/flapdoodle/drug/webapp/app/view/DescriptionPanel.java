@@ -31,14 +31,15 @@ import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonBehavior;
 import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonCssClassAppender;
 import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonType;
 import de.flapdoodle.drug.persistence.mongo.beans.Description;
+import de.flapdoodle.drug.persistence.service.DescriptionDto;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
 
 
 public class DescriptionPanel extends Panel {
 
-	private IModel<Description> descriptionModel;
+	private IModel<DescriptionDto> descriptionModel;
 
-	public DescriptionPanel(String id, IModel<Description> model) {
+	public DescriptionPanel(String id, IModel<DescriptionDto> model) {
 		super(id);
 		
 		descriptionModel=model;

@@ -54,6 +54,10 @@ public class Transformation extends AbstractDescription implements IEntity<Trans
 //	@Version
 //	String _version;
 
+	public void setId(Reference<Transformation> id) {
+		_id = id;
+	}
+	
 	@Override
 	public Reference<Transformation> getId() {
 		return _id;

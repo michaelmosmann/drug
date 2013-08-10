@@ -35,99 +35,112 @@ import com.google.inject.Inject;
 
 import de.flapdoodle.drug.persistence.mongo.beans.Description;
 import de.flapdoodle.drug.persistence.mongo.dao.DescriptionDao;
+import de.flapdoodle.drug.persistence.mongo.service.DescriptionService;
+import de.flapdoodle.drug.persistence.service.DescriptionDto;
+import de.flapdoodle.drug.persistence.service.IDescriptionService;
+import de.flapdoodle.drug.persistence.service.ReferenceDto;
 import de.flapdoodle.functions.Function1;
 import de.flapdoodle.mongoom.types.Reference;
 import de.flapdoodle.wicket.model.Models;
 
-
 public class EditReferencePanel extends Panel {
 
 	public enum RefType {
-		Subject, Object, Predicate, Context
+		Subject,
+		Object,
+		Predicate,
+		Context
 	};
-	
+
 	@Inject
-	DescriptionDao _descriptionDao;
-	
-	public EditReferencePanel(String id, final IModel<Reference<Description>> descrModel, final RefType type, final String name) {
+	IDescriptionService _descriptionDao;
+
+	public EditReferencePanel(String id, final IModel<ReferenceDto<DescriptionDto>> descrModel, final RefType type,
+			final String name) {
 		super(id);
-		
-		IModel<List<Reference<Description>>> choices=Models.on(descrModel).apply(new Function1<List<Reference<Description>>, Reference<Description>>() {
-			@Override
-			public List<Reference<Description>> apply(Reference<Description> value) {
-				if (value!=null) {
-					return Lists.newArrayList(value);
-				}
-				
-				List<Description> descriptions;
-				if (name!=null) {
-					descriptions = _descriptionDao.findByName(type!=RefType.Predicate, name);
-				} else {
-					descriptions = _descriptionDao.findByType(type!=RefType.Predicate);
-				}
-				return Lists.transform(descriptions, new Function<Description, Reference<Description>>() {
+
+		IModel<List<ReferenceDto<DescriptionDto>>> choices = Models.on(descrModel).apply(
+				new Function1<List<ReferenceDto<DescriptionDto>>, ReferenceDto<DescriptionDto>>() {
+
 					@Override
-					public Reference<Description> apply(Description from) {
-						return from.getId();
+					public List<ReferenceDto<DescriptionDto>> apply(ReferenceDto<DescriptionDto> value) {
+						if (value != null) {
+							return Lists.newArrayList(value);
+						}
+
+						List<DescriptionDto> descriptions;
+						if (name != null) {
+							descriptions = _descriptionDao.findByName(type != RefType.Predicate, name);
+						} else {
+							descriptions = _descriptionDao.findByType(type != RefType.Predicate);
+						}
+						return Lists.transform(descriptions, new Function<DescriptionDto, ReferenceDto<DescriptionDto>>() {
+
+							@Override
+							public ReferenceDto<DescriptionDto> apply(DescriptionDto from) {
+								return from.getId();
+							}
+						});
 					}
 				});
-			}
-		});
-		
-//		IModel<List<Reference<Description>>> choices=new LoadableDetachableModel<List<Reference<Description>>>() {
-//			@Override
-//			protected List<Reference<Description>> load() {
-//				return Lists.transform(_descriptionDao.findByName(isObject, name), new Function<Description, Reference<Description>>() {
-//					@Override
-//					public Reference<Description> apply(Description from) {
-//						return from.getId();
-//					}
-//				});
-//			}
-//		};
-						
-		IChoiceRenderer<Reference<Description>> renderer=new IChoiceRenderer<Reference<Description>>() {
+
+		//		IModel<List<ReferenceDto<DescriptionDto>>> choices=new LoadableDetachableModel<List<ReferenceDto<DescriptionDto>>>() {
+		//			@Override
+		//			protected List<ReferenceDto<DescriptionDto>> load() {
+		//				return Lists.transform(_descriptionDao.findByName(isObject, name), new Function<Description, ReferenceDto<DescriptionDto>>() {
+		//					@Override
+		//					public ReferenceDto<DescriptionDto> apply(Description from) {
+		//						return from.getId();
+		//					}
+		//				});
+		//			}
+		//		};
+
+		IChoiceRenderer<ReferenceDto<DescriptionDto>> renderer = new IChoiceRenderer<ReferenceDto<DescriptionDto>>() {
+
 			@Override
-			public Object getDisplayValue(Reference<Description> object) {
+			public Object getDisplayValue(ReferenceDto<DescriptionDto> object) {
 				return _descriptionDao.get(object).getName();
 			}
-			
+
 			@Override
-			public String getIdValue(Reference<Description> object, int index) {
+			public String getIdValue(ReferenceDto<DescriptionDto> object, int index) {
 				return object.toString();
 			}
 		};
-		
-		DropDownChoice<Reference<Description>> dropDownChoice = new DropDownChoice<Reference<Description>>("choices",descrModel,choices,renderer);
-//		dropDownChoice.setRequired(type!=RefType.Context);
+
+		DropDownChoice<ReferenceDto<DescriptionDto>> dropDownChoice = new DropDownChoice<ReferenceDto<DescriptionDto>>("choices",
+				descrModel, choices, renderer);
+		//		dropDownChoice.setRequired(type!=RefType.Context);
 		dropDownChoice.setNullValid(true);
-		if (name!=null) {
-			List<Reference<Description>> choiceList = choices.getObject();
-			if (choiceList.size()==1) {
+		if (name != null) {
+			List<ReferenceDto<DescriptionDto>> choiceList = choices.getObject();
+			if (choiceList.size() == 1) {
 				descrModel.setObject(choiceList.get(0));
 			}
 		}
 		add(dropDownChoice);
-		
-		Link<List<Reference<Description>>> link = new Link<List<Reference<Description>>>("new",choices) {
+
+		Link<List<ReferenceDto<DescriptionDto>>> link = new Link<List<ReferenceDto<DescriptionDto>>>("new", choices) {
+
 			@Override
 			public void onClick() {
-				Description entity = new Description();
+				DescriptionDto entity = new DescriptionDto();
 				entity.setName(name);
-				entity.setObject(type!=RefType.Predicate);
+				entity.setObject(type != RefType.Predicate);
 				_descriptionDao.save(entity);
 
 				descrModel.setObject(entity.getId());
 			}
-			
+
 			@Override
 			protected void onConfigure() {
 				super.onConfigure();
-				
-				setVisible(getModelObject()==null || getModelObject().isEmpty());
+
+				setVisible(getModelObject() == null || getModelObject().isEmpty());
 			}
 		};
-		link.add(new Label("begriff",name));
+		link.add(new Label("begriff", name));
 		add(link);
 	}
 

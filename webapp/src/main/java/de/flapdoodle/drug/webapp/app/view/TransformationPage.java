@@ -34,6 +34,11 @@ import de.flapdoodle.drug.persistence.mongo.beans.Transformation;
 import de.flapdoodle.drug.persistence.mongo.dao.DescriptionDao;
 import de.flapdoodle.drug.persistence.mongo.dao.SearchDao;
 import de.flapdoodle.drug.persistence.mongo.dao.TransformationDao;
+import de.flapdoodle.drug.persistence.mongo.service.TransformationService;
+import de.flapdoodle.drug.persistence.service.IDescriptionService;
+import de.flapdoodle.drug.persistence.service.ITransformationService;
+import de.flapdoodle.drug.persistence.service.SearchService;
+import de.flapdoodle.drug.persistence.service.TransformationDto;
 import de.flapdoodle.drug.webapp.app.models.ListModels;
 import de.flapdoodle.drug.webapp.app.models.Transformations;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
@@ -51,13 +56,13 @@ public class TransformationPage extends AbstractBasePage {
 	static final String P_TRANS = "Id";
 
 	@Inject
-	TransformationDao _transformationDao;
+	ITransformationService _transformationDao;
 
 	@Inject
-	DescriptionDao _descriptionDao;
+	IDescriptionService _descriptionDao;
 
 	@Inject
-	SearchDao _searchDao;
+	SearchService _searchDao;
 
 	public TransformationPage(PageParameters pageParameters) {
 		final String id = pageParameters.get(P_TRANS).toOptionalString();
@@ -80,13 +85,8 @@ public class TransformationPage extends AbstractBasePage {
 //			String predicate = pageParameters.get(P_PRED).toOptionalString();
 //			String object = pageParameters.get(P_OBJ).toOptionalString();
 
-			IModel<Transformation> transformation = new LoadableDetachableModel<Transformation>() {
-				@Override
-				protected Transformation load() {
-					// TODO Auto-generated method stub
-					return _transformationDao.get(Reference.getInstance(Transformation.class, new ObjectId(id)));
-				}
-			};
+		
+			IModel<TransformationDto> transformation = Transformations.withStringId(id);
 
 			add(new TransformationPanel("description", transformation));
 
@@ -104,6 +104,12 @@ public class TransformationPage extends AbstractBasePage {
 	public static Jump<TransformationPage> toTransformation(Transformation transformation) {
 		PageParameters params = new PageParameters();
 		params.set(P_TRANS, transformation.getId().getId().toString());
+		return new Jump<TransformationPage>(TransformationPage.class, params);
+	}
+
+	public static Jump<TransformationPage> toTransformation(TransformationDto transformationDto) {
+		PageParameters params = new PageParameters();
+		params.set(P_TRANS, transformationDto.getId().getId().toString());
 		return new Jump<TransformationPage>(TransformationPage.class, params);
 	}
 }

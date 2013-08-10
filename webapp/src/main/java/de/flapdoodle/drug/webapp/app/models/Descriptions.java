@@ -31,15 +31,18 @@ import com.google.inject.internal.Lists;
 
 import de.flapdoodle.drug.persistence.mongo.beans.Description;
 import de.flapdoodle.drug.persistence.mongo.dao.DescriptionDao;
+import de.flapdoodle.drug.persistence.mongo.service.DescriptionService;
+import de.flapdoodle.drug.persistence.service.DescriptionDto;
+import de.flapdoodle.drug.persistence.service.IDescriptionService;
 import de.flapdoodle.functions.Function1;
 import de.flapdoodle.mongoom.types.Reference;
 import de.flapdoodle.wicket.model.Models;
 
 
-public class Descriptions implements Function1<List<Description>, String> {
+public class Descriptions implements Function1<List<DescriptionDto>, String> {
 
 	@Inject
-	DescriptionDao _descriptionDao;
+	IDescriptionService _descriptionDao;
 	
 	private final boolean _exact;
 	
@@ -50,9 +53,9 @@ public class Descriptions implements Function1<List<Description>, String> {
 	}
 	
 	@Override
-	public List<Description> apply(String name) {
+	public List<DescriptionDto> apply(String name) {
 		if (_exact) {
-			Description description = _descriptionDao.getByName(name);
+			DescriptionDto description = _descriptionDao.getByName(name);
 			if (description!=null) {
 				return Lists.newArrayList(description);
 			}
@@ -61,11 +64,11 @@ public class Descriptions implements Function1<List<Description>, String> {
 		return _descriptionDao.findAnyByName(name);
 	}
 	
-	public static IModel<List<Description>> withQuery(String query) {
+	public static IModel<List<DescriptionDto>> withQuery(String query) {
 		return Models.on(Model.of(query)).apply(new Descriptions(false));
 	}
 
-	public static IModel<List<Description>> get(String query) {
+	public static IModel<List<DescriptionDto>> get(String query) {
 		return Models.on(Model.of(query)).apply(new Descriptions(true));
 	}
 }
