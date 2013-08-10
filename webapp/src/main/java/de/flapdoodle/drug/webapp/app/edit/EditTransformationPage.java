@@ -42,11 +42,11 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
 import de.flapdoodle.drug.markup.ContextType;
-import de.flapdoodle.drug.persistence.beans.Description;
-import de.flapdoodle.drug.persistence.beans.Transformation;
-import de.flapdoodle.drug.persistence.dao.DescriptionDao;
-import de.flapdoodle.drug.persistence.dao.SearchDao;
-import de.flapdoodle.drug.persistence.dao.TransformationDao;
+import de.flapdoodle.drug.persistence.mongo.beans.Description;
+import de.flapdoodle.drug.persistence.mongo.beans.Transformation;
+import de.flapdoodle.drug.persistence.mongo.dao.DescriptionDao;
+import de.flapdoodle.drug.persistence.mongo.dao.SearchDao;
+import de.flapdoodle.drug.persistence.mongo.dao.TransformationDao;
 import de.flapdoodle.drug.render.TagReference;
 import de.flapdoodle.drug.webapp.app.edit.EditReferencePanel.RefType;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
@@ -81,7 +81,7 @@ public class EditTransformationPage extends AbstractProtectedPage {
 		Transformation t = new Transformation();
 		t.setContextType(reference.getContextType());
 		if (id!=null) {
-			Transformation byId=_transformationDao.get(Reference.getInstance(Transformation.class, new ObjectId(id)));
+			Transformation byId=_transformationDao.getByStringId(id);
 			if (byId!=null) {
 				t=byId;
 			}

@@ -24,11 +24,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static org.junit.Assert.assertEquals;
+
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
 import de.flapdoodle.drug.AbstractEmbedMongoTest;
-import de.flapdoodle.drug.persistence.beans.Description;
+import de.flapdoodle.drug.persistence.mongo.beans.Description;
+import de.flapdoodle.drug.persistence.mongo.dao.DescriptionDao;
 import de.flapdoodle.mongoom.types.Reference;
 
 

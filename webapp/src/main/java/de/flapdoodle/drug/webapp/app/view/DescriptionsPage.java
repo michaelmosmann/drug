@@ -27,7 +27,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.common.collect.Lists;
 
-import de.flapdoodle.drug.persistence.beans.Description;
+import de.flapdoodle.drug.persistence.mongo.beans.Description;
 import de.flapdoodle.drug.webapp.app.models.Descriptions;
 import de.flapdoodle.drug.webapp.app.models.ListModels;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;

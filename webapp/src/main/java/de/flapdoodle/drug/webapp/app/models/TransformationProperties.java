@@ -33,9 +33,9 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
-import de.flapdoodle.drug.persistence.beans.Description;
-import de.flapdoodle.drug.persistence.beans.Transformation;
-import de.flapdoodle.drug.persistence.dao.DescriptionDao;
+import de.flapdoodle.drug.persistence.mongo.beans.Description;
+import de.flapdoodle.drug.persistence.mongo.beans.Transformation;
+import de.flapdoodle.drug.persistence.mongo.dao.DescriptionDao;
 import de.flapdoodle.functions.Function1;
 import de.flapdoodle.mongoom.types.Reference;
 import de.flapdoodle.wicket.model.Models;

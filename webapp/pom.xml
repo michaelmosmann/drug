@@ -112,7 +112,7 @@
 		<dependency>
 			<groupId>de.flapdoodle.embed</groupId>
 			<artifactId>de.flapdoodle.embed.mongo</artifactId>
-			<version>1.22</version>
+			<version>1.34</version>
 		</dependency>
 		
 		<dependency>
@@ -126,5 +126,47 @@
 			<artifactId>bootstrap</artifactId>
 			<version>0.5.6</version>
 		</dependency>
+
+		<!-- neo4j -->		
+		<dependency>
+			<groupId>org.neo4j</groupId>
+			<artifactId>neo4j</artifactId>
+			<version>2.0.0-M03</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.neo4j</groupId>
+			<artifactId>neo4j-kernel</artifactId>
+			<version>2.0.0-M03</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		
+		
+		<!-- orientDB -->		
+		<dependency>
+			<groupId>com.orientechnologies</groupId>
+			<artifactId>orient-commons</artifactId>
+			<version>1.4.1</version>
+			<type>bundle</type>
+		</dependency>
+		<dependency>
+			<groupId>com.orientechnologies</groupId>
+			<artifactId>orientdb-core</artifactId>
+			<version>1.4.1</version>
+			<type>bundle</type>
+		</dependency>
+		<!--
+		<dependency>
+			<groupId>com.orientechnologies</groupId>
+			<artifactId>orientdb-graphdb</artifactId>
+			<version>1.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.tinkerpop.blueprints</groupId>
+			<artifactId>blueprints-orient-graph</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+-->
   </dependencies>
 </project>

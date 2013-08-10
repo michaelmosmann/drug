@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.flapdoodle.drug.persistence.dao;
+package de.flapdoodle.drug.persistence.mongo.dao;
 
 import java.util.List;
 
@@ -28,8 +28,8 @@ import com.google.inject.Inject;
 
 import de.flapdoodle.drug.markup.ContextType;
 import de.flapdoodle.drug.markup.Type;
-import de.flapdoodle.drug.persistence.beans.Description;
-import de.flapdoodle.drug.persistence.beans.Transformation;
+import de.flapdoodle.drug.persistence.mongo.beans.Description;
+import de.flapdoodle.drug.persistence.mongo.beans.Transformation;
 import de.flapdoodle.mongoom.types.Reference;
 
 public class SearchDao {

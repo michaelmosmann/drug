@@ -28,8 +28,9 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import de.flapdoodle.drug.markup.ContextType;
 import de.flapdoodle.drug.markup.Type;
-import de.flapdoodle.drug.persistence.beans.Description;
-import de.flapdoodle.drug.persistence.beans.Transformation;
+import de.flapdoodle.drug.persistence.mongo.beans.Description;
+import de.flapdoodle.drug.persistence.mongo.beans.Transformation;
+import de.flapdoodle.drug.persistence.service.DescriptionDto;
 import de.flapdoodle.drug.render.TagReference;
 import de.flapdoodle.drug.webapp.app.edit.EditDescriptionPage;
 import de.flapdoodle.drug.webapp.app.edit.EditTransformationPage;
@@ -48,6 +49,10 @@ public class Navigation {
 	private static final String P_PREDICATE = "predicate";
 	private static final String P_SUBJECT = "subject";
 
+	public static Jump<DescriptionPage> toDescription(DescriptionDto descriptionDto) {
+		return DescriptionPage.toDescription(descriptionDto);
+	}
+	
 	public static Jump<DescriptionPage> toDescription(Description description) {
 		return DescriptionPage.toDescription(description);
 	}

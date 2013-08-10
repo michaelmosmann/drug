@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.flapdoodle.drug.persistence.beans;
+package de.flapdoodle.drug.persistence.mongo.beans;
 
 import de.flapdoodle.drug.markup.ContextType;
 import de.flapdoodle.mongoom.IEntity;
@@ -51,8 +51,8 @@ public class Transformation extends AbstractDescription implements IEntity<Trans
 	@Id
 	Reference<Transformation> _id;
 
-	@Version
-	String _version;
+//	@Version
+//	String _version;
 
 	@Override
 	public Reference<Transformation> getId() {

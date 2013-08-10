@@ -29,8 +29,8 @@ import org.apache.wicket.model.Model;
 import com.google.inject.Inject;
 import com.google.inject.internal.Lists;
 
-import de.flapdoodle.drug.persistence.beans.Description;
-import de.flapdoodle.drug.persistence.dao.DescriptionDao;
+import de.flapdoodle.drug.persistence.mongo.beans.Description;
+import de.flapdoodle.drug.persistence.mongo.dao.DescriptionDao;
 import de.flapdoodle.functions.Function1;
 import de.flapdoodle.mongoom.types.Reference;
 import de.flapdoodle.wicket.model.Models;
@@ -67,15 +67,5 @@ public class Descriptions implements Function1<List<Description>, String> {
 
 	public static IModel<List<Description>> get(String query) {
 		return Models.on(Model.of(query)).apply(new Descriptions(true));
-	}
-
-	public static IModel<List<Reference<Description>>> references(IModel<List<Description>> choices) {
-		return Models.on(choices).apply(new Function1<List<Reference<Description>>, List<Description>>() {
-			@Override
-			public List<Reference<Description>> apply(List<Description> value) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-		});
 	}
 }

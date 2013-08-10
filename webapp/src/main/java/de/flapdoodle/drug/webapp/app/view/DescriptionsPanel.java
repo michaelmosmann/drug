@@ -30,7 +30,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 
-import de.flapdoodle.drug.persistence.beans.Description;
+import de.flapdoodle.drug.persistence.mongo.beans.Description;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
 
 

@@ -30,10 +30,10 @@ import org.bson.types.ObjectId;
 
 import com.google.inject.Inject;
 
-import de.flapdoodle.drug.persistence.beans.Transformation;
-import de.flapdoodle.drug.persistence.dao.DescriptionDao;
-import de.flapdoodle.drug.persistence.dao.SearchDao;
-import de.flapdoodle.drug.persistence.dao.TransformationDao;
+import de.flapdoodle.drug.persistence.mongo.beans.Transformation;
+import de.flapdoodle.drug.persistence.mongo.dao.DescriptionDao;
+import de.flapdoodle.drug.persistence.mongo.dao.SearchDao;
+import de.flapdoodle.drug.persistence.mongo.dao.TransformationDao;
 import de.flapdoodle.drug.webapp.app.models.ListModels;
 import de.flapdoodle.drug.webapp.app.models.Transformations;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;

@@ -27,8 +27,8 @@ import org.apache.wicket.model.PropertyModel;
 
 import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonBehavior;
 import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonType;
-import de.flapdoodle.drug.persistence.beans.Description;
-import de.flapdoodle.drug.persistence.beans.Transformation;
+import de.flapdoodle.drug.persistence.mongo.beans.Description;
+import de.flapdoodle.drug.persistence.mongo.beans.Transformation;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
 
 

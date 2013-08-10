@@ -18,18 +18,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.flapdoodle.drug.persistence.config;
+package de.flapdoodle.drug.persistence.config.mongo;
 
 import com.google.inject.AbstractModule;
 
+import de.flapdoodle.drug.config.Profile;
+import de.flapdoodle.drug.persistence.mongo.service.DescriptionService;
+import de.flapdoodle.drug.persistence.service.IDescriptionService;
+
+
 public class Persistence extends AbstractModule
 {
+	private final Profile _profile;
+
+	public Persistence(Profile profile) {
+		_profile = profile;
+	}
+
 	@Override
 	protected void configure()
 	{
-		install(new Logging());
+		switch (_profile)
+		{
+			case Test:
+				install(new EmbeddedDatabase());
+				break;
+			case Local:
+				install(new PreviewDatabase());
+				break;
+			case NoInstall:
+				install(new NoInstallDatabase());
+				break;
+			case Production:
+				install(new ProductionDatabase());
+				break;
+			default:
+				throw new IllegalArgumentException("Unknown profile: "+_profile);
+		}
 		install(new Server());
 		install(new PersistentClasses());
 		install(new Dao());
+		
+		bind(IDescriptionService.class).to(DescriptionService.class);
 	}
 }

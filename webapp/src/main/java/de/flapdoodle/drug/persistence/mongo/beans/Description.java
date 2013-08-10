@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.flapdoodle.drug.persistence.beans;
+package de.flapdoodle.drug.persistence.mongo.beans;
 
 import java.util.List;
 import java.util.Set;
@@ -66,8 +66,8 @@ public class Description extends AbstractDescription implements IEntity<Descript
 	@Id
 	Reference<Description> _id;
 
-	@Version
-	String _version;
+//	@Version
+//	String _version;
 
 	@Indexed(options = @IndexOption(unique = true))
 	@IndexedInGroup(group = "namesAndType", priority = 10, direction = Direction.ASC)
@@ -79,6 +79,10 @@ public class Description extends AbstractDescription implements IEntity<Descript
 	@IndexedInGroup(group = "namesAndType", priority = 11, direction = Direction.ASC)
 	boolean _object = true;
 
+	public void setId(Reference<Description> id) {
+		_id = id;
+	}
+	
 	@Override
 	public Reference<Description> getId() {
 		return _id;

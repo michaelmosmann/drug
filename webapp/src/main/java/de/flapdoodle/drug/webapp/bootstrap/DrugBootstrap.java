@@ -31,9 +31,9 @@ import org.apache.wicket.util.io.Streams;
 import com.google.inject.Inject;
 
 import de.flapdoodle.drug.logging.Loggers;
-import de.flapdoodle.drug.persistence.beans.Description;
-import de.flapdoodle.drug.persistence.dao.DescriptionDao;
-import de.flapdoodle.drug.persistence.dao.TransformationDao;
+import de.flapdoodle.drug.persistence.mongo.beans.Description;
+import de.flapdoodle.drug.persistence.mongo.dao.DescriptionDao;
+import de.flapdoodle.drug.persistence.mongo.dao.TransformationDao;
 import de.flapdoodle.drug.webapp.DrugWebApplication;
 
 public class DrugBootstrap {

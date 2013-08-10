@@ -22,17 +22,24 @@ package de.flapdoodle.drug;
 
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
+
 import junit.framework.TestResult;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Module;
 
-import de.flapdoodle.drug.persistence.config.EmbeddedDatabase;
-import de.flapdoodle.drug.persistence.config.Persistence;
+import de.flapdoodle.drug.config.Profile;
+import de.flapdoodle.drug.persistence.config.Logging;
+import de.flapdoodle.drug.persistence.config.mongo.EmbeddedDatabase;
+import de.flapdoodle.drug.persistence.config.mongo.Persistence;
 import de.flapdoodle.embed.mongo.MongodStarter;
 import de.flapdoodle.embed.mongo.MongodExecutable;
 import de.flapdoodle.embed.mongo.MongodProcess;
 import de.flapdoodle.embed.mongo.config.MongodConfig;
+import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
+import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
 
@@ -43,33 +50,29 @@ public abstract class AbstractEmbedMongoTest extends AbstractGuiceTest {
 	MongodExecutable _mongodExe = null;
 	
 	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		
 		MongodStarter runtime = MongodStarter.getDefaultInstance();
-		_mongodExe = runtime.prepare(new MongodConfig(Version.Main.V2_1, EmbeddedDatabase.EMBEDDED_PORT,Network.localhostIsIPv6()));
+		_mongodExe = runtime.prepare(new MongodConfigBuilder()
+			.version(Version.Main.PRODUCTION)
+			.net(new Net(EmbeddedDatabase.EMBEDDED_PORT,Network.localhostIsIPv6()))
+			.build());
 		_mongod=_mongodExe.start();
     
 		super.setUp();
 	}
 	
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-		
+	@After
+	public void tearDown() throws Exception {
 		_mongod.stop();
-		_mongodExe.cleanup();
-	}
-	
-	@Override
-	public TestResult run() {
-		// TODO Auto-generated method stub
-		return super.run();
+		_mongodExe.stop();
 	}
 	
 	@Override
 	protected List<? extends Module> getModules()
 	{
-		return Lists.newArrayList(new EmbeddedDatabase(), new Persistence());
+		return Lists.newArrayList(new Logging(), new Persistence(Profile.Test));
 	}
 
 }

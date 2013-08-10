@@ -25,10 +25,15 @@ import java.util.List;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
+import static org.junit.Assert.assertEquals;
+
 import de.flapdoodle.drug.AbstractEmbedMongoTest;
 import de.flapdoodle.drug.markup.ContextType;
-import de.flapdoodle.drug.persistence.beans.Description;
-import de.flapdoodle.drug.persistence.beans.Transformation;
+import de.flapdoodle.drug.persistence.mongo.beans.Description;
+import de.flapdoodle.drug.persistence.mongo.beans.Transformation;
+import de.flapdoodle.drug.persistence.mongo.dao.DescriptionDao;
+import de.flapdoodle.drug.persistence.mongo.dao.SearchDao;
+import de.flapdoodle.drug.persistence.mongo.dao.TransformationDao;
 
 public class TestTransformationDao extends AbstractEmbedMongoTest {
 
@@ -40,26 +45,26 @@ public class TestTransformationDao extends AbstractEmbedMongoTest {
 
 	@Inject
 	SearchDao _searchDao;
-	
+
 	public void testFindSomething() {
 
 		fillWithData();
 
 		SearchDao searchDao = _searchDao;//new SearchDao(_descriptionDao, _transformationDao);
-		
-		List<Transformation> list=searchDao.find("Du", "futtern", "Brot",null,null);
-		assertEquals("Size",1, list.size());
-		list=searchDao.find("Ich", "futtern", "Brot",null,null);
-		assertEquals("Size",1, list.size());
-		list=searchDao.find(null, "futtern", "Brot",null,null);
-		assertEquals("Size",1, list.size());
-		list=searchDao.find("Ich", null, "Brot",null,null);
-		assertEquals("Size",1, list.size());
-		list=searchDao.find("Frosch", "löffeln", null,null,null);
-		assertEquals("Size",3, list.size());
-		list=searchDao.find("Frosch", "löffeln", null,ContextType.At,"Bahnhof");
-		assertEquals("Size",1, list.size());
-		assertEquals("Type",ContextType.At,list.get(0).getContextType());
+
+		List<Transformation> list = searchDao.find("Du", "futtern", "Brot", null, null);
+		assertEquals("Size", 1, list.size());
+		list = searchDao.find("Ich", "futtern", "Brot", null, null);
+		assertEquals("Size", 1, list.size());
+		list = searchDao.find(null, "futtern", "Brot", null, null);
+		assertEquals("Size", 1, list.size());
+		list = searchDao.find("Ich", null, "Brot", null, null);
+		assertEquals("Size", 1, list.size());
+		list = searchDao.find("Frosch", "löffeln", null, null, null);
+		assertEquals("Size", 3, list.size());
+		list = searchDao.find("Frosch", "löffeln", null, ContextType.At, "Bahnhof");
+		assertEquals("Size", 1, list.size());
+		assertEquals("Type", ContextType.At, list.get(0).getContextType());
 
 	}
 
@@ -68,7 +73,7 @@ public class TestTransformationDao extends AbstractEmbedMongoTest {
 		frosch.setName("Frosch");
 		frosch.setOtherNames(Sets.newHashSet("Quack", "Frog"));
 		_descriptionDao.save(frosch);
-		
+
 		Description mensch = new Description();
 		mensch.setName("Mensch");
 		mensch.setOtherNames(Sets.newHashSet("Ich", "Du"));
@@ -79,7 +84,7 @@ public class TestTransformationDao extends AbstractEmbedMongoTest {
 		loeffeln.setOtherNames(Sets.newHashSet("schaufeln"));
 		loeffeln.setObject(false);
 		_descriptionDao.save(loeffeln);
-		
+
 		Description essen = new Description();
 		essen.setName("essen");
 		essen.setOtherNames(Sets.newHashSet("futtern"));
@@ -99,7 +104,7 @@ public class TestTransformationDao extends AbstractEmbedMongoTest {
 		Description bahnhof = new Description();
 		bahnhof.setName("Bahnhof");
 		_descriptionDao.save(bahnhof);
-		
+
 		{
 			Transformation t = new Transformation();
 			t.setSubject(mensch.getId());
@@ -115,7 +120,7 @@ public class TestTransformationDao extends AbstractEmbedMongoTest {
 			t.setObject(suppe.getId());
 			_transformationDao.save(t);
 		}
-		
+
 		{
 			Transformation t = new Transformation();
 			t.setSubject(frosch.getId());
@@ -123,7 +128,7 @@ public class TestTransformationDao extends AbstractEmbedMongoTest {
 			t.setObject(suppe.getId());
 			_transformationDao.save(t);
 		}
-		
+
 		{
 			Transformation t = new Transformation();
 			t.setSubject(frosch.getId());
@@ -131,7 +136,7 @@ public class TestTransformationDao extends AbstractEmbedMongoTest {
 			t.setObject(brot.getId());
 			_transformationDao.save(t);
 		}
-		
+
 		{
 			Transformation t = new Transformation();
 			t.setSubject(frosch.getId());

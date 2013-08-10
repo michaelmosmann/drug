@@ -29,8 +29,9 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.common.collect.Lists;
 
-import de.flapdoodle.drug.persistence.beans.Description;
-import de.flapdoodle.drug.persistence.beans.Transformation;
+import de.flapdoodle.drug.persistence.mongo.beans.Description;
+import de.flapdoodle.drug.persistence.mongo.beans.Transformation;
+import de.flapdoodle.drug.persistence.service.DescriptionDto;
 import de.flapdoodle.drug.render.TagReference;
 import de.flapdoodle.drug.webapp.app.models.Descriptions;
 import de.flapdoodle.drug.webapp.app.models.ListModels;
@@ -87,6 +88,10 @@ public class DescriptionPage extends AbstractBasePage {
 		return toDescription(description.getName());
 	}
 
+	public static Jump<DescriptionPage> toDescription(DescriptionDto descriptionDto) {
+		return toDescription(descriptionDto.getName());
+	}
+	
 	public static Jump<DescriptionPage> toDescription(String name) {
 		PageParameters params = new PageParameters();
 		params.set(P_BEGRIFF, name);

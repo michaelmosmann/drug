@@ -27,10 +27,11 @@ import java.util.logging.Logger;
 
 import com.google.inject.AbstractModule;
 
-import de.flapdoodle.drug.persistence.config.NoInstallDatabase;
-import de.flapdoodle.drug.persistence.config.Persistence;
-import de.flapdoodle.drug.persistence.config.PreviewDatabase;
-import de.flapdoodle.drug.persistence.config.ProductionDatabase;
+import de.flapdoodle.drug.persistence.config.Logging;
+import de.flapdoodle.drug.persistence.config.mongo.NoInstallDatabase;
+import de.flapdoodle.drug.persistence.config.mongo.Persistence;
+import de.flapdoodle.drug.persistence.config.mongo.PreviewDatabase;
+import de.flapdoodle.drug.persistence.config.mongo.ProductionDatabase;
 
 public class ApplicationConfig extends AbstractModule {
 
@@ -39,19 +40,8 @@ public class ApplicationConfig extends AbstractModule {
 	@Override
 	protected void configure() {
 		Profile p=getProfile();
-		switch (p)
-		{
-			case Local:
-				install(new PreviewDatabase());
-				break;
-			case NoInstall:
-				install(new NoInstallDatabase());
-				break;
-			case Production:
-				install(new ProductionDatabase());
-				break;
-		}
-		install(new Persistence());
+		install(new Logging());
+		install(new Persistence(p));
 		bind(Profile.class).toInstance(p);
 	}
 	

@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.flapdoodle.drug.persistence.config;
+package de.flapdoodle.drug.persistence.config.mongo;
 
 import java.net.UnknownHostException;
 
@@ -28,14 +28,17 @@ import com.mongodb.ServerAddress;
 
 import de.flapdoodle.embed.process.runtime.Network;
 
-public class PreviewDatabase extends AbstractDatabaseModule
+
+public class EmbeddedDatabase extends AbstractDatabaseModule
 {
+	public static final int EMBEDDED_PORT = 65432;
+
 	@Override
 	protected void configure()
 	{
 		try
 		{
-			bind(ServerAddress.class).toInstance(new ServerAddress(Network.getLocalHost(), 27017));
+			bind(ServerAddress.class).toInstance(new ServerAddress(Network.getLocalHost(), EMBEDDED_PORT));
 			MongoOptions options = new MongoOptions();
 			bind(MongoOptions.class).toInstance(options);
 			

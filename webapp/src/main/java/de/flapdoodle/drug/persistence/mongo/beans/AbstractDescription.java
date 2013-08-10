@@ -18,12 +18,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * 
- */
-package de.flapdoodle.drug.config;
+package de.flapdoodle.drug.persistence.mongo.beans;
 
-public enum Profile
-{ 
-	Test, Local, NoInstall, Production
+import java.io.Serializable;
+
+import de.flapdoodle.mongoom.annotations.MappedSuperclass;
+import de.flapdoodle.mongoom.annotations.Version;
+
+@MappedSuperclass
+public abstract class AbstractDescription implements Serializable {
+
+	@Version
+	String _version;
+
+	String _text;
+
+	public String getVersion() {
+		return _version;
+	}
+
+	public void setVersion(String version) {
+		_version = version;
+	}
+
+	public String getText() {
+		return _text;
+	}
+
+	public void setText(String text) {
+		_text = text;
+	}
+
 }

@@ -18,28 +18,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.flapdoodle.drug.persistence.beans;
+package de.flapdoodle.drug.persistence.config.mongo;
 
-import java.io.Serializable;
+import java.net.UnknownHostException;
 
-import de.flapdoodle.mongoom.annotations.MappedSuperclass;
-import de.flapdoodle.mongoom.annotations.Version;
+import com.google.inject.name.Names;
+import com.mongodb.MongoOptions;
+import com.mongodb.ServerAddress;
 
 
-@MappedSuperclass
-public abstract class AbstractDescription implements Serializable {
-
-	@Version
-	String _version;
-
-	String _text;
-
-	public String getText() {
-		return _text;
+public class ProductionDatabase extends AbstractDatabaseModule
+{
+	@Override
+	protected void configure()
+	{
+		try
+		{
+			bind(ServerAddress.class).toInstance(new ServerAddress("localhost", 27017));
+			MongoOptions options = new MongoOptions();
+			bind(MongoOptions.class).toInstance(options);
+			
+			bind(String.class).annotatedWith(Names.named("database")).toInstance(getProductionDatabase());
+		}
+		catch (UnknownHostException uox)
+		{
+			addError(uox);
+		}
 	}
-
-	public void setText(String text) {
-		_text = text;
-	}
-
 }

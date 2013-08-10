@@ -18,16 +18,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.flapdoodle.drug.persistence.dao;
+package de.flapdoodle.drug.persistence.mongo.dao;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bson.types.ObjectId;
+
 import com.google.common.collect.Maps;
 
-import de.flapdoodle.drug.persistence.beans.Description;
-import de.flapdoodle.drug.persistence.beans.Description.OnlyName;
+import de.flapdoodle.drug.persistence.mongo.beans.Description;
+import de.flapdoodle.drug.persistence.mongo.beans.Description.OnlyName;
 import de.flapdoodle.mongoom.AbstractDao;
 import de.flapdoodle.mongoom.types.Reference;
 
@@ -37,6 +39,10 @@ public class DescriptionDao extends AbstractDao<Description> {
 		super(Description.class);
 	}
 
+	public Description getByStringId(String id) {
+		return get(Reference.getInstance(Description.class, new ObjectId(id)));
+	}
+	
 	public List<Description> findByName(boolean isObject, String name) {
 		return createQuery().field(Description.isObject).eq(isObject).or().field(Description.Name).eq(name).parent().or().listfield(
 				Description.OtherNames).eq(name).parent().result().order("name", true).asList();

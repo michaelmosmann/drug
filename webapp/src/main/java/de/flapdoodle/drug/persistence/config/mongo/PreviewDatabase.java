@@ -18,28 +18,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.flapdoodle.drug.persistence.config;
+package de.flapdoodle.drug.persistence.config.mongo;
 
-import java.util.Set;
+import java.net.UnknownHostException;
 
-import com.google.common.collect.Sets;
-import com.google.inject.AbstractModule;
-import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
+import com.mongodb.MongoOptions;
+import com.mongodb.ServerAddress;
 
-import de.flapdoodle.drug.persistence.beans.Description;
-import de.flapdoodle.drug.persistence.beans.Transformation;
+import de.flapdoodle.embed.process.runtime.Network;
 
-public class PersistentClasses extends AbstractModule {
-
+public class PreviewDatabase extends AbstractDatabaseModule
+{
 	@Override
-	protected void configure() {
-		Set<Class<?>> annotatedClasses = Sets.newLinkedHashSet();
-
-		annotatedClasses.add(Description.class);
-		annotatedClasses.add(Transformation.class);
-
-		bind(new TypeLiteral<Set<Class<?>>>() {}).annotatedWith(Names.named("beans")).toInstance(annotatedClasses);
-
+	protected void configure()
+	{
+		try
+		{
+			bind(ServerAddress.class).toInstance(new ServerAddress(Network.getLocalHost(), 27017));
+			MongoOptions options = new MongoOptions();
+			bind(MongoOptions.class).toInstance(options);
+			
+			bind(String.class).annotatedWith(Names.named("database")).toInstance(getPreviewDatabase());
+		}
+		catch (UnknownHostException uox)
+		{
+			addError(uox);
+		}
 	}
 }

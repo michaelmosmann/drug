@@ -43,9 +43,11 @@ import de.agilecoders.wicket.markup.html.bootstrap.form.FormBehavior.Type;
 import de.agilecoders.wicket.markup.html.bootstrap.form.InputBehavior;
 import de.agilecoders.wicket.markup.html.bootstrap.form.InputBorder;
 import de.agilecoders.wicket.markup.html.bootstrap.layout.SpanType;
-import de.flapdoodle.drug.persistence.beans.Description;
-import de.flapdoodle.drug.persistence.dao.DescriptionDao;
-import de.flapdoodle.drug.persistence.dao.SearchDao;
+import de.flapdoodle.drug.persistence.mongo.beans.Description;
+import de.flapdoodle.drug.persistence.mongo.dao.DescriptionDao;
+import de.flapdoodle.drug.persistence.mongo.dao.SearchDao;
+import de.flapdoodle.drug.persistence.service.DescriptionDto;
+import de.flapdoodle.drug.persistence.service.IDescriptionService;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation.Jump;
 import de.flapdoodle.drug.webapp.app.pages.AbstractBasePage;
@@ -59,7 +61,7 @@ public class EditDescriptionPage extends AbstractProtectedPage {
 	static final String P_REF = "Id";
 
 	@Inject
-	DescriptionDao _descriptionDao;
+	IDescriptionService _descriptionService;
 
 	@Inject
 	SearchDao _searchDao;
@@ -70,37 +72,37 @@ public class EditDescriptionPage extends AbstractProtectedPage {
 		boolean isObject = pageParameters.get(P_OBJECT).toBoolean(true);
 		String id = pageParameters.get(P_REF).toOptionalString();
 
-		Description t = new Description();
+		DescriptionDto t = new DescriptionDto();
 		t.setName(name);
 		t.setObject(isObject);
 		
 		if (id != null) {
-			Description byId = _descriptionDao.get(Reference.getInstance(Description.class, new ObjectId(id)));
+			DescriptionDto byId = _descriptionService.getByStringId(id);
 			if (byId != null) {
 				t = byId;
 			}
 		} else {
-			Description byName = _descriptionDao.getByName(name);
+			DescriptionDto byName = _descriptionService.getByName(name);
 			if (byName != null) {
 				t = byName;
 			}
 		}
 
-		IModel<Description> model = Model.of(t);
+		IModel<DescriptionDto> model = Model.of(t);
 
 		add(new FeedbackPanel("feedback"));
 
-		Form<Description> form = new Form<Description>("form", new CompoundPropertyModel<Description>(model)) {
+		Form<DescriptionDto> form = new Form<DescriptionDto>("form", new CompoundPropertyModel<DescriptionDto>(model)) {
 
 			@Override
 			protected void onSubmit() {
 				super.onSubmit();
 
-				Description transformation = getModelObject();
+				DescriptionDto transformation = getModelObject();
 				if (transformation.getId() == null) {
-					_descriptionDao.save(transformation);
+					transformation=_descriptionService.save(transformation);
 				} else {
-					_descriptionDao.update(transformation);
+					transformation=_descriptionService.update(transformation);
 				}
 				setModelObject(transformation);
 
