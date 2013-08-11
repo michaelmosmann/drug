@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.flapdoodle.drug.persistence.dao;
+package de.flapdoodle.drug.persistence.mongo.dao;
 
 import java.util.List;
 import java.util.Map;
