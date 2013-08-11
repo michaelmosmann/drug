@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.DynamicLabel;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
@@ -23,36 +24,90 @@ import de.flapdoodle.drug.persistence.service.ReferenceDto;
 public class NodeDtoMapper {
 
 	static DescriptionDto asDescriptionDto(Node node) {
-		DescriptionDto ret = new DescriptionDto();
-		ret.setId(new ReferenceDto<DescriptionDto>(DescriptionDto.class, ""+node.getId()));
-		ret.setName(getProperty(node, "name", String.class));
-		ret.setObject(getPropertyOrDefault(node,"isObject", true));
-		ret.setText(getProperty(node, "text", String.class));
-		ret.setVersion(getProperty(node, "version", String.class));
-		Iterable<Relationship> relationships = node.getRelationships(Relationsships.HasOtherName);
-		Set<String> otherNames = Sets.newHashSet();
-		for (Relationship relationship : relationships) {
-			otherNames.add(getProperty(relationship.getEndNode(),"name",String.class));
+		if (node!=null) {
+			DescriptionDto ret = new DescriptionDto();
+			ret.setId(new ReferenceDto<DescriptionDto>(DescriptionDto.class, getProperty(node, "id",String.class)));
+			ret.setName(getProperty(node, "name", String.class));
+			ret.setObject(isObject(node));
+			ret.setText(getProperty(node, "text", String.class));
+			ret.setVersion(getProperty(node, "version", String.class));
+			ret.setOtherNames(otherNamesAsSet(node));
+			return ret;
 		}
-		ret.setOtherNames(otherNames);
-		return ret;
+		return null;
 	}
-	
-	static void apply(DescriptionDto dto, Node node) {
+
+	static void apply(DescriptionDto dto, Node node, GraphDatabaseService graphDb) {
 		node.addLabel(MappedTypes.Description);
+		if (dto.getId()!=null) node.setProperty("id", dto.getId().getId());
 		node.setProperty("name", dto.getName());
-		node.setProperty("isObject", dto.isObject());
+		//node.setProperty("isObject", dto.isObject());
 		node.setProperty("text", dto.getText());
 		if (dto.getVersion()!=null) node.setProperty("version", dto.getVersion());
-		//node.setProperty("names", dto.getOtherNames());
+		
+		otherNames(dto.getOtherNames(), node, graphDb);
+		object(dto.isObject(),node,graphDb);
+	}
+	
+	static void verifyVersion(DescriptionDto descriptionDto, Node node) {
+		String dbVersion = getProperty(node,"version", String.class);
+		if (!dbVersion.equals(descriptionDto.getVersion())) {
+			throw new IllegalArgumentException("versions are different: stored="+dbVersion+" requested: "+descriptionDto.getVersion());
+		}
+	}
+	
+	static void newId(Node node) {
+		node.setProperty("id", UUID.randomUUID().toString());
 	}
 	
 	static void newVersion(Node node) {
 		node.setProperty("version", UUID.randomUUID().toString());
 	}
 	
-	static void otherNames(Set<String> otherNames, Node node, GraphDatabaseService graphDb) {
-		for (String otherName : otherNames) {
+	private static boolean isObject(Node node) {
+		Relationship isObjectRelationShip = node.getSingleRelationship(Relationsships.IsObject, Direction.OUTGOING);
+		return isObjectRelationShip!=null && "object".equals(getProperty(isObjectRelationShip.getEndNode(), "type", String.class));
+	}
+	
+	private static void object(boolean isObject, Node node, GraphDatabaseService graphDb) {
+		if (isObject) {
+			if (node.getSingleRelationship(Relationsships.IsObject, Direction.OUTGOING)==null) {
+				Node isObjectNode = oneAndOnlyOne(graphDb.findNodesByLabelAndProperty(MappedTypes.Relation, "type", "object"));
+				if (isObjectNode==null) {
+					isObjectNode=graphDb.createNode(MappedTypes.Relation);
+					isObjectNode.setProperty("type", "object");
+				}
+				node.createRelationshipTo(isObjectNode, Relationsships.IsObject);
+			}
+		} else {
+			Relationship isObjectRelationShip = node.getSingleRelationship(Relationsships.IsObject, Direction.OUTGOING);
+			if (isObjectRelationShip!=null) {
+				isObjectRelationShip.delete();
+			}
+		}
+	}
+
+	private static Set<String> otherNamesAsSet(Node node) {
+		Iterable<Relationship> relationships = node.getRelationships(Relationsships.HasOtherName);
+		Set<String> otherNames = Sets.newHashSet();
+		for (Relationship relationship : relationships) {
+			otherNames.add(getProperty(relationship.getEndNode(),"name",String.class));
+		}
+		return otherNames;
+	}
+	
+	private static void otherNames(Set<String> otherNames, Node node, GraphDatabaseService graphDb) {
+		Set<String> old=otherNamesAsSet(node);
+		Set<String> newRelations=Sets.difference(otherNames, old);
+		Set<String> removeThese=Sets.difference(old, otherNames);
+
+		for (Relationship relation : node.getRelationships(Relationsships.HasOtherName)) {
+			if (removeThese.contains(getProperty(relation.getEndNode(),"name",String.class))) {
+				relation.delete();
+			}
+		}
+		
+		for (String otherName : newRelations) {
 			Node nameNode=oneAndOnlyOne(graphDb.findNodesByLabelAndProperty(MappedTypes.Names, "name", otherName));
 			if (nameNode==null) {
 				nameNode=graphDb.createNode(MappedTypes.Names);
@@ -60,6 +115,7 @@ public class NodeDtoMapper {
 			}
 			node.createRelationshipTo(nameNode, Relationsships.HasOtherName);
 		}
+		
 	}
 	
 	static Node oneAndOnlyOne(ResourceIterable<Node> labelAndProperty) {
@@ -75,6 +131,10 @@ public class NodeDtoMapper {
 		}
 		
 		return node;
+	}
+	
+	static long asLong(ReferenceDto<DescriptionDto> id) {
+		return Long.valueOf(id.getId());
 	}
 	
 	private static <T> T getPropertyOrDefault(Node node, String key, T defaultValue) {
@@ -94,6 +154,9 @@ public class NodeDtoMapper {
 		}
 		throw new NotFoundException("property "+key+" not found in "+node);
 	}
+
+
+
 
 
 

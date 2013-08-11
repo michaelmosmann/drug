@@ -4,5 +4,5 @@ import org.neo4j.graphdb.RelationshipType;
 
 
 public enum Relationsships implements RelationshipType {
-	HasOtherName,
+	HasOtherName,IsObject
 }

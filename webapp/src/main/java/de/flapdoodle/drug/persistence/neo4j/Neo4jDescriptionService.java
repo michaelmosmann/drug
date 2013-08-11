@@ -4,22 +4,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.neo4j.graphdb.DynamicLabel;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.NotFoundException;
-import org.neo4j.graphdb.ResourceIterable;
-import org.neo4j.graphdb.ResourceIterator;
 import org.neo4j.graphdb.Transaction;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
 import de.flapdoodle.drug.persistence.service.DescriptionDto;
 import de.flapdoodle.drug.persistence.service.IDescriptionService;
 import de.flapdoodle.drug.persistence.service.ReferenceDto;
-
 
 public class Neo4jDescriptionService implements IDescriptionService {
 
@@ -32,35 +26,31 @@ public class Neo4jDescriptionService implements IDescriptionService {
 
 	@Override
 	public DescriptionDto get(ReferenceDto<DescriptionDto> reference) {
-		throw new IllegalArgumentException("not implemented");
+		return NodeDtoMapper.asDescriptionDto(getNodeById(reference));
 	}
 
 	@Override
 	public DescriptionDto getByStringId(String id) {
-		throw new IllegalArgumentException("not implemented");
+		return NodeDtoMapper.asDescriptionDto(getNodeByStringId(id));
 	}
 
 	@Override
 	public DescriptionDto getByName(String name) {
-		Node node = NodeDtoMapper.oneAndOnlyOne(_graphDb.findNodesByLabelAndProperty(MappedTypes.Description, "name", name));
-		
-		if (node!=null) {
-			return NodeDtoMapper.asDescriptionDto(node);
-		}
-		return null;
+		return NodeDtoMapper.asDescriptionDto(NodeDtoMapper.oneAndOnlyOne(_graphDb.findNodesByLabelAndProperty(MappedTypes.Description, "name", name)));
 	}
-
 
 	@Override
 	public DescriptionDto save(DescriptionDto descriptionDto) {
+		Preconditions.checkArgument(descriptionDto.getId() == null, "id is set");
+
 		Transaction tx = _graphDb.beginTx();
 		try {
 			Node node = _graphDb.createNode();
-			NodeDtoMapper.apply(descriptionDto, node);
-			NodeDtoMapper.otherNames(descriptionDto.getOtherNames(), node,_graphDb);
+			NodeDtoMapper.apply(descriptionDto, node,_graphDb);
+			NodeDtoMapper.newId(node);
 			NodeDtoMapper.newVersion(node);
 			tx.success();
-			
+
 			return NodeDtoMapper.asDescriptionDto(node);
 		} catch (RuntimeException ex) {
 			tx.failure();
@@ -72,7 +62,29 @@ public class Neo4jDescriptionService implements IDescriptionService {
 
 	@Override
 	public DescriptionDto update(DescriptionDto descriptionDto) {
-		throw new IllegalArgumentException("not implemented");
+		Preconditions.checkNotNull(descriptionDto.getId());
+		
+		Transaction tx = _graphDb.beginTx();
+		try {
+			Node node = getNodeById(descriptionDto.getId());
+			
+			if (node != null) {
+				NodeDtoMapper.verifyVersion(descriptionDto, node);
+				NodeDtoMapper.apply(descriptionDto, node,_graphDb);
+				NodeDtoMapper.newVersion(node);
+				tx.success();
+				return NodeDtoMapper.asDescriptionDto(node);
+
+			} else {
+				throw new RuntimeException("Could not find node with " + descriptionDto.getId());
+			}
+
+		} catch (RuntimeException ex) {
+			tx.failure();
+			throw ex;
+		} finally {
+			tx.finish();
+		}
 	}
 
 	@Override
@@ -93,6 +105,16 @@ public class Neo4jDescriptionService implements IDescriptionService {
 	@Override
 	public Map<ReferenceDto<DescriptionDto>, String> names(Set<ReferenceDto<DescriptionDto>> idList) {
 		throw new IllegalArgumentException("not implemented");
+	}
+
+
+
+	private Node getNodeById(ReferenceDto<DescriptionDto> reference) {
+		return getNodeByStringId(reference.getId());
+	}
+
+	private Node getNodeByStringId(String id) {
+		return NodeDtoMapper.oneAndOnlyOne(_graphDb.findNodesByLabelAndProperty(MappedTypes.Description,"id",id));
 	}
 
 }
