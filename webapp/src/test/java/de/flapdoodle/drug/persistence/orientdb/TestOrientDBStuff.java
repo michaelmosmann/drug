@@ -1,10 +1,18 @@
 package de.flapdoodle.drug.persistence.orientdb;
 
+import java.util.Date;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.orientechnologies.orient.core.db.ODatabaseComplex;
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
+import com.orientechnologies.orient.core.iterator.ORecordIteratorClass;
+import com.orientechnologies.orient.core.metadata.security.OUser;
+import com.orientechnologies.orient.core.record.ORecordInternal;
+import com.orientechnologies.orient.core.record.impl.ODocument;
+import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 
 // https://github.com/orientechnologies/orientdb/wiki/Graph-Database-Tinkerpop
 
@@ -42,8 +50,23 @@ public class TestOrientDBStuff {
   @Test
   public void testOne() throws Exception {
       System.out.println("testOne start");
-//      System.out.println(db.query(new OSQLSynchQuery<OUser>("select from OUser")));
-//      System.out.println(db.query(new OSQLSynchQuery<TestObject>("select from TestObject")));
+      System.out.println(db.query(new OSQLSynchQuery<OUser>("select from OUser")));
+      //System.out.println(db.query(new OSQLSynchQuery<TestObject>("select from TestObject")));
+
+      
+      ODocument doc = db.newInstance("foo");
+      doc.field("name", "Klaus");
+      doc.field("created", new Date());
+      doc.save();
+      
+//      ODatabaseComplex<ORecordInternal<?>> tx = db.begin();
+//      tx.commit();
+      
+      ORecordIteratorClass<ODocument> browse = db.browseClass("foo");
+      while (browse.hasNext()) {
+      	System.out.println("found: "+browse.next());
+      }
+      
       System.out.println("testOne end");
   }
 }
