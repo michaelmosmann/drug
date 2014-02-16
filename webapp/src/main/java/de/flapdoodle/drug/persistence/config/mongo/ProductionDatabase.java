@@ -35,7 +35,7 @@ public class ProductionDatabase extends AbstractDatabaseModule
 	{
 		try
 		{
-			bind(ServerAddress.class).toInstance(new ServerAddress("172.0.0.1", 27017));
+			bind(ServerAddress.class).toInstance(new ServerAddress("127.0.0.1", 27017));
 			MongoOptions options = new MongoOptions();
 			bind(MongoOptions.class).toInstance(options);
 			
