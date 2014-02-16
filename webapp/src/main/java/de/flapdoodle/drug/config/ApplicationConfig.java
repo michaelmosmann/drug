@@ -40,6 +40,7 @@ public class ApplicationConfig extends AbstractModule {
 	@Override
 	protected void configure() {
 		Profile p=getProfile();
+                _logger.severe("Detected profile: "+p+" on "+getHostname());
 		install(new Logging());
 		install(new Persistence(p));
 		bind(Profile.class).toInstance(p);
@@ -48,6 +49,9 @@ public class ApplicationConfig extends AbstractModule {
 	private Profile getProfile() {
 		String hostname = getHostname();
 		if ("ubuntu606m".equals(hostname)) {
+			return Profile.Production;
+		}
+		if ("ubuntuRoot".equals(hostname)) {
 			return Profile.Production;
 		}
 		if ("bumblebee".equals(hostname)) {

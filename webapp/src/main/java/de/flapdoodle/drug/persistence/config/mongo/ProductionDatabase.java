@@ -25,6 +25,7 @@ import java.net.UnknownHostException;
 import com.google.inject.name.Names;
 import com.mongodb.MongoOptions;
 import com.mongodb.ServerAddress;
+import de.flapdoodle.embed.process.runtime.Network;
 
 
 public class ProductionDatabase extends AbstractDatabaseModule
@@ -34,7 +35,7 @@ public class ProductionDatabase extends AbstractDatabaseModule
 	{
 		try
 		{
-			bind(ServerAddress.class).toInstance(new ServerAddress("localhost", 27017));
+			bind(ServerAddress.class).toInstance(new ServerAddress("172.0.0.1", 27017));
 			MongoOptions options = new MongoOptions();
 			bind(MongoOptions.class).toInstance(options);
 			

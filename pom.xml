@@ -132,7 +132,7 @@
                     <!--
                                         <basedir>${basedir}</basedir>
                     -->
-                    <header>src/etc/header.txt</header>
+                    <header>/src/etc/header.txt</header>
                     <!--
                              <validHeaders>
                              <validHeader>/otherSupportedHeader.txt</validHeader>
