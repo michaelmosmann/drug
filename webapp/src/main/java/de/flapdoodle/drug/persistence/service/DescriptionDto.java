@@ -20,11 +20,11 @@
  */
 package de.flapdoodle.drug.persistence.service;
 
+import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.google.inject.internal.Lists;
 
 import de.flapdoodle.drug.persistence.mongo.beans.Description;
 

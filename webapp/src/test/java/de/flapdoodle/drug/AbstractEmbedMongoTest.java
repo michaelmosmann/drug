@@ -20,28 +20,22 @@
  */
 package de.flapdoodle.drug;
 
-import java.util.List;
-
-import org.junit.After;
-import org.junit.Before;
-
-import junit.framework.TestResult;
-
 import com.google.common.collect.Lists;
 import com.google.inject.Module;
-
 import de.flapdoodle.drug.config.Profile;
 import de.flapdoodle.drug.persistence.config.Logging;
 import de.flapdoodle.drug.persistence.config.mongo.EmbeddedDatabase;
 import de.flapdoodle.drug.persistence.config.mongo.Persistence;
-import de.flapdoodle.embed.mongo.MongodStarter;
 import de.flapdoodle.embed.mongo.MongodExecutable;
 import de.flapdoodle.embed.mongo.MongodProcess;
-import de.flapdoodle.embed.mongo.config.MongodConfig;
+import de.flapdoodle.embed.mongo.MongodStarter;
 import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
 import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
+import java.util.List;
+import org.junit.After;
+import org.junit.Before;
 
 
 public abstract class AbstractEmbedMongoTest extends AbstractGuiceTest {

@@ -39,7 +39,7 @@ import org.bson.types.ObjectId;
 import com.google.inject.Inject;
 
 import de.agilecoders.wicket.markup.html.bootstrap.form.FormBehavior;
-import de.agilecoders.wicket.markup.html.bootstrap.form.FormBehavior.Type;
+import de.agilecoders.wicket.markup.html.bootstrap.form.FormType;
 import de.agilecoders.wicket.markup.html.bootstrap.form.InputBehavior;
 import de.agilecoders.wicket.markup.html.bootstrap.form.InputBorder;
 import de.agilecoders.wicket.markup.html.bootstrap.layout.SpanType;
@@ -107,7 +107,7 @@ public class EditDescriptionPage extends AbstractProtectedPage {
 				Navigation.toDescription(transformation).asResponse();
 			}
 		};
-		form.add(new FormBehavior(Type.Default));
+		form.add(new FormBehavior(FormType.Default));
 				
 		TextField<String> title = new TextField<String>("name");
 		title.add(StringValidator.minimumLength(3));

@@ -20,17 +20,12 @@
  */
 package de.flapdoodle.drug.persistence.mongo.beans;
 
-import java.util.List;
-import java.util.Set;
-
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.inject.internal.Lists;
-
 import de.flapdoodle.mongoom.IEntity;
 import de.flapdoodle.mongoom.annotations.Direction;
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Id;
-import de.flapdoodle.mongoom.annotations.Version;
 import de.flapdoodle.mongoom.annotations.Views;
 import de.flapdoodle.mongoom.annotations.index.IndexGroup;
 import de.flapdoodle.mongoom.annotations.index.IndexOption;
@@ -40,6 +35,8 @@ import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.callbacks.IEntityWriteCallback;
 import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 import de.flapdoodle.mongoom.types.Reference;
+import java.util.List;
+import java.util.Set;
 
 @Entity(value = "description", onWrite = Description.OnWrite.class)
 @IndexGroup(name = "namesAndType", group = "namesAndType")

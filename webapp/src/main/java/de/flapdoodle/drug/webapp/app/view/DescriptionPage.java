@@ -20,17 +20,8 @@
  */
 package de.flapdoodle.drug.webapp.app.view;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
-
 import com.google.common.collect.Lists;
-
 import de.flapdoodle.drug.persistence.mongo.beans.Description;
-import de.flapdoodle.drug.persistence.mongo.beans.Transformation;
 import de.flapdoodle.drug.persistence.service.DescriptionDto;
 import de.flapdoodle.drug.persistence.service.TransformationDto;
 import de.flapdoodle.drug.render.TagReference;
@@ -40,10 +31,12 @@ import de.flapdoodle.drug.webapp.app.models.Transformations;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation;
 import de.flapdoodle.drug.webapp.app.navigation.Navigation.Jump;
 import de.flapdoodle.drug.webapp.app.pages.AbstractBasePage;
-import de.flapdoodle.drug.webapp.app.pages.AbstractProtectedPage;
-import de.flapdoodle.drug.webapp.security.NotPublic;
 import de.flapdoodle.functions.Function1;
 import de.flapdoodle.wicket.model.Models;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 
 public class DescriptionPage extends AbstractBasePage {

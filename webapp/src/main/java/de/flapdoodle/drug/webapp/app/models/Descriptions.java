@@ -27,7 +27,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 import com.google.inject.Inject;
-import com.google.inject.internal.Lists;
+import com.google.common.collect.Lists;
 
 import de.flapdoodle.drug.persistence.mongo.beans.Description;
 import de.flapdoodle.drug.persistence.mongo.dao.DescriptionDao;

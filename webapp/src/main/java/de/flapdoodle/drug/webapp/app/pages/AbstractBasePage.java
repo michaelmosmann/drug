@@ -20,78 +20,79 @@
  */
 package de.flapdoodle.drug.webapp.app.pages;
 
-import java.util.Locale;
-
-import org.apache.wicket.Page;
-import org.apache.wicket.markup.head.IHeaderResponse;
-import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
-
 import de.agilecoders.wicket.Bootstrap;
 import de.agilecoders.wicket.markup.html.bootstrap.html.ChromeFrameMetaTag;
 import de.agilecoders.wicket.markup.html.bootstrap.html.HtmlTag;
 import de.agilecoders.wicket.markup.html.bootstrap.html.MetaTag;
 import de.agilecoders.wicket.markup.html.bootstrap.html.OptimizedMobileViewportMetaTag;
+import de.agilecoders.wicket.markup.html.bootstrap.navbar.ImmutableNavbarComponent;
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.Navbar;
-import de.agilecoders.wicket.markup.html.bootstrap.navbar.Navbar.ButtonPosition;
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.Navbar.Position;
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarButton;
 import de.flapdoodle.drug.webapp.DrugWebApplication;
 import de.flapdoodle.drug.webapp.app.StartPage;
 import de.flapdoodle.drug.webapp.security.NotPublic;
 import de.flapdoodle.drug.webapp.security.ValidUserKey;
+import java.util.Locale;
+import org.apache.wicket.Page;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 
 public abstract class AbstractBasePage extends WebPage {
 
-	
-	public AbstractBasePage() {
-		add(new HtmlTag("html").locale(Locale.GERMAN));
-		
-		add(new OptimizedMobileViewportMetaTag("base-viewport"));
-		add(new ChromeFrameMetaTag("base-chrome-frame"));
-		add(new MetaTag("base-description", Model.of("description"), Model.of("Alter Ego of Wiki")));
-		add(new MetaTag("base-author", Model.of("author"), Model.of("Michael Mosmann <michael@mosmann.de>")));
-		
-		Navbar navbar = new Navbar("base-nav");
+    public AbstractBasePage() {
+        add(new HtmlTag("html").locale(Locale.GERMAN));
+
+        add(new OptimizedMobileViewportMetaTag("base-viewport"));
+        add(new ChromeFrameMetaTag("base-chrome-frame"));
+        add(new MetaTag("base-description", Model.of("description"), Model.of("Alter Ego of Wiki")));
+        add(new MetaTag("base-author", Model.of("author"), Model.of("Michael Mosmann <michael@mosmann.de>")));
+
+        Navbar navbar = new Navbar("base-nav");
 //		navbar.fluid();
-		navbar.setPosition(Position.TOP);
-		navbar.brandName(Model.of("Drug"));
-		    
-		if (!DrugWebApplication.isDevelopmentMode()) {
-			
-			NavbarButton<LoginPage> login = new NavbarButton<LoginPage>(LoginPage.class, Model.of("Anmelden"));
-			login.setVisible(!ValidUserKey.isSet(getSession()));
-			navbar.addButton(ButtonPosition.LEFT,
-	        new NavbarButton<StartPage>(StartPage.class, Model.of("Home")),
-	        new NavbarButton<MarkdownHelpPage>(MarkdownHelpPage.class, Model.of("Hilfe")),
-	        login,
-	        new ProtectedNavbarButton<LogoutPage>(LogoutPage.class, Model.of("Abmelden"))
-			        );
-		} else {
-			navbar.addButton(ButtonPosition.LEFT,
-	        new NavbarButton<StartPage>(StartPage.class, Model.of("Home")),
-	        new NavbarButton<MarkdownHelpPage>(MarkdownHelpPage.class, Model.of("Hilfe")),
-	        new NavbarButton<ShutdownWebappPage>(ShutdownWebappPage.class, Model.of("Shutdown"))
-	        );
-		}
-		
-		add(navbar);
-	}
+        navbar.setPosition(Position.TOP);
+        navbar.brandName(Model.of("Drug"));
 
-	@NotPublic
-	public static class ProtectedNavbarButton<T extends Page> extends NavbarButton<T> {
+        if (!DrugWebApplication.isDevelopmentMode()) {
 
-		public ProtectedNavbarButton(Class<T> pageClass, IModel<String> label) {
-			super(pageClass, label);
-		}
-		
-	}
-	
-	@Override
-	public void renderHead(IHeaderResponse response) {
-	    super.renderHead(response);
+            NavbarButton<LoginPage> login = new NavbarButton<LoginPage>(LoginPage.class, Model.of("Anmelden"));
+            login.setVisible(!ValidUserKey.isSet(getSession()));
+            navbar.addComponents(
+                    asComponent(new NavbarButton<StartPage>(StartPage.class, Model.of("Home"))),
+                    asComponent(new NavbarButton<MarkdownHelpPage>(MarkdownHelpPage.class, Model.of("Hilfe"))),
+                    asComponent(login),
+                    asComponent(new ProtectedNavbarButton<LogoutPage>(LogoutPage.class, Model.of("Abmelden")))
+            );
+        } else {
+            navbar.addComponents(
+                    asComponent(new NavbarButton<StartPage>(StartPage.class, Model.of("Home"))),
+                    asComponent(new NavbarButton<MarkdownHelpPage>(MarkdownHelpPage.class, Model.of("Hilfe"))),
+                    asComponent(new NavbarButton<ShutdownWebappPage>(ShutdownWebappPage.class, Model.of("Shutdown")))
+            );
+        }
 
-	    Bootstrap.renderHead(response);
-	}
+        add(navbar);
+    }
+
+    static ImmutableNavbarComponent asComponent(NavbarButton<?> button) {
+        return new ImmutableNavbarComponent(button);
+    }
+    
+    @NotPublic
+    public static class ProtectedNavbarButton<T extends Page> extends NavbarButton<T> {
+
+        public ProtectedNavbarButton(Class<T> pageClass, IModel<String> label) {
+            super(pageClass, label);
+        }
+
+    }
+
+    @Override
+    public void renderHead(IHeaderResponse response) {
+        super.renderHead(response);
+
+        Bootstrap.renderHead(response);
+    }
 }
